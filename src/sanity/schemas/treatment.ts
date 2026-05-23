@@ -1,0 +1,161 @@
+import { defineField, defineType } from "sanity";
+
+export const treatmentCategorySchema = defineType({
+  name: "treatmentCategory",
+  title: "Treatment category",
+  type: "document",
+  fields: [
+    defineField({ name: "key", title: "Key", type: "string", validation: (r) => r.required(), description: "Used internally (e.g. Hair, Injectables)." }),
+    defineField({ name: "title", title: "Display title", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", title: "Description", type: "text", rows: 2 }),
+    defineField({
+      name: "order",
+      title: "Sort order",
+      type: "number",
+      initialValue: 0,
+    }),
+  ],
+  orderings: [
+    { name: "order", title: "Manual order", by: [{ field: "order", direction: "asc" }] },
+  ],
+  preview: { select: { title: "title", subtitle: "key" } },
+});
+
+export const treatmentSchema = defineType({
+  name: "treatment",
+  title: "Treatment",
+  type: "document",
+  groups: [
+    { name: "main", title: "Main", default: true },
+    { name: "card", title: "Card / listing" },
+    { name: "detail", title: "Detail page" },
+    { name: "seo", title: "SEO" },
+  ],
+  fields: [
+    // Main
+    defineField({ name: "name", title: "Name", type: "string", group: "main", validation: (r) => r.required() }),
+    defineField({
+      name: "slug",
+      title: "URL slug",
+      type: "slug",
+      group: "main",
+      options: { source: "name", maxLength: 96 },
+      validation: (r) => r.required(),
+      description: "The /treatments/<slug> URL. Changing this breaks existing links — add a redirect if needed.",
+    }),
+    defineField({
+      name: "category",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "treatmentCategory" }],
+      group: "main",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "imageVariant",
+      title: "Card gradient variant",
+      type: "string",
+      group: "card",
+      options: {
+        list: [
+          { title: "v1 — light sand", value: "v1" },
+          { title: "v2 — tan", value: "v2" },
+          { title: "v3 — sage", value: "v3" },
+          { title: "v4 — espresso", value: "v4" },
+          { title: "v5 — cocoa", value: "v5" },
+          { title: "v6 — pale gold", value: "v6" },
+        ],
+      },
+      initialValue: "v1",
+      description: "Used for the gradient placeholder when no hero image is set.",
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Hero image",
+      type: "image",
+      options: { hotspot: true },
+      group: "detail",
+      description: "Optional — replaces the gradient on the treatment detail page.",
+    }),
+    defineField({
+      name: "thumbnail",
+      title: "Thumbnail / card image",
+      type: "image",
+      options: { hotspot: true },
+      group: "card",
+      description: "Optional — replaces the gradient on the homepage treatment card and listing row.",
+    }),
+    defineField({
+      name: "tag",
+      title: "Card tag",
+      type: "string",
+      group: "card",
+      description: "Optional small label on the card (Signature, Popular, New …).",
+    }),
+    defineField({
+      name: "shortDescription",
+      title: "Short description",
+      type: "text",
+      rows: 2,
+      group: "card",
+      validation: (r) => r.required(),
+      description: "Shown on the treatments listing and homepage cards.",
+    }),
+    defineField({
+      name: "duration",
+      title: "Duration label",
+      type: "string",
+      group: "card",
+      description: 'e.g. "45 min", "Day procedure".',
+    }),
+    // Detail
+    defineField({ name: "headline", title: "Headline", type: "text", rows: 2, group: "detail", validation: (r) => r.required() }),
+    defineField({ name: "overview", title: "Overview", type: "text", rows: 5, group: "detail", validation: (r) => r.required() }),
+    defineField({ name: "quickDuration", title: "Quick stat — duration", type: "string", group: "detail" }),
+    defineField({ name: "quickSessions", title: "Quick stat — sessions", type: "string", group: "detail" }),
+    defineField({ name: "quickDowntime", title: "Quick stat — downtime", type: "string", group: "detail" }),
+    defineField({
+      name: "keyPoints",
+      title: "Key points",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "detail",
+    }),
+    defineField({
+      name: "suitableFor",
+      title: "Suitable for",
+      type: "array",
+      of: [{ type: "string" }],
+      group: "detail",
+    }),
+    defineField({
+      name: "process",
+      title: "Process steps",
+      type: "array",
+      of: [{ type: "processStep" }],
+      group: "detail",
+      validation: (r) => r.length(4).warning("Designed for exactly four steps."),
+    }),
+    defineField({
+      name: "benefits",
+      title: "Benefits",
+      type: "array",
+      of: [{ type: "benefit" }],
+      group: "detail",
+    }),
+    defineField({
+      name: "faqs",
+      title: "FAQs",
+      type: "array",
+      of: [{ type: "faqItem" }],
+      group: "detail",
+    }),
+    defineField({ name: "seo", title: "SEO", type: "seo", group: "seo" }),
+  ],
+  orderings: [
+    { name: "name", title: "Name", by: [{ field: "name", direction: "asc" }] },
+  ],
+  preview: {
+    select: { title: "name", subtitle: "category.title", media: "thumbnail" },
+  },
+});

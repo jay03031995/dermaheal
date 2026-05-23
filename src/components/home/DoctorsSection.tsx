@@ -1,7 +1,18 @@
 import Link from "next/link";
-import { DOCTORS } from "@/data/doctors";
+import { getDoctors } from "@/sanity/lib/fetchers";
 
-export default function DoctorsSection() {
+const bgImg = (url?: string): React.CSSProperties | undefined =>
+  url
+    ? {
+        backgroundImage: `url(${url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
+
+export default async function DoctorsSection() {
+  const doctors = await getDoctors();
+
   return (
     <section className="section doctors" id="doctors">
       <div className="container">
@@ -22,13 +33,13 @@ export default function DoctorsSection() {
           </p>
         </div>
         <div className="doctors-grid">
-          {DOCTORS.map((d) => (
+          {doctors.map((d) => (
             <Link
               key={d.slug}
               className="doctor-card reveal"
               href={`/doctors/${d.slug}`}
             >
-              <div className={"doctor-img " + d.img}>
+              <div className={"doctor-img " + d.img} style={bgImg(d.imageUrl)}>
                 <span className="doctor-img-tag">
                   {d.name.split(" ").slice(-1)[0].toLowerCase()} portrait
                 </span>

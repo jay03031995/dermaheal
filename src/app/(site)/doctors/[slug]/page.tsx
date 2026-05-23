@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { DOCTORS, DOCTOR_SLUGS, getDoctor } from "@/data/doctors";
+import {
+  getDoctorBySlug,
+  getDoctorSlugs,
+  getDoctors,
+} from "@/sanity/lib/fetchers";
 import { CLINIC, telHref } from "@/data/clinic";
 import { ArrowRight } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 
-export function generateStaticParams() {
-  return DOCTOR_SLUGS.map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getDoctorSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await props.params;
-  const d = getDoctor(slug);
+  const d = await getDoctorBySlug(slug);
   if (!d) return { title: "Doctor Not Found" };
   return {
     title: `${d.name} — ${d.title}, Dermaheal`,
@@ -23,18 +28,31 @@ export async function generateMetadata(props: {
     openGraph: {
       title: `${d.name} — ${d.title} · Dermaheal`,
       description: d.detailBio,
+      images: d.imageUrl ? [d.imageUrl] : undefined,
     },
   };
 }
+
+const bgImg = (url?: string): React.CSSProperties | undefined =>
+  url
+    ? {
+        backgroundImage: `url(${url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
 
 export default async function DoctorDetailPage(props: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await props.params;
-  const d = getDoctor(slug);
+  const [d, allDoctors] = await Promise.all([
+    getDoctorBySlug(slug),
+    getDoctors(),
+  ]);
   if (!d) notFound();
 
-  const others = DOCTORS.filter((x) => x.slug !== slug);
+  const others = allDoctors.filter((x) => x.slug !== slug);
   const firstName = d.name.split(" ")[0];
   const middle = d.name.split(" ")[1]?.replace(".", "") ?? "";
 
@@ -66,7 +84,7 @@ export default async function DoctorDetailPage(props: {
                   <div className="dp-badge-label">Board Certified</div>
                 </div>
               </div>
-              <div className={"dp-photo " + d.img}>
+              <div className={"dp-photo " + d.img} style={bgImg(d.imageUrl)}>
                 <div className="dp-photo-tag">
                   — portrait, {d.name.split(" ").slice(-1)[0].toLowerCase()}
                 </div>
@@ -200,8 +218,15 @@ export default async function DoctorDetailPage(props: {
           </div>
           <div className="dp-others">
             {others.map((o) => (
-              <Link className="dp-other" href={`/doctors/${o.slug}`} key={o.slug}>
-                <div className={"dp-other-img " + o.img} />
+              <Link
+                className="dp-other"
+                href={`/doctors/${o.slug}`}
+                key={o.slug}
+              >
+                <div
+                  className={"dp-other-img " + o.img}
+                  style={bgImg(o.imageUrl)}
+                />
                 <div>
                   <div className="dp-other-name">{o.name}</div>
                   <div className="dp-other-title">{o.title}</div>

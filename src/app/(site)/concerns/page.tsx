@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CONCERNS_FULL } from "@/data/concerns";
+import { getConcerns } from "@/sanity/lib/fetchers";
 import { ArrowRight } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -10,7 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/concerns" },
 };
 
-export default function ConcernsPage() {
+export default async function ConcernsPage() {
+  const concerns = await getConcerns();
+
   return (
     <>
       <section className="page-hero">
@@ -32,7 +34,7 @@ export default function ConcernsPage() {
       <section className="tp-section">
         <div className="container">
           <div className="concerns-grid">
-            {CONCERNS_FULL.map((c) => (
+            {concerns.map((c) => (
               <Link
                 key={c.id}
                 className="concern"

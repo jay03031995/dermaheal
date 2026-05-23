@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  CATEGORIES,
-  TREATMENTS,
-  slugFor,
-} from "@/data/treatments";
+  getTreatmentCards,
+  getTreatmentCategories,
+} from "@/sanity/lib/fetchers";
 import { ArrowRight, Clock, Tag } from "@/components/icons";
 import CategoryNav from "@/components/CategoryNav";
 
@@ -15,7 +14,21 @@ export const metadata: Metadata = {
   alternates: { canonical: "/treatments" },
 };
 
-export default function TreatmentsPage() {
+const bgImg = (url?: string): React.CSSProperties | undefined =>
+  url
+    ? {
+        backgroundImage: `url(${url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
+
+export default async function TreatmentsPage() {
+  const [allTreatments, categories] = await Promise.all([
+    getTreatmentCards(),
+    getTreatmentCategories(),
+  ]);
+
   return (
     <>
       <section className="page-hero">
@@ -36,12 +49,12 @@ export default function TreatmentsPage() {
           <div className="page-hero-stats">
             <div className="page-hero-stat">
               <div className="page-hero-stat-num">
-                27<sup>+</sup>
+                {allTreatments.length}<sup>+</sup>
               </div>
               <div className="page-hero-stat-label">Treatments offered</div>
             </div>
             <div className="page-hero-stat">
-              <div className="page-hero-stat-num">7</div>
+              <div className="page-hero-stat-num">{categories.length}</div>
               <div className="page-hero-stat-label">Specialties covered</div>
             </div>
             <div className="page-hero-stat">
@@ -56,8 +69,8 @@ export default function TreatmentsPage() {
 
       <CategoryNav />
 
-      {CATEGORIES.map((c, ci) => {
-        const items = TREATMENTS.filter((t) => t.cat === c.key);
+      {categories.map((c, ci) => {
+        const items = allTreatments.filter((t) => t.cat === c.key);
         return (
           <section
             key={c.key}
@@ -80,11 +93,14 @@ export default function TreatmentsPage() {
               <div>
                 {items.map((t) => (
                   <Link
-                    key={t.id}
+                    key={t.slug}
                     className="trow"
-                    href={`/treatments/${slugFor(t)}`}
+                    href={`/treatments/${t.slug}`}
                   >
-                    <div className={"trow-img " + t.img}>
+                    <div
+                      className={"trow-img " + t.img}
+                      style={bgImg(t.imageUrl)}
+                    >
                       {t.tag && <span className="trow-tag">{t.tag}</span>}
                     </div>
                     <div className="trow-body">

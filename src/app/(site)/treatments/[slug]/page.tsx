@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
-  ALL_TREATMENTS_LIST,
-  TREATMENT_DETAIL_SLUGS,
-  getTreatmentDetail,
-} from "@/data/treatments";
-import { DOCTORS } from "@/data/doctors";
+  getDoctors,
+  getTreatmentCards,
+  getTreatmentDetailFetched,
+  getTreatmentSlugs,
+} from "@/sanity/lib/fetchers";
 import { CLINIC, telHref } from "@/data/clinic";
 import { ArrowRight, MapPin, Phone } from "@/components/icons";
 import BookButton from "@/components/BookButton";
@@ -14,15 +14,16 @@ import FaqItem from "@/components/FaqItem";
 
 const ROMAN = ["i", "ii", "iii", "iv"];
 
-export function generateStaticParams() {
-  return TREATMENT_DETAIL_SLUGS.map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getTreatmentSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await props.params;
-  const t = getTreatmentDetail(slug);
+  const t = await getTreatmentDetailFetched(slug);
   if (!t) return { title: "Treatment Not Found" };
   return {
     title: `${t.name} in Dwarka — Dermaheal`,
@@ -31,18 +32,32 @@ export async function generateMetadata(props: {
     openGraph: {
       title: `${t.name} — Dermaheal Skin & Hair Clinic`,
       description: t.overview,
+      images: t.imageUrl ? [t.imageUrl] : undefined,
     },
   };
 }
+
+const bgImg = (url?: string): React.CSSProperties | undefined =>
+  url
+    ? {
+        backgroundImage: `url(${url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
 
 export default async function TreatmentDetailPage(props: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await props.params;
-  const t = getTreatmentDetail(slug);
+  const [t, allTreatments, doctors] = await Promise.all([
+    getTreatmentDetailFetched(slug),
+    getTreatmentCards(),
+    getDoctors(),
+  ]);
   if (!t) notFound();
 
-  const related = ALL_TREATMENTS_LIST.filter((x) => x.slug !== slug).slice(0, 3);
+  const related = allTreatments.filter((x) => x.slug !== slug).slice(0, 3);
 
   return (
     <>
@@ -94,7 +109,10 @@ export default async function TreatmentDetailPage(props: {
                 <div className="tp-float-hd">Calibrated for</div>
                 <div className="tp-float-val">Indian skin tones</div>
               </div>
-              <div className={"tp-img-main " + t.img}>
+              <div
+                className={"tp-img-main " + t.img}
+                style={bgImg(t.imageUrl)}
+              >
                 <div className="tp-img-label">— {t.name.toLowerCase()}</div>
               </div>
             </div>
@@ -210,9 +228,16 @@ export default async function TreatmentDetailPage(props: {
             </p>
           </div>
           <div className="tp-doctors">
-            {DOCTORS.map((d) => (
-              <Link className="tp-doctor" key={d.slug} href={`/doctors/${d.slug}`}>
-                <div className={"tp-doctor-img " + d.img} />
+            {doctors.map((d) => (
+              <Link
+                className="tp-doctor"
+                key={d.slug}
+                href={`/doctors/${d.slug}`}
+              >
+                <div
+                  className={"tp-doctor-img " + d.img}
+                  style={bgImg(d.imageUrl)}
+                />
                 <div className="tp-doctor-body">
                   <div className="tp-doctor-name">{d.name}</div>
                   <div className="tp-doctor-title">{d.title}</div>
@@ -255,7 +280,10 @@ export default async function TreatmentDetailPage(props: {
                 key={r.slug}
                 href={`/treatments/${r.slug}`}
               >
-                <div className={"tp-related-img " + r.img} />
+                <div
+                  className={"tp-related-img " + r.img}
+                  style={bgImg(r.imageUrl)}
+                />
                 <div className="tp-related-body">
                   <div className="tp-related-cat">{r.cat}</div>
                   <div className="tp-related-name">{r.name}</div>

@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { RESULTS, RESULT_CATS } from "@/data/site";
+import { RESULT_CATS } from "@/data/site";
+import type { ResultFetched } from "@/sanity/lib/fetchers";
 
-export default function ResultsGallery() {
+export default function ResultsGallery({ results }: { results: ResultFetched[] }) {
   const [cat, setCat] = useState("All");
   const filtered =
-    cat === "All" ? RESULTS : RESULTS.filter((r) => r.cat === cat);
+    cat === "All" ? results : results.filter((r) => r.cat === cat);
 
   return (
     <>
@@ -27,7 +28,10 @@ export default function ResultsGallery() {
         {filtered.map((r) => (
           <article className="tp-ba-card" key={r.id}>
             <div className="tp-ba-frame">
-              <img src={r.img} alt={`${r.name} before and after at Dermaheal`} />
+              <img
+                src={r.imageUrl || r.img}
+                alt={`${r.name} before and after at Dermaheal`}
+              />
               <div className="tp-ba-pill-row">
                 <span className="tp-ba-pill">Before</span>
                 <span className="tp-ba-pill after">After</span>
@@ -37,8 +41,8 @@ export default function ResultsGallery() {
               <div className="tp-ba-protocol">{r.cat}</div>
               <div className="tp-ba-title">{r.name}</div>
               <div className="tp-ba-detail">
-                {r.patient} · {r.concern} · {r.sessions} · photographed {r.weeks}
-                {" "}after start
+                {r.patient} · {r.concern} · {r.sessions} · photographed{" "}
+                {r.weeks} after start
               </div>
             </div>
           </article>
