@@ -31,12 +31,6 @@ export const TESTIMONIALS = [
   { q: "Six sessions of Hair PRP and the regrowth speaks for itself. The team genuinely cares, every follow-up was unhurried and detailed.", name: "Ananya Singh", detail: "Hair PRP · Dwarka" },
 ];
 
-export const INSIGHTS = [
-  { tag: "Skincare Science", title: "What actually works for melasma in Indian skin. Cosmelan vs Dermamelan", date: "08 May 2026", read: "6 min read", img: "i1", feature: true },
-  { tag: "Hair Restoration", title: "Hair PRP, GFC and Exosomes: which therapy fits which kind of hair loss", date: "02 May 2026", read: "5 min read", img: "i2", feature: false },
-  { tag: "From The Clinic", title: "Why MNRF + subcision outperforms lasers for deep acne scars", date: "24 Apr 2026", read: "4 min read", img: "i3", feature: false },
-];
-
 export const FAQS = [
   { q: "Are your treatments safe for Indian skin tones?", a: "Yes. Every laser, peel and injectable we offer is calibrated for higher-melanin skin. Our protocols are developed in-house and our dermatologists are trained specifically on Indian skin types. If a treatment isn't safe for your skin, we'll tell you and recommend a better-suited alternative." },
   { q: "What does a first consultation include?", a: "A one-on-one session with one of our MD dermatologists. We assess your skin or hair concern, discuss medical history, and share a written treatment plan with realistic timelines. There is no obligation to book any procedure." },
@@ -57,22 +51,27 @@ export const TRUST_ITEMS = [
 export const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   Treatments: [
     { label: "Hair Transplant", href: "/treatments/hair-transplant" },
-    { label: "Botox & Fillers", href: "/treatments/botox" },
-    { label: "MNRF & Lasers", href: "/treatments/mnrf" },
-    { label: "Cosmelan / Dermamelan", href: "/treatments/cosmelan" },
-    { label: "Acne Scar Reduction", href: "/treatments/mnrf" },
+    { label: "Anti-Wrinkle (Botox)", href: "/treatments/botox" },
+    { label: "MNRF Treatment", href: "/treatments/mnrf" },
+    { label: "Cosmelan", href: "/treatments/cosmelan" },
+    { label: "Acne Scar Reduction", href: "/treatments/acne-scar-reduction" },
     { label: "All Treatments", href: "/treatments" },
+  ],
+  Concerns: [
+    { label: "Acne & Scars", href: "/concerns/acne" },
+    { label: "Pigmentation & Melasma", href: "/concerns/pigmentation-melasma" },
+    { label: "Hair Loss", href: "/concerns/hair-loss-thinning" },
+    { label: "Anti-Ageing", href: "/concerns/anti-ageing-wrinkles" },
+    { label: "Unwanted Hair", href: "/concerns/unwanted-hair" },
   ],
   Clinic: [
     { label: "Our Doctors", href: "/doctors" },
-    { label: "Patient Results", href: "/#results" },
+    { label: "Patient Results", href: "/results" },
     { label: "Patient Stories", href: "/#testimonials" },
-    { label: "The Journal", href: "/#insights" },
+    { label: "FAQs", href: "/#faq" },
     { label: "Contact", href: "/#contact" },
   ],
   Resources: [
-    { label: "FAQs", href: "/#faq" },
-    { label: "Concerns", href: "/#concerns" },
     { label: "Book a Consultation", href: "/#book" },
     { label: "Shop", href: "https://dermaheal.co.in/shop" },
   ],

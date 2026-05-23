@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { RESULTS, RESULT_CATS } from "@/data/site";
 import { ArrowRight } from "@/components/icons";
 
@@ -84,14 +85,9 @@ export default function Results() {
                 <span>{r.weeks} after start</span>
               </div>
             </div>
-            <a
-              className="btn-text"
-              href="https://dermaheal.co.in/patient-gallery.html"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              See the full result archive <ArrowRight />
-            </a>
+            <Link className="btn-text" href="/results">
+              See the full result gallery <ArrowRight />
+            </Link>
             <div className="results-nav">
               {filtered.map((R, i) => (
                 <button
