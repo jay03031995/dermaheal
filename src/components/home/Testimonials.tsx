@@ -1,4 +1,4 @@
-import { TESTIMONIALS } from "@/data/site";
+import { getTestimonials } from "@/sanity/lib/fetchers";
 
 const initials = (name: string) =>
   name
@@ -6,7 +6,9 @@ const initials = (name: string) =>
     .map((n) => n[0])
     .join("");
 
-export default function Testimonials() {
+export default async function Testimonials() {
+  const items = await getTestimonials();
+
   return (
     <section className="section testimonials" id="testimonials">
       <div className="container">
@@ -21,7 +23,7 @@ export default function Testimonials() {
           </p>
         </div>
         <div className="testimonials-track">
-          {TESTIMONIALS.map((t, i) => (
+          {items.map((t, i) => (
             <div className="testimonial reveal" key={i}>
               <div className="testimonial-stars">★ ★ ★ ★ ★</div>
               <div className="testimonial-quote">{t.q}</div>

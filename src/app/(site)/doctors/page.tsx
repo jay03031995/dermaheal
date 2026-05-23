@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DOCTORS } from "@/data/doctors";
+import { getDoctors } from "@/sanity/lib/fetchers";
 import { ArrowRight } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 
@@ -11,7 +11,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/doctors" },
 };
 
-export default function DoctorsPage() {
+const bgImg = (url?: string): React.CSSProperties | undefined =>
+  url
+    ? {
+        backgroundImage: `url(${url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
+
+export default async function DoctorsPage() {
+  const doctors = await getDoctors();
+
   return (
     <>
       <section className="page-hero page-hero-doctors">
@@ -34,7 +45,7 @@ export default function DoctorsPage() {
 
       <section className="doc-list">
         <div className="container">
-          {DOCTORS.map((d, i) => (
+          {doctors.map((d, i) => (
             <div
               key={d.slug}
               className={"doc-row" + (i % 2 === 1 ? " reverse" : "")}
@@ -54,7 +65,10 @@ export default function DoctorsPage() {
                     <div className="doc-badge-val">Dermatology</div>
                   </div>
                 </div>
-                <div className={"doc-photo " + d.img}>
+                <div
+                  className={"doc-photo " + d.img}
+                  style={bgImg(d.imageUrl)}
+                >
                   <div className="doc-photo-label">
                     — portrait, {d.name.split(" ").slice(-1)[0].toLowerCase()}
                   </div>

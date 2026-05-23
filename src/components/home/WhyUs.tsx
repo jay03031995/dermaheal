@@ -1,6 +1,8 @@
-import { EEAT } from "@/data/site";
+import { getEeatPillars } from "@/sanity/lib/fetchers";
 
-export default function WhyUs() {
+export default async function WhyUs() {
+  const pillars = await getEeatPillars();
+
   return (
     <section className="section why">
       <div className="container">
@@ -25,7 +27,7 @@ export default function WhyUs() {
               Four pillars behind every treatment we perform.
             </h2>
             <div className="eeat-list">
-              {EEAT.map((e, i) => (
+              {pillars.map((e, i) => (
                 <div className="eeat-card" key={i}>
                   <div className="eeat-icon">
                     <span className="eeat-letter">{e.letter}</span>

@@ -3,6 +3,7 @@ import { ArrowRight, MapPin, Phone } from "@/components/icons";
 import { CLINIC } from "@/data/clinic";
 import BookButton from "@/components/BookButton";
 import ResultsGallery from "@/components/ResultsGallery";
+import { getResults } from "@/sanity/lib/fetchers";
 
 export const metadata: Metadata = {
   title: "Patient Results — Before & After at Dermaheal Dwarka",
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/results" },
 };
 
-export default function ResultsPage() {
+export default async function ResultsPage() {
+  const results = await getResults();
+
   return (
     <>
       <section className="page-hero">
@@ -20,8 +23,7 @@ export default function ResultsPage() {
             Real patients · real results
           </div>
           <h1>
-            Outcomes you can{" "}
-            <em>hold us to.</em>
+            Outcomes you can <em>hold us to.</em>
           </h1>
           <p>
             Every patient story below is referenced, dated and accompanied by
@@ -63,7 +65,7 @@ export default function ResultsPage() {
             </p>
           </div>
 
-          <ResultsGallery />
+          <ResultsGallery results={results} />
 
           <div style={{ textAlign: "center", marginTop: 44 }}>
             <a

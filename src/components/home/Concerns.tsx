@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { CONCERNS } from "@/data/concerns";
+import { getConcerns } from "@/sanity/lib/fetchers";
 
-export default function Concerns() {
+export default async function Concerns() {
+  const concerns = await getConcerns();
+
   return (
     <section className="concerns" id="concerns">
       <div className="container">
@@ -16,8 +18,12 @@ export default function Concerns() {
           </p>
         </div>
         <div className="concerns-grid">
-          {CONCERNS.map((c) => (
-            <Link className="concern reveal" key={c.id} href={`/concerns/${c.slug}`}>
+          {concerns.map((c) => (
+            <Link
+              key={c.id}
+              className="concern reveal"
+              href={`/concerns/${c.slug}`}
+            >
               <div className="concern-icon">{c.icon}</div>
               <div>
                 <div className="concern-name">{c.name}</div>

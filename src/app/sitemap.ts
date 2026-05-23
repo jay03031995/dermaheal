@@ -1,11 +1,19 @@
 import type { MetadataRoute } from "next";
-import { TREATMENT_DETAIL_SLUGS } from "@/data/treatments";
-import { DOCTOR_SLUGS } from "@/data/doctors";
-import { CONCERN_SLUGS } from "@/data/concerns";
+import {
+  getConcernSlugs,
+  getDoctorSlugs,
+  getTreatmentSlugs,
+} from "@/sanity/lib/fetchers";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://dermaheal.co.in";
   const lastModified = new Date();
+
+  const [treatmentSlugs, concernSlugs, doctorSlugs] = await Promise.all([
+    getTreatmentSlugs(),
+    getConcernSlugs(),
+    getDoctorSlugs(),
+  ]);
 
   const top = [
     { path: "", priority: 1 },
@@ -15,17 +23,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/results", priority: 0.8 },
   ];
 
-  const treatments = TREATMENT_DETAIL_SLUGS.map((slug) => ({
+  const treatments = treatmentSlugs.map((slug) => ({
     path: `/treatments/${slug}`,
     priority: 0.8,
   }));
 
-  const concerns = CONCERN_SLUGS.map((slug) => ({
+  const concerns = concernSlugs.map((slug) => ({
     path: `/concerns/${slug}`,
     priority: 0.75,
   }));
 
-  const doctors = DOCTOR_SLUGS.map((slug) => ({
+  const doctors = doctorSlugs.map((slug) => ({
     path: `/doctors/${slug}`,
     priority: 0.7,
   }));
