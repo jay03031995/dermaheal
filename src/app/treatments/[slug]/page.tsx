@@ -1,0 +1,300 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import {
+  ALL_TREATMENTS_LIST,
+  TREATMENT_DETAIL_SLUGS,
+  getTreatmentDetail,
+} from "@/data/treatments";
+import { DOCTORS } from "@/data/doctors";
+import { CLINIC, telHref } from "@/data/clinic";
+import { ArrowRight, MapPin, Phone } from "@/components/icons";
+import BookButton from "@/components/BookButton";
+import FaqItem from "@/components/FaqItem";
+
+const ROMAN = ["i", "ii", "iii", "iv"];
+
+export function generateStaticParams() {
+  return TREATMENT_DETAIL_SLUGS.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await props.params;
+  const t = getTreatmentDetail(slug);
+  if (!t) return { title: "Treatment Not Found" };
+  return {
+    title: `${t.name} in Dwarka — Dermaheal`,
+    description: t.overview,
+    alternates: { canonical: `/treatments/${slug}` },
+    openGraph: {
+      title: `${t.name} — Dermaheal Skin & Hair Clinic`,
+      description: t.overview,
+    },
+  };
+}
+
+export default async function TreatmentDetailPage(props: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await props.params;
+  const t = getTreatmentDetail(slug);
+  if (!t) notFound();
+
+  const related = ALL_TREATMENTS_LIST.filter((x) => x.slug !== slug).slice(0, 3);
+
+  return (
+    <>
+      {/* Hero */}
+      <section className="tp-hero">
+        <div className="container">
+          <div className="tp-crumbs">
+            <Link href="/">Home</Link>
+            <span className="sep">/</span>
+            <Link href="/treatments">Treatments</Link>
+            <span className="sep">/</span>
+            <span className="cur">{t.name}</span>
+          </div>
+          <div className="tp-hero-grid">
+            <div>
+              <span className="tp-cat-pill">
+                <span className="dot" />
+                {t.cat}
+              </span>
+              <h1>{t.headline}</h1>
+              <p className="tp-overview">{t.overview}</p>
+              <div className="tp-quick">
+                <div className="tp-quick-item">
+                  <div className="tp-quick-label">Duration</div>
+                  <div className="tp-quick-val">{t.quick.duration}</div>
+                </div>
+                <div className="tp-quick-item">
+                  <div className="tp-quick-label">Sessions</div>
+                  <div className="tp-quick-val">{t.quick.sessions}</div>
+                </div>
+                <div className="tp-quick-item">
+                  <div className="tp-quick-label">Downtime</div>
+                  <div className="tp-quick-val">{t.quick.downtime}</div>
+                </div>
+              </div>
+              <div className="tp-hero-cta">
+                <BookButton>Book a consultation</BookButton>
+                <a className="btn btn-ghost" href={telHref()}>
+                  Call {CLINIC.phone}
+                </a>
+              </div>
+            </div>
+            <div className="tp-hero-visual">
+              <div className="tp-floating tp-floating-1">
+                <div className="tp-float-hd">Performed by</div>
+                <div className="tp-float-val">MD Dermatologists</div>
+              </div>
+              <div className="tp-floating tp-floating-2">
+                <div className="tp-float-hd">Calibrated for</div>
+                <div className="tp-float-val">Indian skin tones</div>
+              </div>
+              <div className={"tp-img-main " + t.img}>
+                <div className="tp-img-label">— {t.name.toLowerCase()}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About + key points */}
+      <section className="tp-section">
+        <div className="container">
+          <div className="tp-about-grid">
+            <div className="tp-about-copy">
+              <div className="eyebrow" style={{ marginBottom: 16 }}>
+                About the treatment
+              </div>
+              <h2>{t.headline}</h2>
+              <p>{t.overview}</p>
+              <p>
+                Every {t.name.toLowerCase()} session at Dermaheal is performed
+                by a board-certified MD dermatologist, using internationally
+                approved products and protocols calibrated specifically for
+                Indian skin.
+              </p>
+              <Link className="btn-text" href="/#book">
+                Speak to a dermatologist <ArrowRight size={12} />
+              </Link>
+            </div>
+            <div className="tp-keypoints">
+              <h4>What makes it work</h4>
+              <ul>
+                {t.keyPoints.map((p, i) => (
+                  <li key={i}>{p}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="tp-section alt">
+        <div className="container">
+          <div className="tp-section-head">
+            <div className="eyebrow">How it works</div>
+            <h2>The four-step procedure.</h2>
+            <p>
+              Designed to feel unhurried, explained at every step, and centred
+              entirely on your safety and comfort.
+            </p>
+          </div>
+          <div className="tp-process">
+            {t.process.map((s, i) => (
+              <div className="tp-step" key={i}>
+                <div className="tp-step-num">{ROMAN[i]}</div>
+                <div className="tp-step-title">{s.t}</div>
+                <div className="tp-step-desc">{s.d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Suitable for */}
+      <section className="tp-section">
+        <div className="container">
+          <div className="tp-section-head">
+            <div className="eyebrow">Suitable for</div>
+            <h2>Who this treatment is for.</h2>
+            <p>
+              Best results are achieved when the treatment matches your
+              concern. Here are the concerns where {t.name} typically delivers
+              excellent outcomes.
+            </p>
+          </div>
+          <div className="tp-tags">
+            {t.suitableFor.map((s, i) => (
+              <span className="tp-tag" key={i}>
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="tp-section alt">
+        <div className="container">
+          <div className="tp-section-head">
+            <div className="eyebrow">Why choose this</div>
+            <h2>Six reasons patients pick this protocol.</h2>
+          </div>
+          <div className="tp-benefits">
+            {t.benefits.map((b, i) => (
+              <div className="tp-benefit" key={i}>
+                <div className="tp-benefit-icon">{b.i}</div>
+                <div className="tp-benefit-title">{b.t}</div>
+                <div className="tp-benefit-desc">{b.d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Doctors */}
+      <section className="tp-section">
+        <div className="container">
+          <div className="tp-section-head">
+            <div className="eyebrow">Performed by</div>
+            <h2>Treated by MD dermatologists. Always.</h2>
+            <p>
+              Every procedure at Dermaheal is performed personally by a
+              board-certified MD dermatologist, never delegated to a therapist.
+            </p>
+          </div>
+          <div className="tp-doctors">
+            {DOCTORS.map((d) => (
+              <Link className="tp-doctor" key={d.slug} href={`/doctors/${d.slug}`}>
+                <div className={"tp-doctor-img " + d.img} />
+                <div className="tp-doctor-body">
+                  <div className="tp-doctor-name">{d.name}</div>
+                  <div className="tp-doctor-title">{d.title}</div>
+                  <div className="tp-doctor-exp">
+                    MD-DVL · {d.years}+ years
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="tp-section alt">
+        <div className="container">
+          <div className="tp-section-head">
+            <div className="eyebrow">Frequently asked</div>
+            <h2>{t.name}, answered.</h2>
+          </div>
+          <div className="tp-faq">
+            {t.faqs.map((f, i) => (
+              <FaqItem key={i} q={f.q} a={f.a} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Related */}
+      <section className="tp-section">
+        <div className="container">
+          <div className="tp-section-head">
+            <div className="eyebrow">Related treatments</div>
+            <h2>Often considered alongside.</h2>
+          </div>
+          <div className="tp-related">
+            {related.map((r) => (
+              <Link
+                className="tp-related-card"
+                key={r.slug}
+                href={`/treatments/${r.slug}`}
+              >
+                <div className={"tp-related-img " + r.img} />
+                <div className="tp-related-body">
+                  <div className="tp-related-cat">{r.cat}</div>
+                  <div className="tp-related-name">{r.name}</div>
+                  <div className="tp-related-desc">{r.desc}</div>
+                  <span className="tp-related-link">
+                    Learn more <ArrowRight size={12} />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="tp-cta">
+        <div className="container">
+          <div className="eyebrow" style={{ marginBottom: 16 }}>
+            Ready to begin
+          </div>
+          <h2>Book your {t.name} consultation today.</h2>
+          <p>
+            A one-on-one with an MD dermatologist. A written plan. No upsells.
+            Walk out knowing exactly what&apos;s right for your skin.
+          </p>
+          <BookButton>Book a consultation</BookButton>
+          <div className="tp-cta-contacts">
+            <span>
+              <Phone /> {CLINIC.phone}
+            </span>
+            <span>
+              <Phone /> {CLINIC.phone2}
+            </span>
+            <span>
+              <MapPin /> Dwarka, New Delhi
+            </span>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
