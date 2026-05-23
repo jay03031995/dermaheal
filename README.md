@@ -1,78 +1,36 @@
-# Dermaheal Skin & Hair Clinic
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Marketing site for [Dermaheal Skin & Hair Clinic](https://dermaheal.co.in), an
-MD-led dermatology, aesthetics and trichology practice in Dwarka, New Delhi.
+## Getting Started
 
-Built on **Next.js 16** (App Router, Turbopack) and **React 19** with
-TypeScript. All pages are statically generated at build time.
-
-## Routes
-
-| Path                       | Type    |
-| -------------------------- | ------- |
-| `/`                        | Static  |
-| `/treatments`              | Static  |
-| `/treatments/[slug]`       | SSG (9) |
-| `/doctors`                 | Static  |
-| `/doctors/[slug]`          | SSG (3) |
-| `/sitemap.xml`             | Static  |
-| `/robots.txt`              | Static  |
-
-All clinic data lives in `src/data/` (`clinic`, `concerns`, `treatments`,
-`doctors`, `site`). Update copy there, no component edits needed.
-
-## Local development
+First, run the development server:
 
 ```bash
-npm install
-npm run dev    # http://localhost:3000
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Useful scripts:
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-```bash
-npm run build  # production build
-npm run lint   # eslint
-npm start      # serve the built site locally
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Deploying on Vercel
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-The repo ships with a `vercel.json` that pins the function region to
-**`bom1`** (Mumbai) for Indian users, sets the framework to Next.js, and
-uses `npm ci` for installs. Security headers (HSTS, X-Frame-Options,
-X-Content-Type-Options, Referrer-Policy, Permissions-Policy) are emitted
-from `next.config.ts`.
+## Learn More
 
-**One-time setup:**
+To learn more about Next.js, take a look at the following resources:
 
-1. Sign in to [vercel.com](https://vercel.com), pick **Add New… → Project**,
-   and import this repo. Vercel detects Next.js automatically.
-2. Leave the default settings — `vercel.json` already specifies build,
-   install and output commands. No environment variables are required.
-3. (Optional) Add the production domain (`dermaheal.co.in`) under
-   **Settings → Domains**.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-**From the CLI (alternative):**
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-```bash
-npm i -g vercel
-vercel              # link to a Vercel project, deploy a preview
-vercel --prod       # deploy to production
-```
+## Deploy on Vercel
 
-**Auto-deploys:** once linked, every push to `main` deploys to production,
-and every other branch / PR gets its own preview URL.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Project structure
-
-```
-src/
-├── app/                # Next.js routes (App Router)
-├── components/         # Shared chrome + section components
-│   └── home/           # Homepage sections
-└── data/               # All clinic copy lives here
-public/
-├── dermaheal-logo.png  # Brand mark
-└── whatsapp-icon.png   # FAB icon
-```
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
