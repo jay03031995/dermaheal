@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CONCERNS } from "@/data/concerns";
 
 export default function Concerns() {
@@ -16,13 +17,13 @@ export default function Concerns() {
         </div>
         <div className="concerns-grid">
           {CONCERNS.map((c) => (
-            <div className="concern reveal" key={c.id}>
+            <Link className="concern reveal" key={c.id} href={`/concerns/${c.slug}`}>
               <div className="concern-icon">{c.icon}</div>
               <div>
                 <div className="concern-name">{c.name}</div>
                 <div className="concern-count">{c.count}</div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

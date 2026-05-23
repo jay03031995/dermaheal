@@ -6,7 +6,6 @@ import WhyUs from "@/components/home/WhyUs";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import Results from "@/components/home/Results";
 import Testimonials from "@/components/home/Testimonials";
-import Insights from "@/components/home/Insights";
 import Faq from "@/components/home/Faq";
 import SimpleBook from "@/components/home/SimpleBook";
 import Contact from "@/components/home/Contact";
@@ -22,7 +21,6 @@ export default function Home() {
       <DoctorsSection />
       <Results />
       <Testimonials />
-      <Insights />
       <Faq />
       <SimpleBook />
       <Contact />

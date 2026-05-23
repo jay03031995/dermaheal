@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CLINIC } from "@/data/clinic";
 import { TREATMENTS, TREATMENT_CATS } from "@/data/treatments";
 import { DOCTORS } from "@/data/doctors";
+import { CONCERNS } from "@/data/concerns";
 import { ArrowRight, Phone } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 
@@ -22,6 +23,8 @@ export default function Navbar() {
     const sample = TREATMENTS.find((t) => t.cat === cat);
     return { cat, sample, count: TREATMENTS.filter((t) => t.cat === cat).length };
   });
+
+  const ddConcerns = CONCERNS.slice(0, 6);
 
   return (
     <nav className={"nav" + (scrolled ? " scrolled" : "")}>
@@ -60,9 +63,26 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Link className="nav-link" href="/#concerns">
-            Concerns
-          </Link>
+          <div className="nav-item">
+            <Link className="nav-link has-dd" href="/concerns">
+              Concerns
+            </Link>
+            <div className="nav-dd wide">
+              <div className="nav-dd-hd">By concern · 12 in total</div>
+              {ddConcerns.map((c) => (
+                <Link key={c.id} className="nav-dd-item" href={`/concerns/${c.slug}`}>
+                  <span>{c.name}</span>
+                  <small>{c.count}</small>
+                </Link>
+              ))}
+              <div className="nav-dd-foot">
+                <span>Every concern reviewed by an MD</span>
+                <Link href="/concerns">
+                  See all concerns <ArrowRight size={11} />
+                </Link>
+              </div>
+            </div>
+          </div>
 
           <div className="nav-item">
             <Link className="nav-link has-dd" href="/doctors">
@@ -89,11 +109,8 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Link className="nav-link" href="/#results">
+          <Link className="nav-link" href="/results">
             Results
-          </Link>
-          <Link className="nav-link" href="/#insights">
-            Journal
           </Link>
           <Link className="nav-link" href="/#contact">
             Contact
