@@ -5,7 +5,10 @@ const baseConfig: ClientConfig = {
   projectId: projectId || "missing",
   dataset,
   apiVersion,
-  useCdn: true,
+  // useCdn must be false so the server always receives fresh content when
+  // Next.js does revalidate. Next.js handles caching above this layer via
+  // page-level `revalidate` and on-demand `revalidateTag('sanity')`.
+  useCdn: false,
   perspective: "published",
   stega: false,
 };

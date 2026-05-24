@@ -70,10 +70,20 @@ function isFilled<T>(v: T | null | undefined): v is T {
   return true;
 }
 
+/**
+ * Tag every Sanity fetch with "sanity" so the on-demand revalidation
+ * webhook (`/api/revalidate`) can invalidate all of them at once when an
+ * editor publishes in Studio.
+ *
+ * `revalidate: 60` is a safety net: even without the webhook, pages refresh
+ * at most every 60 seconds.
+ */
 async function safeFetch<T>(query: string, params?: Record<string, unknown>) {
   if (!sanityEnabled) return null;
   try {
-    return await client.fetch<T>(query, params ?? {});
+    return await client.fetch<T>(query, params ?? {}, {
+      next: { tags: ["sanity"], revalidate: 60 },
+    });
   } catch (e) {
     console.warn("[sanity] fetch failed, falling back to local data:", e);
     return null;

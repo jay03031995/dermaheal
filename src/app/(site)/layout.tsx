@@ -7,6 +7,13 @@ import BookingModal from "@/components/BookingModal";
 import RevealInit from "@/components/RevealInit";
 import { CLINIC } from "@/data/clinic";
 
+/**
+ * Safety-net revalidation: every page under (site)/ re-renders at most once
+ * per 60 seconds, picking up Sanity edits automatically. For instant updates,
+ * Sanity's webhook hits /api/revalidate which calls revalidateTag("sanity").
+ */
+export const revalidate = 60;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
