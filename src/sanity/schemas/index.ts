@@ -27,6 +27,7 @@ import {
   testimonialSchema,
   trustItemSchema,
 } from "./siteContent";
+import { appointmentSchema } from "./appointment";
 
 export const schemaTypes = [
   // Objects
@@ -56,6 +57,7 @@ export const schemaTypes = [
   eeatPillarSchema,
   trustItemSchema,
   redirectSchema,
+  appointmentSchema,
 ];
 
 export const singletonTypes = new Set([

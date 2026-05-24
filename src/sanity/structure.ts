@@ -15,6 +15,56 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title("Dermaheal Admin")
     .items([
+      // Appointments — pinned at top so staff see new bookings first.
+      S.listItem()
+        .title("📅 Appointments")
+        .child(
+          S.list()
+            .title("Appointments")
+            .items([
+              S.listItem()
+                .title("🟠 Needs follow-up (new)")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("New — needs follow-up")
+                    .filter('_type == "appointment" && status == "new"')
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
+                    ]),
+                ),
+              S.listItem()
+                .title("📞 Contacted")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("Contacted")
+                    .filter('_type == "appointment" && status == "contacted"')
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
+                    ]),
+                ),
+              S.listItem()
+                .title("✅ Confirmed")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("Confirmed")
+                    .filter('_type == "appointment" && status == "confirmed"')
+                    .defaultOrdering([
+                      { field: "preferredDate", direction: "asc" },
+                    ]),
+                ),
+              S.divider(),
+              S.listItem()
+                .title("All appointments")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("All appointments")
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
+                    ]),
+                ),
+            ]),
+        ),
+      S.divider(),
       // Singletons
       ...Array.from(singletonTypes).map((type) =>
         S.listItem()
