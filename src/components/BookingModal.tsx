@@ -47,6 +47,8 @@ export default function BookingModal() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {},
   );
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Reset form when the modal closes — adjusted during render per React docs.
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
@@ -56,6 +58,8 @@ export default function BookingModal() {
       setStep(0);
       setErrors({});
       setData(EMPTY);
+      setSubmitError(null);
+      setSubmitting(false);
     }
   }
 
@@ -88,8 +92,54 @@ export default function BookingModal() {
     return Object.keys(e).length === 0;
   };
 
+  const submitBooking = async () => {
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          age: data.age,
+          concern: data.concern,
+          city: data.city,
+          date: data.date,
+          time: data.time,
+          source: "website-booking-modal",
+        }),
+      });
+      const payload = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        message?: string;
+      };
+      if (!res.ok || !payload.ok) {
+        throw new Error(
+          payload.message ||
+            `Booking failed (${res.status}). Please call the clinic.`,
+        );
+      }
+      setStep(3);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error
+          ? err.message
+          : "Could not save your booking. Please call the clinic on +91 80809 10191.",
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const next = () => {
-    if (validateStep()) setStep((s) => Math.min(s + 1, 3));
+    if (!validateStep()) return;
+    if (step === 2) {
+      void submitBooking();
+      return;
+    }
+    setStep((s) => Math.min(s + 1, 3));
   };
   const back = () => setStep((s) => Math.max(0, s - 1));
 
@@ -384,11 +434,21 @@ export default function BookingModal() {
                   <div className="field-error">{errors.email}</div>
                 )}
               </div>
+              {submitError && (
+                <div
+                  className="field-error"
+                  role="alert"
+                  style={{ marginTop: 12 }}
+                >
+                  {submitError}
+                </div>
+              )}
               <div className="modal-actions">
                 <button
                   className="btn btn-ghost"
                   type="button"
                   onClick={back}
+                  disabled={submitting}
                 >
                   Back
                 </button>
@@ -396,11 +456,15 @@ export default function BookingModal() {
                   className="btn btn-primary"
                   type="button"
                   onClick={next}
+                  disabled={submitting}
+                  aria-busy={submitting}
                 >
-                  Confirm booking{" "}
-                  <span className="arrow">
-                    <ArrowRight />
-                  </span>
+                  {submitting ? "Saving…" : "Confirm booking"}{" "}
+                  {!submitting && (
+                    <span className="arrow">
+                      <ArrowRight />
+                    </span>
+                  )}
                 </button>
               </div>
             </>
