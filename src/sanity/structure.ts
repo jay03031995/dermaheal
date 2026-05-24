@@ -1,5 +1,6 @@
 import type { StructureBuilder } from "sanity/structure";
 import { singletonTypes } from "./schemas";
+import AppointmentsDashboard from "./dashboard/AppointmentsDashboard";
 
 const SINGLETON_LABELS: Record<string, string> = {
   clinicSettings: "Clinic settings",
@@ -15,6 +16,17 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title("Dermaheal Admin")
     .items([
+      // Dashboard — landing view with live counters for clinic staff.
+      S.listItem()
+        .title("📊 Dashboard")
+        .id("appointmentsDashboard")
+        .icon(() => "📊")
+        .child(
+          S.component(AppointmentsDashboard)
+            .id("appointmentsDashboard")
+            .title("Appointments Dashboard"),
+        ),
+      S.divider(),
       // Appointments — pinned at top so staff see new bookings first.
       S.listItem()
         .title("📅 Appointments")
