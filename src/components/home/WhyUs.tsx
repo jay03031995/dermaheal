@@ -1,13 +1,6 @@
 import { getEeatPillars, getWhySection } from "@/sanity/lib/fetchers";
 
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
+import { bgImage } from "@/lib/bgImage";
 
 export default async function WhyUs() {
   const [pillars, why] = await Promise.all([
@@ -20,10 +13,10 @@ export default async function WhyUs() {
       <div className="container">
         <div className="why-grid">
           <div className="why-visual reveal">
-            <div className="why-img main" style={bgImg(why.imageMainUrl)}>
+            <div className="why-img main" style={bgImage(why.imageMainUrl)}>
               <div className="why-tag">{why.imageLabel}</div>
             </div>
-            <div className="why-img sub" style={bgImg(why.imageSubUrl)} />
+            <div className="why-img sub" style={bgImage(why.imageSubUrl)} />
             <div className="why-stat">
               <div className="why-stat-num">
                 {why.statValue}

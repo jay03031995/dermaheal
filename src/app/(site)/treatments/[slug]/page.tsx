@@ -11,6 +11,13 @@ import { CLINIC, telHref } from "@/data/clinic";
 import { ArrowRight, MapPin, Phone } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 import FaqItem from "@/components/FaqItem";
+import JsonLd from "@/components/JsonLd";
+import { bgImage } from "@/lib/bgImage";
+import {
+  breadcrumbSchema,
+  faqSchema,
+  medicalProcedureSchema,
+} from "@/lib/schema";
 
 const ROMAN = ["i", "ii", "iii", "iv"];
 
@@ -37,15 +44,6 @@ export async function generateMetadata(props: {
   };
 }
 
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
-
 export default async function TreatmentDetailPage(props: {
   params: Promise<{ slug: string }>;
 }) {
@@ -59,8 +57,24 @@ export default async function TreatmentDetailPage(props: {
 
   const related = allTreatments.filter((x) => x.slug !== slug).slice(0, 3);
 
+  const schema = [
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Treatments", path: "/treatments" },
+      { name: t.name, path: `/treatments/${slug}` },
+    ]),
+    medicalProcedureSchema({
+      name: t.name,
+      description: t.overview,
+      slug,
+      imageUrl: t.imageUrl,
+    }),
+    ...(t.faqs.length > 0 ? [faqSchema(t.faqs)] : []),
+  ];
+
   return (
     <>
+      <JsonLd data={schema} />
       {/* Hero */}
       <section className="tp-hero">
         <div className="container">
@@ -111,7 +125,7 @@ export default async function TreatmentDetailPage(props: {
               </div>
               <div
                 className={"tp-img-main " + t.img}
-                style={bgImg(t.imageUrl)}
+                style={bgImage(t.imageUrl)}
               >
                 <div className="tp-img-label">— {t.name.toLowerCase()}</div>
               </div>
@@ -236,7 +250,7 @@ export default async function TreatmentDetailPage(props: {
               >
                 <div
                   className={"tp-doctor-img " + d.img}
-                  style={bgImg(d.imageUrl)}
+                  style={bgImage(d.imageUrl)}
                 />
                 <div className="tp-doctor-body">
                   <div className="tp-doctor-name">{d.name}</div>
@@ -282,7 +296,7 @@ export default async function TreatmentDetailPage(props: {
               >
                 <div
                   className={"tp-related-img " + r.img}
-                  style={bgImg(r.imageUrl)}
+                  style={bgImage(r.imageUrl)}
                 />
                 <div className="tp-related-body">
                   <div className="tp-related-cat">{r.cat}</div>

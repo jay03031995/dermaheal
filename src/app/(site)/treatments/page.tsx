@@ -6,6 +6,7 @@ import {
 } from "@/sanity/lib/fetchers";
 import { ArrowRight, Clock, Tag } from "@/components/icons";
 import CategoryNav from "@/components/CategoryNav";
+import { bgImage } from "@/lib/bgImage";
 
 export const metadata: Metadata = {
   title: "All Treatments — 27 advanced dermatology procedures",
@@ -13,15 +14,6 @@ export const metadata: Metadata = {
     "Dermaheal Skin & Hair Clinic, Dwarka offers 27 advanced treatments across hair restoration, injectables, lasers, peels, regenerative medicine and day-care surgery. Calibrated for Indian skin.",
   alternates: { canonical: "/treatments" },
 };
-
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
 
 export default async function TreatmentsPage() {
   const [allTreatments, categories] = await Promise.all([
@@ -99,7 +91,7 @@ export default async function TreatmentsPage() {
                   >
                     <div
                       className={"trow-img " + t.img}
-                      style={bgImg(t.imageUrl)}
+                      style={bgImage(t.imageUrl)}
                     >
                       {t.tag && <span className="trow-tag">{t.tag}</span>}
                     </div>

@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { getDoctors } from "@/sanity/lib/fetchers";
 
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
+import { bgImage } from "@/lib/bgImage";
 
 export default async function DoctorsSection() {
   const doctors = await getDoctors();
@@ -39,7 +32,7 @@ export default async function DoctorsSection() {
               className="doctor-card reveal"
               href={`/doctors/${d.slug}`}
             >
-              <div className={"doctor-img " + d.img} style={bgImg(d.imageUrl)} />
+              <div className={"doctor-img " + d.img} style={bgImage(d.imageUrl)} />
               <div className="doctor-body">
                 <div className="doctor-name">{d.name}</div>
                 <div className="doctor-title">{d.title}</div>

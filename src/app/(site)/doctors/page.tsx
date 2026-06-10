@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getDoctors } from "@/sanity/lib/fetchers";
 import { ArrowRight } from "@/components/icons";
 import BookButton from "@/components/BookButton";
+import { bgImage } from "@/lib/bgImage";
 
 export const metadata: Metadata = {
   title: "Our Doctors — MD Dermatologists in Dwarka",
@@ -10,15 +11,6 @@ export const metadata: Metadata = {
     "Meet the dermatology team at Dermaheal Skin & Hair Clinic, Dwarka. Three MD dermatologists with subspecialties in cosmetic dermatology, aesthetics and lasers.",
   alternates: { canonical: "/doctors" },
 };
-
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
 
 export default async function DoctorsPage() {
   const doctors = await getDoctors();
@@ -67,7 +59,7 @@ export default async function DoctorsPage() {
                 </div>
                 <div
                   className={"doc-photo " + d.img}
-                  style={bgImg(d.imageUrl)}
+                  style={bgImage(d.imageUrl)}
                 />
               </div>
               <div className="doc-body">
