@@ -17,7 +17,15 @@ export const siteSettingsQuery = /* groq */ `
     "defaultOgImage": defaultOgImage.asset->{_id, url},
     footerColumns[]{title, links[]{label, href}},
     footerBottomNote,
-    heroEyebrow, heroHeadline, heroSubhead
+    heroEyebrow, heroHeadline, heroSubhead,
+    heroPrimaryCta, heroSecondaryCta,
+    heroStats[]{value, superscript, label},
+    heroBadges[]{icon, text},
+    heroImageMainLabel, heroImageSubLabel,
+    whyEyebrow, whyHeading, whyStatValue, whyStatSuperscript, whyStatLabel, whyImageLabel,
+    bookEyebrow, bookHeading, bookBody, bookCtaLabel,
+    bookMeta,
+    bookCards[]{time, doctor, detail, availability, highlight}
   }
 `;
 

@@ -1,10 +1,12 @@
 import {
   benefitObject,
+  bookSlotCardObject,
   credentialObject,
   doctorTreatmentObject,
   faqItemObject,
   footerColumnObject,
   footerLinkObject,
+  heroBadgeObject,
   patientQuoteObject,
   processStepObject,
   seoObject,
@@ -40,6 +42,8 @@ export const schemaTypes = [
   patientQuoteObject,
   statObject,
   doctorTreatmentObject,
+  heroBadgeObject,
+  bookSlotCardObject,
   footerLinkObject,
   footerColumnObject,
   // Singletons
