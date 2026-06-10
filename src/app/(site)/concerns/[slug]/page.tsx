@@ -10,6 +10,9 @@ import { CLINIC, telHref } from "@/data/clinic";
 import { ArrowRight, MapPin, Phone } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 import FaqItem from "@/components/FaqItem";
+import JsonLd from "@/components/JsonLd";
+import { bgImage } from "@/lib/bgImage";
+import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
   const slugs = await getConcernSlugs();
@@ -34,15 +37,6 @@ export async function generateMetadata(props: {
   };
 }
 
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
-
 /** Map concern id → gradient variant for the fallback hero. */
 function concernImg(id: string): string {
   const map: Record<string, string> = {
@@ -59,6 +53,15 @@ export default async function ConcernDetailPage(props: {
   const { slug } = await props.params;
   const c = await getConcernBySlug(slug);
   if (!c) notFound();
+
+  const schema = [
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Concerns", path: "/concerns" },
+      { name: c.name, path: `/concerns/${slug}` },
+    ]),
+    ...(c.faqs.length > 0 ? [faqSchema(c.faqs)] : []),
+  ];
 
   // Sanity returns the related treatment cards inline. Local fallback only
   // stores treatment slugs, so we hydrate them via getTreatmentDetailFetched.
@@ -81,6 +84,7 @@ export default async function ConcernDetailPage(props: {
 
   return (
     <>
+      <JsonLd data={schema} />
       {/* Hero */}
       <section className="tp-hero">
         <div className="container">
@@ -117,7 +121,7 @@ export default async function ConcernDetailPage(props: {
               </div>
               <div
                 className={`tp-img-main ${concernImg(c.id)}`}
-                style={bgImg(c.imageUrl)}
+                style={bgImage(c.imageUrl)}
               >
                 <div className="tp-img-label">— {c.name.toLowerCase()}</div>
               </div>
@@ -200,7 +204,7 @@ export default async function ConcernDetailPage(props: {
                 >
                   <div
                     className={"tp-related-img " + t.img}
-                    style={bgImg(t.imageUrl)}
+                    style={bgImage(t.imageUrl)}
                   />
                   <div className="tp-related-body">
                     <div className="tp-related-cat">{t.cat}</div>

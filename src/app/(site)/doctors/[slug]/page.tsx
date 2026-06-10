@@ -9,6 +9,9 @@ import {
 import { CLINIC, telHref } from "@/data/clinic";
 import { ArrowRight } from "@/components/icons";
 import BookButton from "@/components/BookButton";
+import JsonLd from "@/components/JsonLd";
+import { bgImage } from "@/lib/bgImage";
+import { breadcrumbSchema, physicianSchema } from "@/lib/schema";
 
 export async function generateStaticParams() {
   const slugs = await getDoctorSlugs();
@@ -33,15 +36,6 @@ export async function generateMetadata(props: {
   };
 }
 
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
-
 export default async function DoctorDetailPage(props: {
   params: Promise<{ slug: string }>;
 }) {
@@ -56,8 +50,24 @@ export default async function DoctorDetailPage(props: {
   const firstName = d.name.split(" ")[0];
   const middle = d.name.split(" ")[1]?.replace(".", "") ?? "";
 
+  const schema = [
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Doctors", path: "/doctors" },
+      { name: d.name, path: `/doctors/${slug}` },
+    ]),
+    physicianSchema({
+      name: d.name,
+      title: d.title,
+      bio: d.detailBio,
+      slug,
+      imageUrl: d.imageUrl,
+    }),
+  ];
+
   return (
     <>
+      <JsonLd data={schema} />
       {/* Hero */}
       <section className="dp-hero">
         <div className="container">
@@ -84,7 +94,7 @@ export default async function DoctorDetailPage(props: {
                   <div className="dp-badge-label">Board Certified</div>
                 </div>
               </div>
-              <div className={"dp-photo " + d.img} style={bgImg(d.imageUrl)} />
+              <div className={"dp-photo " + d.img} style={bgImage(d.imageUrl)} />
             </div>
             <div>
               <div className="eyebrow" style={{ marginBottom: 18 }}>
@@ -221,7 +231,7 @@ export default async function DoctorDetailPage(props: {
               >
                 <div
                   className={"dp-other-img " + o.img}
-                  style={bgImg(o.imageUrl)}
+                  style={bgImage(o.imageUrl)}
                 />
                 <div>
                   <div className="dp-other-name">{o.name}</div>

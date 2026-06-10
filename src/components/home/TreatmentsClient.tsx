@@ -4,16 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar } from "@/components/icons";
 import BookButton from "@/components/BookButton";
+import { bgImage } from "@/lib/bgImage";
 import type { TreatmentCard } from "@/sanity/lib/fetchers";
-
-const bgImg = (url?: string): React.CSSProperties | undefined =>
-  url
-    ? {
-        backgroundImage: `url(${url})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : undefined;
 
 export default function TreatmentsClient({
   treatments,
@@ -64,7 +56,7 @@ export default function TreatmentsClient({
             >
               <div
                 className={"treatment-img " + t.img}
-                style={bgImg(t.imageUrl)}
+                style={bgImage(t.imageUrl)}
               >
                 {t.tag && <span className="treatment-img-tag">{t.tag}</span>}
                 <span className="treatment-img-label">
