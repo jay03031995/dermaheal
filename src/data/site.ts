@@ -1,3 +1,62 @@
+export type HeroStat = { value: string; superscript?: string; label: string };
+export type HeroBadge = { icon: "dot" | "award"; text: string };
+
+export const HERO = {
+  eyebrow: "Dermatology · Aesthetics · Trichology",
+  // HTML allowed — <em> for the italic highlights, <br/> for line breaks.
+  headline:
+    "Skin that knows the<br/>difference between <em>care</em><br/>and <em>cosmetics.</em>",
+  subhead:
+    "Dwarka's trusted MD-led dermatology practice, calibrated for Indian skin, grounded in clinical evidence, and built around the kind of unhurried care that produces real, lasting results.",
+  primaryCta: "Book a consultation",
+  secondaryCta: "Explore treatments",
+  stats: [
+    { value: "27", superscript: "+", label: "ADVANCED TREATMENTS" },
+    { value: "3", label: "MD DERMATOLOGISTS" },
+    { value: "14", superscript: "yrs", label: "CARING FOR INDIAN SKIN" },
+  ] as HeroStat[],
+  badges: [
+    { icon: "dot", text: "FDA-approved tech only" },
+    { icon: "award", text: "MD-Dermatologist led" },
+  ] as HeroBadge[],
+  imageMainLabel: "Treatment Suite, Dwarka",
+  imageSubLabel: "Consultation Room",
+};
+
+export type BookSlotCard = {
+  time: string;
+  doctor: string;
+  detail: string;
+  availability: string;
+  highlight?: boolean;
+};
+
+export const BOOK = {
+  eyebrow: "Book Appointment",
+  heading: "Talk to a dermatologist this week.",
+  body: "A one-on-one consultation with an MD dermatologist. A written plan, on the spot. Honest, unhurried, and built for your skin.",
+  ctaLabel: "Book Appointment",
+  meta: [
+    "Same-day slots",
+    "Confirmed on WhatsApp in 10 min",
+    "Mon to Sat 10 AM to 7:30 PM",
+  ],
+  cards: [
+    { time: "Today · 4:30 PM", doctor: "Dr. Navjot Singh Arora", detail: "Dwarka Clinic · Skin Consultation", availability: "2 slots left", highlight: false },
+    { time: "Tomorrow · 11:00 AM", doctor: "Dr. Jasmine Kohli", detail: "Dwarka Clinic · Aesthetics Review", availability: "Open", highlight: true },
+    { time: "Saturday · 2:00 PM", doctor: "Dr. Sonika Soni", detail: "Dwarka Clinic · Laser Plan", availability: "3 slots left", highlight: false },
+  ] as BookSlotCard[],
+};
+
+export const WHY = {
+  eyebrow: "The Dermaheal standard · EEAT",
+  heading: "Four pillars behind every treatment we perform.",
+  statValue: "97",
+  statSuperscript: "%",
+  statLabel: "Would refer a friend",
+  imageLabel: "Procedure Room, Dwarka Clinic",
+};
+
 export const EEAT = [
   { letter: "E", title: "Experience You Can See", desc: "Three MD-Dermatology specialists with a combined 29+ years of clinical experience treating Indian skin and hair." },
   { letter: "E", title: "Expertise That's Earned", desc: "Every procedure (injectables, lasers, hair restoration, surgery) is performed personally by an MD dermatologist." },

@@ -53,11 +53,17 @@ import {
   type Doctor,
 } from "@/data/doctors";
 import {
+  BOOK as LOCAL_BOOK,
   EEAT as LOCAL_EEAT,
   FAQS as LOCAL_FAQS,
+  HERO as LOCAL_HERO,
   RESULTS as LOCAL_RESULTS,
   TESTIMONIALS as LOCAL_TESTIMONIALS,
   TRUST_ITEMS as LOCAL_TRUST_ITEMS,
+  WHY as LOCAL_WHY,
+  type BookSlotCard,
+  type HeroBadge,
+  type HeroStat,
   type Result,
 } from "@/data/site";
 
@@ -475,6 +481,101 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
     titleTemplate: doc.titleTemplate,
     defaultMetaDescription: doc.defaultMetaDescription,
     defaultOgImageUrl: doc.defaultOgImage?.url,
+  };
+}
+
+// ----- Homepage hero & book section -----------------------------------------
+
+export type HeroData = {
+  eyebrow: string;
+  headline: string;
+  subhead: string;
+  primaryCta: string;
+  secondaryCta: string;
+  stats: HeroStat[];
+  badges: HeroBadge[];
+  imageMainLabel: string;
+  imageSubLabel: string;
+};
+
+export async function getHero(): Promise<HeroData> {
+  const doc = await safeFetch<{
+    heroEyebrow?: string;
+    heroHeadline?: string;
+    heroSubhead?: string;
+    heroPrimaryCta?: string;
+    heroSecondaryCta?: string;
+    heroStats?: HeroStat[];
+    heroBadges?: HeroBadge[];
+    heroImageMainLabel?: string;
+    heroImageSubLabel?: string;
+  } | null>(siteSettingsQuery);
+  return {
+    eyebrow: doc?.heroEyebrow || LOCAL_HERO.eyebrow,
+    headline: doc?.heroHeadline || LOCAL_HERO.headline,
+    subhead: doc?.heroSubhead || LOCAL_HERO.subhead,
+    primaryCta: doc?.heroPrimaryCta || LOCAL_HERO.primaryCta,
+    secondaryCta: doc?.heroSecondaryCta || LOCAL_HERO.secondaryCta,
+    stats: isFilled(doc?.heroStats) ? doc!.heroStats! : LOCAL_HERO.stats,
+    badges: isFilled(doc?.heroBadges) ? doc!.heroBadges! : LOCAL_HERO.badges,
+    imageMainLabel: doc?.heroImageMainLabel || LOCAL_HERO.imageMainLabel,
+    imageSubLabel: doc?.heroImageSubLabel || LOCAL_HERO.imageSubLabel,
+  };
+}
+
+export type WhyData = {
+  eyebrow: string;
+  heading: string;
+  statValue: string;
+  statSuperscript: string;
+  statLabel: string;
+  imageLabel: string;
+};
+
+export async function getWhySection(): Promise<WhyData> {
+  const doc = await safeFetch<{
+    whyEyebrow?: string;
+    whyHeading?: string;
+    whyStatValue?: string;
+    whyStatSuperscript?: string;
+    whyStatLabel?: string;
+    whyImageLabel?: string;
+  } | null>(siteSettingsQuery);
+  return {
+    eyebrow: doc?.whyEyebrow || LOCAL_WHY.eyebrow,
+    heading: doc?.whyHeading || LOCAL_WHY.heading,
+    statValue: doc?.whyStatValue || LOCAL_WHY.statValue,
+    statSuperscript: doc?.whyStatSuperscript || LOCAL_WHY.statSuperscript,
+    statLabel: doc?.whyStatLabel || LOCAL_WHY.statLabel,
+    imageLabel: doc?.whyImageLabel || LOCAL_WHY.imageLabel,
+  };
+}
+
+export type BookData = {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  ctaLabel: string;
+  meta: string[];
+  cards: BookSlotCard[];
+};
+
+export async function getBook(): Promise<BookData> {
+  const doc = await safeFetch<{
+    bookEyebrow?: string;
+    bookHeading?: string;
+    bookBody?: string;
+    bookCtaLabel?: string;
+    bookMeta?: string[];
+    bookCards?: BookSlotCard[];
+  } | null>(siteSettingsQuery);
+  return {
+    eyebrow: doc?.bookEyebrow || LOCAL_BOOK.eyebrow,
+    heading: doc?.bookHeading || LOCAL_BOOK.heading,
+    body: doc?.bookBody || LOCAL_BOOK.body,
+    ctaLabel: doc?.bookCtaLabel || LOCAL_BOOK.ctaLabel,
+    meta: isFilled(doc?.bookMeta) ? doc!.bookMeta! : LOCAL_BOOK.meta,
+    cards: isFilled(doc?.bookCards) ? doc!.bookCards! : LOCAL_BOOK.cards,
   };
 }
 

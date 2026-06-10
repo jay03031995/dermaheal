@@ -20,11 +20,14 @@ import {
 import { CONCERNS_FULL } from "@/data/concerns";
 import { DOCTORS } from "@/data/doctors";
 import {
+  BOOK,
   EEAT,
   FAQS,
+  HERO,
   RESULTS,
   TESTIMONIALS,
   TRUST_ITEMS,
+  WHY,
 } from "@/data/site";
 
 const slugify = (s: string) =>
@@ -277,11 +280,27 @@ async function main() {
     titleTemplate: "%s — Dermaheal Skin & Hair Clinic",
     defaultMetaDescription:
       "Dermaheal is Dwarka's MD-led skin and hair clinic. 27+ advanced treatments calibrated for Indian skin.",
-    heroEyebrow: "Dermatology · Aesthetics · Trichology",
-    heroHeadline:
-      "Skin that knows the<br/>difference between <em>care</em><br/>and <em>cosmetics.</em>",
-    heroSubhead:
-      "Dwarka's trusted MD-led dermatology practice, calibrated for Indian skin, grounded in clinical evidence, and built around the kind of unhurried care that produces real, lasting results.",
+    heroEyebrow: HERO.eyebrow,
+    heroHeadline: HERO.headline,
+    heroSubhead: HERO.subhead,
+    heroPrimaryCta: HERO.primaryCta,
+    heroSecondaryCta: HERO.secondaryCta,
+    heroStats: HERO.stats.map((s) => ({ _type: "statCred", ...s })),
+    heroBadges: HERO.badges.map((b) => ({ _type: "heroBadge", ...b })),
+    heroImageMainLabel: HERO.imageMainLabel,
+    heroImageSubLabel: HERO.imageSubLabel,
+    whyEyebrow: WHY.eyebrow,
+    whyHeading: WHY.heading,
+    whyStatValue: WHY.statValue,
+    whyStatSuperscript: WHY.statSuperscript,
+    whyStatLabel: WHY.statLabel,
+    whyImageLabel: WHY.imageLabel,
+    bookEyebrow: BOOK.eyebrow,
+    bookHeading: BOOK.heading,
+    bookBody: BOOK.body,
+    bookCtaLabel: BOOK.ctaLabel,
+    bookMeta: BOOK.meta,
+    bookCards: BOOK.cards.map((c) => ({ _type: "bookSlotCard", ...c })),
     footerColumns: [
       {
         _type: "footerColumn",

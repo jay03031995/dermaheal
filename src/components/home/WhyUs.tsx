@@ -1,7 +1,10 @@
-import { getEeatPillars } from "@/sanity/lib/fetchers";
+import { getEeatPillars, getWhySection } from "@/sanity/lib/fetchers";
 
 export default async function WhyUs() {
-  const pillars = await getEeatPillars();
+  const [pillars, why] = await Promise.all([
+    getEeatPillars(),
+    getWhySection(),
+  ]);
 
   return (
     <section className="section why">
@@ -9,23 +12,22 @@ export default async function WhyUs() {
         <div className="why-grid">
           <div className="why-visual reveal">
             <div className="why-img main">
-              <div className="why-tag">Procedure Room, Dwarka Clinic</div>
+              <div className="why-tag">{why.imageLabel}</div>
             </div>
             <div className="why-img sub" />
             <div className="why-stat">
               <div className="why-stat-num">
-                97<sup>%</sup>
+                {why.statValue}
+                {why.statSuperscript ? <sup>{why.statSuperscript}</sup> : null}
               </div>
-              <div className="why-stat-label">Would refer a friend</div>
+              <div className="why-stat-label">{why.statLabel}</div>
             </div>
           </div>
           <div className="reveal">
             <div className="eyebrow" style={{ marginBottom: 16 }}>
-              The Dermaheal standard · EEAT
+              {why.eyebrow}
             </div>
-            <h2 style={{ marginBottom: 38 }}>
-              Four pillars behind every treatment we perform.
-            </h2>
+            <h2 style={{ marginBottom: 38 }}>{why.heading}</h2>
             <div className="eeat-list">
               {pillars.map((e, i) => (
                 <div className="eeat-card" key={i}>

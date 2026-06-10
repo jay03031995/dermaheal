@@ -164,6 +164,53 @@ export const doctorTreatmentObject = defineType({
   },
 });
 
+export const heroBadgeObject = defineType({
+  name: "heroBadge",
+  title: "Hero badge",
+  type: "object",
+  fields: [
+    defineField({
+      name: "icon",
+      title: "Icon",
+      type: "string",
+      options: {
+        list: [
+          { title: "Pulsing dot", value: "dot" },
+          { title: "Award", value: "award" },
+        ],
+      },
+      initialValue: "dot",
+    }),
+    defineField({ name: "text", title: "Text", type: "string", validation: (r) => r.required() }),
+  ],
+  preview: {
+    select: { icon: "icon", title: "text" },
+    prepare: ({ icon, title }) => ({ title, subtitle: icon }),
+  },
+});
+
+export const bookSlotCardObject = defineType({
+  name: "bookSlotCard",
+  title: "Booking slot card",
+  type: "object",
+  fields: [
+    defineField({ name: "time", title: "Time label", type: "string", validation: (r) => r.required(), description: "e.g. Today · 4:30 PM" }),
+    defineField({ name: "doctor", title: "Doctor name", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "detail", title: "Detail line", type: "string", description: "e.g. Dwarka Clinic · Skin Consultation" }),
+    defineField({ name: "availability", title: "Availability pill text", type: "string", description: "e.g. 2 slots left, Open" }),
+    defineField({
+      name: "highlight",
+      title: "Highlight availability pill",
+      type: "boolean",
+      initialValue: false,
+      description: "Use the cocoa accent style on the availability pill.",
+    }),
+  ],
+  preview: {
+    select: { title: "doctor", subtitle: "time" },
+  },
+});
+
 export const footerLinkObject = defineType({
   name: "footerLink",
   title: "Footer link",
