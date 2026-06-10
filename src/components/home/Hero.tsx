@@ -3,6 +3,15 @@ import BookButton from "@/components/BookButton";
 import { Award } from "@/components/icons";
 import { getHero } from "@/sanity/lib/fetchers";
 
+const bgImg = (url?: string): React.CSSProperties | undefined =>
+  url
+    ? {
+        backgroundImage: `url(${url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
+
 export default async function Hero() {
   const hero = await getHero();
 
@@ -49,10 +58,16 @@ export default async function Hero() {
                 {b.text}
               </div>
             ))}
-            <div className="hero-img hero-img-main">
+            <div
+              className="hero-img hero-img-main"
+              style={bgImg(hero.imageMainUrl)}
+            >
               <div className="hero-img-label">{hero.imageMainLabel}</div>
             </div>
-            <div className="hero-img hero-img-sub">
+            <div
+              className="hero-img hero-img-sub"
+              style={bgImg(hero.imageSubUrl)}
+            >
               <div className="hero-img-label">{hero.imageSubLabel}</div>
             </div>
           </div>

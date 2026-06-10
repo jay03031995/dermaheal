@@ -39,11 +39,7 @@ export default async function DoctorsSection() {
               className="doctor-card reveal"
               href={`/doctors/${d.slug}`}
             >
-              <div className={"doctor-img " + d.img} style={bgImg(d.imageUrl)}>
-                <span className="doctor-img-tag">
-                  {d.name.split(" ").slice(-1)[0].toLowerCase()} portrait
-                </span>
-              </div>
+              <div className={"doctor-img " + d.img} style={bgImg(d.imageUrl)} />
               <div className="doctor-body">
                 <div className="doctor-name">{d.name}</div>
                 <div className="doctor-title">{d.title}</div>
