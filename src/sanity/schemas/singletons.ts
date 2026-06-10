@@ -101,7 +101,9 @@ export const siteSettingsSchema = defineType({
       group: "homepage",
       validation: (r) => r.max(2),
     }),
+    defineField({ name: "heroImageMain", title: "Hero main image", type: "image", options: { hotspot: true }, group: "homepage" }),
     defineField({ name: "heroImageMainLabel", title: "Hero main image label", type: "string", group: "homepage" }),
+    defineField({ name: "heroImageSub", title: "Hero secondary image", type: "image", options: { hotspot: true }, group: "homepage" }),
     defineField({ name: "heroImageSubLabel", title: "Hero secondary image label", type: "string", group: "homepage" }),
     // ----- Why us / EEAT section -----
     defineField({ name: "whyEyebrow", title: "Eyebrow", type: "string", group: "why" }),
@@ -109,7 +111,9 @@ export const siteSettingsSchema = defineType({
     defineField({ name: "whyStatValue", title: "Stat value", type: "string", group: "why", description: "e.g. 97" }),
     defineField({ name: "whyStatSuperscript", title: "Stat superscript", type: "string", group: "why", description: "e.g. %" }),
     defineField({ name: "whyStatLabel", title: "Stat label", type: "string", group: "why", description: "e.g. Would refer a friend" }),
+    defineField({ name: "whyImageMain", title: "Main image", type: "image", options: { hotspot: true }, group: "why" }),
     defineField({ name: "whyImageLabel", title: "Image label", type: "string", group: "why", description: "e.g. Procedure Room, Dwarka Clinic" }),
+    defineField({ name: "whyImageSub", title: "Secondary image", type: "image", options: { hotspot: true }, group: "why" }),
     // ----- Book section -----
     defineField({ name: "bookEyebrow", title: "Eyebrow", type: "string", group: "book" }),
     defineField({ name: "bookHeading", title: "Heading", type: "string", group: "book" }),

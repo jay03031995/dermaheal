@@ -75,7 +75,7 @@ export const treatmentSchema = defineType({
       type: "image",
       options: { hotspot: true },
       group: "detail",
-      description: "Optional — replaces the gradient on the treatment detail page.",
+      description: "Shown on the treatment detail page. If left empty, the card image below is used here too — so a single upload covers both.",
     }),
     defineField({
       name: "thumbnail",
@@ -83,7 +83,7 @@ export const treatmentSchema = defineType({
       type: "image",
       options: { hotspot: true },
       group: "card",
-      description: "Optional — replaces the gradient on the homepage treatment card and listing row.",
+      description: "Shown on the homepage treatment card and listing row. If left empty, the hero image above is used here too.",
     }),
     defineField({
       name: "tag",

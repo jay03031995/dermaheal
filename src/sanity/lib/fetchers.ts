@@ -105,6 +105,7 @@ type SanityTreatmentCard = {
   category?: { key: string; title?: string };
   imageVariant?: string;
   thumbnail?: { url?: string };
+  heroImage?: { url?: string };
   shortDescription?: string;
   duration?: string;
   tag?: string;
@@ -120,7 +121,8 @@ function mapTreatmentCard(d: SanityTreatmentCard, fallbackId: string): Treatment
     img: d.imageVariant ?? "v1",
     tag: d.tag,
     slug: d.slug,
-    imageUrl: d.thumbnail?.url,
+    // Either uploaded image works as the card cover.
+    imageUrl: d.thumbnail?.url ?? d.heroImage?.url,
   };
 }
 
@@ -148,7 +150,6 @@ type SanityTreatmentDetail = SanityTreatmentCard & {
   process?: { title: string; description: string }[];
   benefits?: { icon: string; title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
-  heroImage?: { url?: string };
 };
 
 export type TreatmentDetailFetched = TreatmentDetail & { imageUrl?: string };
@@ -175,7 +176,8 @@ export async function getTreatmentDetailFetched(
       process: (doc.process ?? []).map((s) => ({ t: s.title, d: s.description })),
       benefits: (doc.benefits ?? []).map((b) => ({ i: b.icon, t: b.title, d: b.description })),
       faqs: (doc.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
-      imageUrl: doc.heroImage?.url,
+      // Detail hero falls back to the card thumbnail so one upload is enough.
+      imageUrl: doc.heroImage?.url ?? doc.thumbnail?.url,
     };
   }
   const local = LOCAL_TREATMENTS_FULL[slug];
@@ -496,6 +498,8 @@ export type HeroData = {
   badges: HeroBadge[];
   imageMainLabel: string;
   imageSubLabel: string;
+  imageMainUrl?: string;
+  imageSubUrl?: string;
 };
 
 export async function getHero(): Promise<HeroData> {
@@ -509,6 +513,8 @@ export async function getHero(): Promise<HeroData> {
     heroBadges?: HeroBadge[];
     heroImageMainLabel?: string;
     heroImageSubLabel?: string;
+    heroImageMainUrl?: string;
+    heroImageSubUrl?: string;
   } | null>(siteSettingsQuery);
   return {
     eyebrow: doc?.heroEyebrow || LOCAL_HERO.eyebrow,
@@ -520,6 +526,8 @@ export async function getHero(): Promise<HeroData> {
     badges: isFilled(doc?.heroBadges) ? doc!.heroBadges! : LOCAL_HERO.badges,
     imageMainLabel: doc?.heroImageMainLabel || LOCAL_HERO.imageMainLabel,
     imageSubLabel: doc?.heroImageSubLabel || LOCAL_HERO.imageSubLabel,
+    imageMainUrl: doc?.heroImageMainUrl,
+    imageSubUrl: doc?.heroImageSubUrl,
   };
 }
 
@@ -530,6 +538,8 @@ export type WhyData = {
   statSuperscript: string;
   statLabel: string;
   imageLabel: string;
+  imageMainUrl?: string;
+  imageSubUrl?: string;
 };
 
 export async function getWhySection(): Promise<WhyData> {
@@ -540,6 +550,8 @@ export async function getWhySection(): Promise<WhyData> {
     whyStatSuperscript?: string;
     whyStatLabel?: string;
     whyImageLabel?: string;
+    whyImageMainUrl?: string;
+    whyImageSubUrl?: string;
   } | null>(siteSettingsQuery);
   return {
     eyebrow: doc?.whyEyebrow || LOCAL_WHY.eyebrow,
@@ -548,6 +560,8 @@ export async function getWhySection(): Promise<WhyData> {
     statSuperscript: doc?.whyStatSuperscript || LOCAL_WHY.statSuperscript,
     statLabel: doc?.whyStatLabel || LOCAL_WHY.statLabel,
     imageLabel: doc?.whyImageLabel || LOCAL_WHY.imageLabel,
+    imageMainUrl: doc?.whyImageMainUrl,
+    imageSubUrl: doc?.whyImageSubUrl,
   };
 }
 

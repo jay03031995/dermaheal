@@ -22,7 +22,11 @@ export const siteSettingsQuery = /* groq */ `
     heroStats[]{value, superscript, label},
     heroBadges[]{icon, text},
     heroImageMainLabel, heroImageSubLabel,
+    "heroImageMainUrl": heroImageMain.asset->url,
+    "heroImageSubUrl": heroImageSub.asset->url,
     whyEyebrow, whyHeading, whyStatValue, whyStatSuperscript, whyStatLabel, whyImageLabel,
+    "whyImageMainUrl": whyImageMain.asset->url,
+    "whyImageSubUrl": whyImageSub.asset->url,
     bookEyebrow, bookHeading, bookBody, bookCtaLabel,
     bookMeta,
     bookCards[]{time, doctor, detail, availability, highlight}
@@ -46,6 +50,7 @@ const treatmentCardProjection = /* groq */ `
   "category": category->{key, title},
   imageVariant,
   "thumbnail": thumbnail.asset->{_id, url},
+  "heroImage": heroImage.asset->{_id, url},
   shortDescription,
   duration,
   tag
@@ -70,7 +75,6 @@ export const treatmentBySlugQuery = /* groq */ `
     process[]{title, description},
     benefits[]{icon, title, description},
     faqs[]{question, answer},
-    "heroImage": heroImage.asset->{_id, url},
     ${seoProjection}
   }
 `;
