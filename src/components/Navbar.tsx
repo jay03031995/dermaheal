@@ -6,11 +6,32 @@ import { CLINIC } from "@/data/clinic";
 import { TREATMENTS, TREATMENT_CATS } from "@/data/treatments";
 import { DOCTORS } from "@/data/doctors";
 import { CONCERNS } from "@/data/concerns";
-import { ArrowRight, Phone } from "@/components/icons";
+import {
+  ArrowRight,
+  Phone,
+  InstagramIcon,
+  YoutubeIcon,
+  LinkedinIcon,
+} from "@/components/icons";
 import BookButton from "@/components/BookButton";
+
+const NAV_SOCIALS = [
+  { href: CLINIC.social.instagram, label: "Instagram", Icon: InstagramIcon },
+  { href: CLINIC.social.youtube, label: "YouTube", Icon: YoutubeIcon },
+  { href: CLINIC.social.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+];
+
+const MOBILE_LINKS = [
+  { href: "/treatments", label: "Treatments" },
+  { href: "/concerns", label: "Concerns" },
+  { href: "/doctors", label: "Doctors" },
+  { href: "/results", label: "Results" },
+  { href: "/#contact", label: "Contact" },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -118,11 +139,68 @@ export default function Navbar() {
         </div>
 
         <div className="nav-cta">
+          <div className="nav-social">
+            {NAV_SOCIALS.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
           <span className="nav-phone">
             <Phone /> {CLINIC.phone}
           </span>
           <BookButton>Book Consultation</BookButton>
+          <button
+            type="button"
+            className={"nav-burger" + (menuOpen ? " open" : "")}
+            aria-label="Menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
+      </div>
+
+      <div className={"nav-mobile" + (menuOpen ? " open" : "")}>
+        {MOBILE_LINKS.map(({ href, label }) => (
+          <Link
+            key={href}
+            className="nav-mobile-link"
+            href={href}
+            onClick={() => setMenuOpen(false)}
+          >
+            {label}
+            <ArrowRight size={14} />
+          </Link>
+        ))}
+        <a className="nav-mobile-phone" href={`tel:${CLINIC.phone.replace(/\s/g, "")}`}>
+          <Phone /> {CLINIC.phone}
+        </a>
+        <div className="nav-mobile-social">
+          {NAV_SOCIALS.map(({ href, label, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+            >
+              <Icon />
+            </a>
+          ))}
+        </div>
+        <BookButton className="btn btn-primary nav-mobile-book">
+          Book Consultation
+        </BookButton>
       </div>
     </nav>
   );
