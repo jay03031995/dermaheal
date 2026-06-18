@@ -2043,11 +2043,98 @@ p { margin: 0; color: var(--muted); }
   aspect-ratio: 4/3;
   overflow: hidden;
   background: var(--sand);
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  cursor: zoom-in;
+  font: inherit;
+  color: inherit;
 }
 .tp-ba-frame img {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
+  transition: transform .4s ease;
+}
+.tp-ba-frame:hover img { transform: scale(1.04); }
+.tp-ba-zoom {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  background: rgba(28, 20, 15, 0.78);
+  color: var(--cream);
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+.tp-ba-frame:hover .tp-ba-zoom,
+.tp-ba-frame:focus-visible .tp-ba-zoom { opacity: 1; }
+
+/* Before/after lightbox viewer */
+.ba-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(28, 20, 15, 0.92);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  animation: baFade .2s ease;
+}
+@keyframes baFade { from { opacity: 0; } to { opacity: 1; } }
+.ba-lightbox-fig {
+  margin: 0;
+  max-width: min(1000px, 94vw);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ba-lightbox-fig img {
+  max-width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+.ba-lightbox-fig figcaption { text-align: center; }
+.ba-lightbox-title { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+.ba-lightbox-detail { font-size: 13px; color: rgba(255, 255, 255, 0.72); }
+.ba-lightbox-close,
+.ba-lightbox-nav {
+  position: fixed;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  transition: background .2s;
+}
+.ba-lightbox-close:hover,
+.ba-lightbox-nav:hover { background: rgba(255, 255, 255, 0.26); }
+.ba-lightbox-close { top: 18px; right: 20px; width: 44px; height: 44px; font-size: 26px; }
+.ba-lightbox-nav { top: 50%; transform: translateY(-50%); width: 50px; height: 50px; font-size: 30px; }
+.ba-lightbox-nav.prev { left: 18px; }
+.ba-lightbox-nav.next { right: 18px; }
+@media (max-width: 640px) {
+  .ba-lightbox { padding: 16px; }
+  .ba-lightbox-nav { width: 40px; height: 40px; font-size: 24px; }
+  .ba-lightbox-nav.prev { left: 8px; }
+  .ba-lightbox-nav.next { right: 8px; }
+  .ba-lightbox-fig img { max-height: 70vh; }
 }
 .tp-ba-pill-row {
   position: absolute; top: 12px; left: 12px; right: 12px;
