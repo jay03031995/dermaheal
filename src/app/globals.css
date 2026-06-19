@@ -1392,6 +1392,7 @@ p { margin: 0; color: var(--muted); }
 .tslider-btn.next { right: -12px; }
 
 .testimonial {
+  position: relative;
   background: rgba(255, 253, 248, .55);
   border: 1px solid rgba(255, 255, 255, .75);
   -webkit-backdrop-filter: blur(12px) saturate(120%);
@@ -1402,6 +1403,15 @@ p { margin: 0; color: var(--muted); }
   flex-direction: column;
   box-shadow: 0 12px 34px -18px rgba(66, 34, 23, .3);
 }
+.testimonial-google {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: inline-flex;
+  opacity: .9;
+  transition: opacity .2s, transform .2s;
+}
+.testimonial-google:hover { opacity: 1; transform: scale(1.08); }
 .testimonial-stars { color: var(--sage); font-size: 14px; letter-spacing: 2px; margin-bottom: 16px; }
 .testimonial-quote {
   font-family: var(--font-cormorant), serif;

@@ -9,6 +9,7 @@ export const CLINIC = {
   hours: "Mon to Sat 10:00 AM to 7:30 PM · Sun 10:00 AM to 7:00 PM",
   cities: ["Dwarka", "New Delhi"],
   shopUrl: "https://dermaheal.co.in/shop",
+  reviewsUrl: "https://share.google/dc4lU10Jdo97k42ij",
   social: {
     instagram: "https://instagram.com/dermaheal_skin",
     youtube: "https://youtube.com/@dermaheal",
