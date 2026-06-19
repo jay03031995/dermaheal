@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef } from "react";
+import { CLINIC } from "@/data/clinic";
+import GoogleLogo from "@/components/GoogleLogo";
 
 type Item = { q: string; name: string; detail: string };
 
@@ -34,6 +36,15 @@ export default function TestimonialsSlider({ items }: { items: Item[] }) {
       <div className="tslider-track" ref={trackRef}>
         {items.map((t, i) => (
           <div className="testimonial reveal" key={i}>
+            <a
+              className="testimonial-google"
+              href={CLINIC.reviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="View this review on Google"
+            >
+              <GoogleLogo size={20} />
+            </a>
             <div className="testimonial-stars">★ ★ ★ ★ ★</div>
             <div className="testimonial-quote">{t.q}</div>
             <div className="testimonial-meta">
