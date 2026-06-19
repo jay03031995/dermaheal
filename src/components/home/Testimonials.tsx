@@ -1,4 +1,7 @@
 import { getTestimonials } from "@/sanity/lib/fetchers";
+import { ArrowRight } from "@/components/icons";
+
+const REVIEWS_URL = "https://share.google/dc4lU10Jdo97k42ij";
 
 const initials = (name: string) =>
   name
@@ -36,6 +39,19 @@ export default async function Testimonials() {
               </div>
             </div>
           ))}
+        </div>
+        <div style={{ textAlign: "center", marginTop: 44 }}>
+          <a
+            className="btn btn-ghost"
+            href={REVIEWS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read all reviews on Google
+            <span className="arrow">
+              <ArrowRight />
+            </span>
+          </a>
         </div>
       </div>
     </section>
