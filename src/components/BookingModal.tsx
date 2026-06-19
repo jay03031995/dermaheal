@@ -49,6 +49,7 @@ export default function BookingModal() {
   );
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [emailSent, setEmailSent] = useState(false);
 
   // Reset form when the modal closes — adjusted during render per React docs.
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
@@ -60,6 +61,7 @@ export default function BookingModal() {
       setData(EMPTY);
       setSubmitError(null);
       setSubmitting(false);
+      setEmailSent(false);
     }
   }
 
@@ -114,6 +116,7 @@ export default function BookingModal() {
       const payload = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         message?: string;
+        emailSent?: boolean;
       };
       if (!res.ok || !payload.ok) {
         throw new Error(
@@ -121,6 +124,7 @@ export default function BookingModal() {
             `Booking failed (${res.status}). Please call the clinic.`,
         );
       }
+      setEmailSent(Boolean(payload.emailSent));
       setStep(3);
     } catch (err) {
       setSubmitError(
@@ -480,8 +484,10 @@ export default function BookingModal() {
                 {data.name.split(" ")[0] || "friend"}.
               </h4>
               <p>
-                We&apos;ve sent a confirmation to {data.email}. Our care team will
-                WhatsApp you within 10 minutes.
+                {emailSent
+                  ? `We've sent a confirmation to ${data.email}. `
+                  : ""}
+                Our care team will WhatsApp you within 10 minutes.
               </p>
               <div className="summary-box">
                 <div className="summary-row">

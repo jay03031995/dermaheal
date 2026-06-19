@@ -131,6 +131,58 @@ p { margin: 0; color: var(--muted); }
 }
 .btn-sage:hover { background: #6a7c4d; }
 
+.btn-light {
+  background: var(--sand);
+  color: var(--cocoa);
+}
+.btn-light:hover { background: var(--cream); transform: translateY(-1px); box-shadow: 0 12px 30px -12px rgba(0, 0, 0, .4); }
+
+/* ---------- Shop promo CTA band ---------- */
+.shop-cta { padding: 30px 0; }
+.shop-cta-inner {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 46px 50px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(118deg, var(--cocoa) 0%, var(--espresso) 70%, #6a4630 100%);
+  box-shadow: var(--shadow-lg);
+}
+.shop-cta-inner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, rgba(217, 190, 152, .05) 0 14px, transparent 14px 28px);
+  pointer-events: none;
+}
+.shop-cta-copy { position: relative; z-index: 1; max-width: 640px; }
+.shop-cta-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sand);
+}
+.shop-cta-eyebrow svg { width: 15px; height: 15px; }
+.shop-cta-copy h2 { color: var(--cream); margin-bottom: 12px; }
+.shop-cta-copy h2 em {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  color: var(--sand);
+}
+.shop-cta-copy p { color: rgba(251, 246, 238, .78); font-size: 15px; max-width: 560px; }
+.shop-cta-btn { position: relative; z-index: 1; flex-shrink: 0; }
+@media (max-width: 860px) {
+  .shop-cta-inner { flex-direction: column; align-items: flex-start; gap: 24px; padding: 34px 26px; }
+  .shop-cta-btn { width: 100%; justify-content: center; }
+}
+
 .btn-text {
   color: var(--cocoa);
   font-weight: 500;
@@ -218,7 +270,9 @@ p { margin: 0; color: var(--muted); }
   align-items: center;
   gap: 8px;
   white-space: nowrap;
+  transition: color .2s;
 }
+.nav-phone:hover { color: var(--cocoa); }
 .nav-social {
   display: flex;
   align-items: center;
