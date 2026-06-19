@@ -5,6 +5,7 @@ import Treatments from "@/components/home/Treatments";
 import WhyUs from "@/components/home/WhyUs";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import Results from "@/components/home/Results";
+import ShopCta from "@/components/home/ShopCta";
 import Testimonials from "@/components/home/Testimonials";
 import Faq from "@/components/home/Faq";
 import SimpleBook from "@/components/home/SimpleBook";
@@ -20,6 +21,7 @@ export default function Home() {
       <WhyUs />
       <DoctorsSection />
       <Results />
+      <ShopCta />
       <Testimonials />
       <Faq />
       <SimpleBook />

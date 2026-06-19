@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { CLINIC } from "@/data/clinic";
+import { CLINIC, telHref } from "@/data/clinic";
 import { TREATMENTS, TREATMENT_CATS } from "@/data/treatments";
 import { DOCTORS } from "@/data/doctors";
 import { CONCERNS } from "@/data/concerns";
@@ -152,9 +152,9 @@ export default function Navbar() {
               </a>
             ))}
           </div>
-          <span className="nav-phone">
+          <a className="nav-phone" href={telHref()} aria-label={`Call ${CLINIC.phone}`}>
             <Phone /> {CLINIC.phone}
-          </span>
+          </a>
           <BookButton>Book Consultation</BookButton>
           <button
             type="button"

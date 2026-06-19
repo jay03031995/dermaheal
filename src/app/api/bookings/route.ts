@@ -9,6 +9,7 @@
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { writeClient } from "@/sanity/lib/client";
+import { sendBookingConfirmation } from "@/lib/email";
 
 // Don't try to statically prerender a POST route.
 export const dynamic = "force-dynamic";
@@ -68,7 +69,22 @@ export async function POST(req: NextRequest) {
       source: body.source || "website-booking-modal",
     });
 
-    return NextResponse.json({ ok: true, id: doc._id });
+    // Best-effort confirmation email to the patient (copy to the clinic).
+    // A mailer failure must not fail the booking — it's already saved.
+    const emailResult = await sendBookingConfirmation({
+      name,
+      email,
+      phone,
+      concern: body.concern,
+      city: body.city,
+      date: body.date,
+      time: body.time,
+    });
+    if (!emailResult.sent) {
+      console.warn("[/api/bookings] confirmation email not sent:", emailResult.reason);
+    }
+
+    return NextResponse.json({ ok: true, id: doc._id, emailSent: emailResult.sent });
   } catch (err) {
     const message =
       err instanceof Error
