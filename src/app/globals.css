@@ -1319,19 +1319,88 @@ p { margin: 0; color: var(--muted); }
 }
 
 /* ---------- Testimonials ---------- */
-.testimonials { background: var(--paper); }
-.testimonials-track {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+.testimonials {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 85% 0%, rgba(217, 190, 152, .30), transparent 55%),
+    radial-gradient(110% 80% at 0% 100%, rgba(121, 139, 91, .16), transparent 52%),
+    var(--cream-2);
 }
-.testimonial {
-  background: var(--cream);
+.testimonials-google {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px 9px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .55);
+  border: 1px solid rgba(255, 255, 255, .7);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s, box-shadow .2s;
+}
+.testimonials-google:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.testimonials-google span { display: flex; flex-direction: column; line-height: 1.15; }
+.testimonials-google strong { font-size: 13px; font-weight: 600; color: var(--cocoa); }
+.testimonials-google small { font-size: 11px; color: var(--muted); }
+
+/* Testimonial slider */
+.tslider { position: relative; }
+.tslider-track {
+  display: flex;
+  gap: 22px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 6px 4px 14px;
+  margin: -6px -4px 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tslider-track::-webkit-scrollbar { display: none; }
+.tslider-track .testimonial {
+  flex: 0 0 calc((100% - 44px) / 3);
+  scroll-snap-align: start;
+}
+.tslider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px; height: 44px;
+  border-radius: 50%;
   border: 1px solid var(--line);
+  background: rgba(255, 255, 255, .82);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--cocoa);
+  font-size: 24px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  z-index: 4;
+  transition: background .2s, color .2s;
+}
+.tslider-btn:hover { background: var(--cocoa); color: var(--cream); }
+.tslider-btn.prev { left: -12px; }
+.tslider-btn.next { right: -12px; }
+
+.testimonial {
+  background: rgba(255, 253, 248, .55);
+  border: 1px solid rgba(255, 255, 255, .75);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(120%);
   border-radius: var(--radius-lg);
   padding: 30px 30px 28px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 12px 34px -18px rgba(66, 34, 23, .3);
 }
 .testimonial-stars { color: var(--sage); font-size: 14px; letter-spacing: 2px; margin-bottom: 16px; }
 .testimonial-quote {
@@ -2595,7 +2664,8 @@ p { margin: 0; color: var(--muted); }
   .hero-visual, .why-visual { height: 460px; }
   .simple-book-visual { height: 320px; }
   .concerns-grid { grid-template-columns: repeat(3, 1fr); }
-  .treatments-grid, .doctors-grid, .testimonials-track, .insights-grid { grid-template-columns: 1fr 1fr; }
+  .treatments-grid, .doctors-grid, .insights-grid { grid-template-columns: 1fr 1fr; }
+  .tslider-track .testimonial { flex-basis: calc((100% - 22px) / 2); }
   .treatments-grid.compact { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
@@ -2629,7 +2699,11 @@ p { margin: 0; color: var(--muted); }
 @media (max-width: 640px) {
   .section { padding: 70px 0; }
   .concerns-grid { grid-template-columns: repeat(2, 1fr); }
-  .treatments-grid, .doctors-grid, .testimonials-track, .insights-grid { grid-template-columns: 1fr; }
+  .treatments-grid, .doctors-grid, .insights-grid { grid-template-columns: 1fr; }
+  .tslider-track .testimonial { flex-basis: 86%; }
+  .tslider-btn { display: none; }
+  .testimonials-google { top: 14px; right: 14px; padding: 7px 10px; }
+  .testimonials-google span { display: none; }
   .treatments-grid.compact { grid-template-columns: 1fr 1fr; gap: 12px; }
   .treatment-card.compact .treatment-body { padding: 14px; }
   .nav-phone { display: none; }
