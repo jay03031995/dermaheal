@@ -93,7 +93,8 @@ const concernProjection = /* groq */ `
   "slug": slug.current,
   icon,
   cardTagline,
-  imageVariant
+  imageVariant,
+  "cardImageUrl": cardImage.asset->url
 `;
 
 export const concernsQuery = /* groq */ `

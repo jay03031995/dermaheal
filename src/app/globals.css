@@ -555,6 +555,16 @@ p { margin: 0; color: var(--muted); }
   transition: all .3s var(--ease);
 }
 .concern:hover .concern-icon { background: rgba(217, 190, 152, .15); }
+.concern-img {
+  flex: 1;
+  width: 100%;
+  min-height: 78px;
+  border-radius: 10px;
+  background-color: var(--sand);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 12px;
+}
 .concern-name {
   font-size: 15px;
   font-weight: 500;

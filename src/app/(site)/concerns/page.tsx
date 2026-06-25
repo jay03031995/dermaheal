@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getConcerns } from "@/sanity/lib/fetchers";
 import { ArrowRight } from "@/components/icons";
+import { bgImage } from "@/lib/bgImage";
 
 export const metadata: Metadata = {
   title: "Skin & Hair Concerns — Treatments at Dermaheal Dwarka",
@@ -37,11 +38,15 @@ export default async function ConcernsPage() {
             {concerns.map((c) => (
               <Link
                 key={c.id}
-                className="concern"
+                className={"concern" + (c.imageUrl ? " has-img" : "")}
                 href={`/concerns/${c.slug}`}
                 style={{ aspectRatio: "1 / 1.05" }}
               >
-                <div className="concern-icon">{c.icon}</div>
+                {c.imageUrl ? (
+                  <div className="concern-img" style={bgImage(c.imageUrl)} />
+                ) : (
+                  <div className="concern-icon">{c.icon}</div>
+                )}
                 <div>
                   <div className="concern-name">{c.name}</div>
                   <div className="concern-count">{c.count}</div>
