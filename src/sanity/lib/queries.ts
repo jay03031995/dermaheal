@@ -94,7 +94,7 @@ const concernProjection = /* groq */ `
   icon,
   cardTagline,
   imageVariant,
-  "cardImageUrl": cardImage.asset->url
+  "cardImageUrl": coalesce(cardImage.asset->url, image.asset->url)
 `;
 
 export const concernsQuery = /* groq */ `
