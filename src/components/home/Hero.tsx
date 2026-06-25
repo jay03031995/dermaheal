@@ -54,15 +54,11 @@ export default async function Hero() {
             <div
               className="hero-img hero-img-main"
               style={bgImage(hero.imageMainUrl)}
-            >
-              <div className="hero-img-label">{hero.imageMainLabel}</div>
-            </div>
+            />
             <div
               className="hero-img hero-img-sub"
               style={bgImage(hero.imageSubUrl)}
-            >
-              <div className="hero-img-label">{hero.imageSubLabel}</div>
-            </div>
+            />
           </div>
         </div>
       </div>
