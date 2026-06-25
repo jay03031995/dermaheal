@@ -4,6 +4,7 @@ export type ConcernSummary = {
   name: string;
   count: string;
   icon: string;
+  imageUrl?: string;
 };
 
 export type ConcernDetail = ConcernSummary & {

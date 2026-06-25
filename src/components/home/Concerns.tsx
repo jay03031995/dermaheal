@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getConcerns } from "@/sanity/lib/fetchers";
+import { bgImage } from "@/lib/bgImage";
 
 export default async function Concerns() {
   const concerns = await getConcerns();
@@ -21,10 +22,14 @@ export default async function Concerns() {
           {concerns.map((c) => (
             <Link
               key={c.id}
-              className="concern reveal"
+              className={"concern reveal" + (c.imageUrl ? " has-img" : "")}
               href={`/concerns/${c.slug}`}
             >
-              <div className="concern-icon">{c.icon}</div>
+              {c.imageUrl ? (
+                <div className="concern-img" style={bgImage(c.imageUrl)} />
+              ) : (
+                <div className="concern-icon">{c.icon}</div>
+              )}
               <div>
                 <div className="concern-name">{c.name}</div>
                 <div className="concern-count">{c.count}</div>

@@ -207,6 +207,7 @@ type SanityConcernCard = {
   icon?: string;
   cardTagline?: string;
   imageVariant?: string;
+  cardImageUrl?: string;
 };
 
 type SanityConcernDetail = SanityConcernCard & {
@@ -236,6 +237,7 @@ export async function getConcerns(): Promise<ConcernDetail[]> {
     name: d.name,
     icon: d.icon ?? "◍",
     count: d.cardTagline ?? "",
+    imageUrl: d.cardImageUrl,
     headline: "",
     summary: "",
     symptoms: [],

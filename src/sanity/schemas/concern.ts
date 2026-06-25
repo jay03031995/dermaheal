@@ -36,6 +36,14 @@ export const concernSchema = defineType({
       description: "Short line shown under the name on concern cards.",
     }),
     defineField({
+      name: "cardImage",
+      title: "Card image",
+      type: "image",
+      options: { hotspot: true },
+      group: "main",
+      description: "Optional — shown on the concern card. When set, it replaces the icon glyph.",
+    }),
+    defineField({
       name: "image",
       title: "Detail page image",
       type: "image",
