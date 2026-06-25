@@ -17,11 +17,11 @@ export default function Home() {
       <Hero />
       <TrustStrip />
       <Concerns />
+      <ShopCta />
       <Treatments />
       <WhyUs />
       <DoctorsSection />
       <Results />
-      <ShopCta />
       <Testimonials />
       <Faq />
       <SimpleBook />
