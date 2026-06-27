@@ -29,7 +29,7 @@ export const clinicSettingsSchema = defineType({
     defineField({ name: "shopUrl", title: "Shop URL", type: "url", group: "social" }),
     defineField({ name: "instagramUrl", title: "Instagram URL", type: "url", group: "social" }),
     defineField({ name: "youtubeUrl", title: "YouTube URL", type: "url", group: "social" }),
-    defineField({ name: "linkedinUrl", title: "LinkedIn URL", type: "url", group: "social" }),
+    defineField({ name: "facebookUrl", title: "Facebook URL", type: "url", group: "social" }),
   ],
   preview: { prepare: () => ({ title: "Clinic settings" }) },
 });

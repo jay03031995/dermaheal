@@ -133,6 +133,12 @@ export const LinkedinIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+export const FacebookIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+    <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z" />
+  </svg>
+);
+
 export const WhatsappFilled = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
     <path d="M19.1 4.9A10 10 0 0 0 4.4 18.2L3 22l3.9-1.4a10 10 0 0 0 14.1-9.4 10 10 0 0 0-2.9-6.3zM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.8.7-2.7-.2-.3a8 8 0 1 1 6.7 3.6zm4.5-5.9-1.6-.8c-.2-.1-.3-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1-.7-.3-1.5-.8-2.1-1.4-.5-.4-.9-1-1.3-1.7-.1-.2 0-.3.1-.4l.4-.4c.1-.1.2-.3.3-.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3a3 3 0 0 0-.9 2.2c.1 1.2.9 2.4 1 2.6 1.2 1.8 2.5 3 4.3 3.7 1.7.7 2 .5 2.4.5.6 0 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4 0-.1-.2-.2-.4-.3z" />

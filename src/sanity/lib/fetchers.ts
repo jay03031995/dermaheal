@@ -421,7 +421,7 @@ export async function getClinic(): Promise<ClinicData> {
     shopUrl?: string;
     instagramUrl?: string;
     youtubeUrl?: string;
-    linkedinUrl?: string;
+    facebookUrl?: string;
     logo?: { url?: string };
   } | null>(clinicSettingsQuery);
   if (!doc) return LOCAL_CLINIC;
@@ -438,7 +438,7 @@ export async function getClinic(): Promise<ClinicData> {
     social: {
       instagram: doc.instagramUrl ?? LOCAL_CLINIC.social.instagram,
       youtube: doc.youtubeUrl ?? LOCAL_CLINIC.social.youtube,
-      linkedin: doc.linkedinUrl ?? LOCAL_CLINIC.social.linkedin,
+      facebook: doc.facebookUrl ?? LOCAL_CLINIC.social.facebook,
     },
     logoUrl: doc.logo?.url,
   };
