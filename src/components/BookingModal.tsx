@@ -50,6 +50,7 @@ export default function BookingModal() {
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [emailSent, setEmailSent] = useState(false);
+  const [manualAge, setManualAge] = useState(false);
 
   // Reset form when the modal closes — adjusted during render per React docs.
   const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
@@ -88,7 +89,7 @@ export default function BookingModal() {
       if (!data.name || data.name.length < 2) e.name = "Full name needed";
       if (!/^\+?[0-9\s-]{10,}$/.test(data.phone)) e.phone = "Valid phone please";
       if (!/^\S+@\S+\.\S+$/.test(data.email)) e.email = "Valid email please";
-      if (!data.age) e.age = "Age range required";
+      if (!data.age) e.age = "Age required";
     }
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -402,19 +403,42 @@ export default function BookingModal() {
                   )}
                 </div>
                 <div className={"field" + (errors.age ? " error" : "")}>
-                  <label htmlFor="bk-age">Age range</label>
-                  <select
-                    id="bk-age"
-                    value={data.age}
-                    onChange={(e) => set("age", e.target.value)}
+                  <label htmlFor="bk-age">{manualAge ? "Age" : "Age range"}</label>
+                  {manualAge ? (
+                    <input
+                      id="bk-age"
+                      type="number"
+                      min={1}
+                      max={120}
+                      inputMode="numeric"
+                      value={data.age}
+                      onChange={(e) => set("age", e.target.value)}
+                      placeholder="Enter your age"
+                    />
+                  ) : (
+                    <select
+                      id="bk-age"
+                      value={data.age}
+                      onChange={(e) => set("age", e.target.value)}
+                    >
+                      <option value="">Select…</option>
+                      <option>Under 25</option>
+                      <option>25 to 34</option>
+                      <option>35 to 44</option>
+                      <option>45 to 54</option>
+                      <option>55 +</option>
+                    </select>
+                  )}
+                  <button
+                    type="button"
+                    className="age-toggle"
+                    onClick={() => {
+                      setManualAge((m) => !m);
+                      set("age", "");
+                    }}
                   >
-                    <option value="">Select…</option>
-                    <option>Under 25</option>
-                    <option>25 to 34</option>
-                    <option>35 to 44</option>
-                    <option>45 to 54</option>
-                    <option>55 +</option>
-                  </select>
+                    {manualAge ? "Choose a range instead" : "Enter exact age"}
+                  </button>
                   {errors.age && (
                     <div className="field-error">{errors.age}</div>
                   )}

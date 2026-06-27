@@ -145,6 +145,15 @@ export const treatmentSchema = defineType({
       validation: (r) => r.length(4).warning("Designed for exactly four steps."),
     }),
     defineField({
+      name: "protocols",
+      title: "Protocol options",
+      type: "array",
+      of: [{ type: "protocolOption" }],
+      group: "detail",
+      description:
+        "Different protocol options offered for this treatment (e.g. surgical techniques). Each has a title and short description.",
+    }),
+    defineField({
       name: "benefits",
       title: "Benefits",
       type: "array",

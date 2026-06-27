@@ -9,6 +9,7 @@ import {
   heroBadgeObject,
   patientQuoteObject,
   processStepObject,
+  protocolOptionObject,
   seoObject,
   statObject,
   timelineEntryObject,
@@ -35,6 +36,7 @@ export const schemaTypes = [
   // Objects
   seoObject,
   processStepObject,
+  protocolOptionObject,
   benefitObject,
   faqItemObject,
   credentialObject,

@@ -72,6 +72,7 @@ export const treatmentBySlugQuery = /* groq */ `
     quickDowntime,
     keyPoints,
     suitableFor,
+    protocols[]{title, description},
     process[]{title, description},
     benefits[]{icon, title, description},
     faqs[]{question, answer},

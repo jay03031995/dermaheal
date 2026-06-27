@@ -147,6 +147,7 @@ type SanityTreatmentDetail = SanityTreatmentCard & {
   quickDowntime?: string;
   keyPoints?: string[];
   suitableFor?: string[];
+  protocols?: { title: string; description: string }[];
   process?: { title: string; description: string }[];
   benefits?: { icon: string; title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
@@ -173,6 +174,7 @@ export async function getTreatmentDetailFetched(
       },
       keyPoints: doc.keyPoints ?? [],
       suitableFor: doc.suitableFor ?? [],
+      protocols: doc.protocols ?? [],
       process: (doc.process ?? []).map((s) => ({ t: s.title, d: s.description })),
       benefits: (doc.benefits ?? []).map((b) => ({ i: b.icon, t: b.title, d: b.description })),
       faqs: (doc.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),

@@ -1700,6 +1700,14 @@ p { margin: 0; color: var(--muted); }
 .field.error input,
 .field.error select { border-color: #b34a3a; }
 .field-error { font-size: 11px; color: #b34a3a; }
+.age-toggle {
+  align-self: flex-start;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--cocoa);
+  text-decoration: underline;
+  letter-spacing: 0.02em;
+}
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .chip-grid {
   display: grid;
@@ -2787,4 +2795,23 @@ p { margin: 0; color: var(--muted); }
   body { font-size: 19px; }
   h1 { font-size: clamp(88px, 4.4vw, 104px); }
   h2 { font-size: clamp(58px, 3vw, 70px); }
+}
+
+/* ============================================================
+   Booking modal — phone view. Placed last so it overrides the
+   860px tablet rules on small screens.
+   ============================================================ */
+@media (max-width: 520px) {
+  .modal-backdrop { padding: 10px; }
+  .modal { max-height: 94vh; border-radius: 18px; }
+  .modal-side { padding: 20px 18px; }
+  .modal-side h3 { font-size: 20px; margin-bottom: 8px; }
+  .modal-side p { font-size: 13px; }
+  .modal-body { padding: 24px 18px; }
+  .modal-body h4 { font-size: 19px; margin-bottom: 18px; }
+  .modal-close { top: 10px; right: 10px; }
+  .field-row { grid-template-columns: 1fr; }
+  .slot-grid { grid-template-columns: repeat(3, 1fr); }
+  .modal-actions { flex-direction: column-reverse; gap: 10px; }
+  .modal-actions .btn { width: 100%; justify-content: center; }
 }

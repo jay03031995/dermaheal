@@ -57,6 +57,17 @@ export const processStepObject = defineType({
   preview: { select: { title: "title", subtitle: "description" } },
 });
 
+export const protocolOptionObject = defineType({
+  name: "protocolOption",
+  title: "Protocol option",
+  type: "object",
+  fields: [
+    defineField({ name: "title", title: "Title", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "description", title: "Description", type: "text", rows: 2, validation: (r) => r.required() }),
+  ],
+  preview: { select: { title: "title", subtitle: "description" } },
+});
+
 export const benefitObject = defineType({
   name: "benefit",
   title: "Benefit",
