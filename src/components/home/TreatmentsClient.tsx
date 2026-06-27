@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Calendar } from "@/components/icons";
 import BookButton from "@/components/BookButton";
@@ -15,10 +15,25 @@ export default function TreatmentsClient({
   categories: string[];
 }) {
   const [cat, setCat] = useState("All");
+  const gridRef = useRef<HTMLDivElement>(null);
+  const firstRun = useRef(true);
   const filtered =
     cat === "All" ? treatments : treatments.filter((t) => t.cat === cat);
   // Cap to 11 cards + an "explore" tile
   const displayed = filtered.slice(0, 11);
+
+  // Cards added after a filter change never reach the global reveal observer
+  // (it only watches elements present at mount), so force them visible here.
+  // The initial mount keeps the normal scroll-in animation.
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    gridRef.current
+      ?.querySelectorAll<HTMLElement>(".reveal")
+      .forEach((el) => el.classList.add("visible"));
+  }, [cat]);
 
   return (
     <section className="section treatments" id="treatments">
@@ -47,7 +62,7 @@ export default function TreatmentsClient({
           ))}
         </div>
 
-        <div className="treatments-grid compact">
+        <div className="treatments-grid compact" ref={gridRef}>
           {displayed.map((t) => (
             <Link
               key={t.slug}

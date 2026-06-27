@@ -7,7 +7,7 @@ export default function FabStack() {
   return (
     <div className="fab-stack">
       <a
-        className="fab fab-shop"
+        className="fab fab-shop fab-pulse"
         href={CLINIC.shopUrl}
         target="_blank"
         rel="noopener noreferrer"
