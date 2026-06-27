@@ -268,7 +268,7 @@ async function main() {
     shopUrl: CLINIC.shopUrl,
     instagramUrl: CLINIC.social.instagram,
     youtubeUrl: CLINIC.social.youtube,
-    linkedinUrl: CLINIC.social.linkedin,
+    facebookUrl: CLINIC.social.facebook,
   } as never);
 
   docs.push({

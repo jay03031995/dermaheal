@@ -38,7 +38,6 @@ export const BOOK = {
   ctaLabel: "Book Appointment",
   meta: [
     "Same-day slots",
-    "Confirmed on WhatsApp in 10 min",
     "Mon to Sat 10 AM to 7:30 PM",
   ],
   cards: [
@@ -101,7 +100,6 @@ export const FAQS = [
 
 export const TRUST_ITEMS = [
   { icon: "shield", text: "MD Dermatologist led" },
-  { icon: "award", text: "FDA-approved devices" },
   { icon: "check", text: "USFDA-cleared injectables" },
   { icon: "sparkle", text: "Calibrated for Indian skin" },
   { icon: "calendar", text: "6-month outcome support" },

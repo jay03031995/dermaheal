@@ -6,7 +6,7 @@ export const clinicSettingsQuery = /* groq */ `
   *[_type == "clinicSettings"][0]{
     name, tagline, address, hours, phone, phone2, email,
     googleMapsEmbedUrl, googleMapsLinkUrl, shopUrl,
-    instagramUrl, youtubeUrl, linkedinUrl,
+    instagramUrl, youtubeUrl, facebookUrl,
     "logo": logo.asset->{_id, url}
   }
 `;

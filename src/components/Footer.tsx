@@ -4,7 +4,7 @@ import { FOOTER_LINKS } from "@/data/site";
 import {
   InstagramIcon,
   YoutubeIcon,
-  LinkedinIcon,
+  FacebookIcon,
   WhatsappFilled,
 } from "@/components/icons";
 
@@ -45,12 +45,12 @@ export default function Footer() {
                 <YoutubeIcon />
               </a>
               <a
-                href={CLINIC.social.linkedin}
+                href={CLINIC.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn"
+                aria-label="Facebook"
               >
-                <LinkedinIcon />
+                <FacebookIcon />
               </a>
               <a
                 href={waHref()}

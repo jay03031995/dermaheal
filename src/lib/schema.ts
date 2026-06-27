@@ -58,7 +58,7 @@ export const localBusinessSchema = {
   sameAs: [
     CLINIC.social.instagram,
     CLINIC.social.youtube,
-    CLINIC.social.linkedin,
+    CLINIC.social.facebook,
   ],
 };
 

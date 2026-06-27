@@ -11,14 +11,14 @@ import {
   Phone,
   InstagramIcon,
   YoutubeIcon,
-  LinkedinIcon,
+  FacebookIcon,
 } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 
 const NAV_SOCIALS = [
   { href: CLINIC.social.instagram, label: "Instagram", Icon: InstagramIcon },
   { href: CLINIC.social.youtube, label: "YouTube", Icon: YoutubeIcon },
-  { href: CLINIC.social.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+  { href: CLINIC.social.facebook, label: "Facebook", Icon: FacebookIcon },
 ];
 
 const MOBILE_LINKS = [

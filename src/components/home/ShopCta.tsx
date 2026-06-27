@@ -18,14 +18,9 @@ export default function ShopCta() {
               Dermatologist-formulated skincare,{" "}
               <em>delivered to your door.</em>
             </h2>
-            <p>
-              The same actives our doctors prescribe in clinic — cleansers,
-              serums, sunscreens and post-procedure care, curated for Indian
-              skin. No guesswork, no counterfeits.
-            </p>
           </div>
           <a
-            className="btn btn-light shop-cta-btn"
+            className="btn btn-light shop-cta-btn shop-cta-btn-blink"
             href={CLINIC.shopUrl}
             target="_blank"
             rel="noopener noreferrer"

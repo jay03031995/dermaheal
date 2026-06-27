@@ -1,6 +1,5 @@
 import Link from "next/link";
 import BookButton from "@/components/BookButton";
-import { Award } from "@/components/icons";
 import { getHero } from "@/sanity/lib/fetchers";
 
 import { bgImage } from "@/lib/bgImage";
@@ -41,16 +40,6 @@ export default async function Hero() {
           </div>
 
           <div className="hero-visual reveal">
-            {hero.badges.map((b, i) => (
-              <div className={`hero-badge hero-badge-${i + 1}`} key={i}>
-                {b.icon === "award" ? (
-                  <Award />
-                ) : (
-                  <span className="hero-badge-dot" />
-                )}
-                {b.text}
-              </div>
-            ))}
             <div
               className="hero-img hero-img-main"
               style={bgImage(hero.imageMainUrl)}

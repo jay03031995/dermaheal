@@ -13,7 +13,7 @@ export const CLINIC = {
   social: {
     instagram: "https://instagram.com/dermaheal_skin",
     youtube: "https://youtube.com/@dermaheal",
-    linkedin: "https://linkedin.com/company/dermaheal",
+    facebook: "https://www.facebook.com/dermaheal",
   },
 };
 
