@@ -55,7 +55,13 @@ export default async function TreatmentDetailPage(props: {
   ]);
   if (!t) notFound();
 
-  const related = allTreatments.filter((x) => x.slug !== slug).slice(0, 3);
+  // Prefer treatments in the same category for more relevant internal links,
+  // then top up with others so there are always three.
+  const others = allTreatments.filter((x) => x.slug !== slug);
+  const related = [
+    ...others.filter((x) => x.cat === t.cat),
+    ...others.filter((x) => x.cat !== t.cat),
+  ].slice(0, 3);
 
   const schema = [
     breadcrumbSchema([
@@ -188,6 +194,30 @@ export default async function TreatmentDetailPage(props: {
           </div>
         </div>
       </section>
+
+      {/* Protocol options */}
+      {t.protocols && t.protocols.length > 0 && (
+        <section className="tp-section">
+          <div className="container">
+            <div className="tp-section-head">
+              <div className="eyebrow">Protocol options</div>
+              <h2>Approaches we offer.</h2>
+              <p>
+                Your dermatologist recommends the right protocol for {t.name}{" "}
+                after a one-on-one assessment.
+              </p>
+            </div>
+            <div className="tp-benefits">
+              {t.protocols.map((p, i) => (
+                <div className="tp-benefit" key={i}>
+                  <div className="tp-benefit-title">{p.title}</div>
+                  <div className="tp-benefit-desc">{p.description}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Suitable for */}
       <section className="tp-section">

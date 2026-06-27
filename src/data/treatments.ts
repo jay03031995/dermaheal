@@ -95,6 +95,7 @@ export type TreatmentDetail = {
   quick: { duration: string; sessions: string; downtime: string };
   keyPoints: string[];
   suitableFor: string[];
+  protocols?: { title: string; description: string }[];
   process: { t: string; d: string }[];
   benefits: { i: string; t: string; d: string }[];
   faqs: { q: string; a: string }[];
