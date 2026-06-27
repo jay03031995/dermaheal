@@ -219,12 +219,6 @@ export default function BookingModal() {
               </span>{" "}
               Itemised plan before any treatment
             </div>
-            <div className="modal-perk">
-              <span className="modal-perk-check">
-                <Check />
-              </span>{" "}
-              WhatsApp confirmation in 10 min
-            </div>
           </div>
         </aside>
 
@@ -487,7 +481,7 @@ export default function BookingModal() {
                 {emailSent
                   ? `We've sent a confirmation to ${data.email}. `
                   : ""}
-                Our care team will WhatsApp you within 10 minutes.
+                Our care team will reach out to confirm your appointment.
               </p>
               <div className="summary-box">
                 <div className="summary-row">
