@@ -57,7 +57,7 @@ const treatmentCardProjection = /* groq */ `
 `;
 
 export const treatmentCardsQuery = /* groq */ `
-  *[_type == "treatment"] | order(category->key asc, name asc){
+  *[_type == "treatment"] | order(coalesce(order, 9999) asc, category->key asc, name asc){
     ${treatmentCardProjection}
   }
 `;
