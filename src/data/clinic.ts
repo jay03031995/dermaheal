@@ -11,9 +11,9 @@ export const CLINIC = {
   shopUrl: "https://dermaheal.co.in/shop",
   reviewsUrl: "https://share.google/dc4lU10Jdo97k42ij",
   social: {
-    instagram: "https://instagram.com/dermaheal_skin",
-    youtube: "https://youtube.com/@dermaheal",
-    facebook: "https://www.facebook.com/dermaheal",
+    instagram: "https://www.instagram.com/dermaheal_india/",
+    youtube: "https://www.youtube.com/channel/UC-LDcHNfsYcll-fprvwIilQ",
+    facebook: "https://www.facebook.com/DERMAHEALINDIA",
   },
 };
 
