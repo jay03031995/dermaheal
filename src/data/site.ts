@@ -106,7 +106,7 @@ export const TRUST_ITEMS = [
 export const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   Treatments: [
     { label: "Hair Transplant", href: "/treatments/hair-transplant" },
-    { label: "Anti-Wrinkle (Botox)", href: "/treatments/botox" },
+    { label: "Chemical Peel", href: "/treatments/chemical-peeling" },
     { label: "MNRF Treatment", href: "/treatments/mnrf" },
     { label: "Cosmelan", href: "/treatments/cosmelan" },
     { label: "Acne Scar Reduction", href: "/treatments/acne-scar-reduction" },

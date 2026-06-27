@@ -52,6 +52,14 @@ export const treatmentSchema = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: "order",
+      title: "Manual order",
+      type: "number",
+      group: "card",
+      description:
+        "Lower numbers appear first on the homepage and within a category. Leave empty to fall back to alphabetical order.",
+    }),
+    defineField({
       name: "imageVariant",
       title: "Card gradient variant",
       type: "string",
