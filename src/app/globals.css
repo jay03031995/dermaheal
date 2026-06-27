@@ -2761,3 +2761,31 @@ p { margin: 0; color: var(--muted); }
   .dp-other-arrow { display: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ============================================================
+   Large screens & TVs — fill wide displays instead of a narrow
+   1240px column, and scale type up for legibility from a distance.
+   ============================================================ */
+@media (min-width: 1440px) {
+  :root { --container: 1340px; }
+}
+@media (min-width: 1680px) {
+  :root { --container: 1440px; }
+  body { font-size: 17px; }
+  h1 { font-size: clamp(76px, 5vw, 88px); }
+  h2 { font-size: clamp(48px, 3.2vw, 58px); }
+  h3 { font-size: 24px; }
+  .hero-sub, .shop-cta-copy p, .section-head p { font-size: 17px; }
+}
+@media (min-width: 1920px) {
+  :root { --container: 1560px; }
+  body { font-size: 18px; }
+  .section { padding: 120px 0; }
+  .container { padding: 0 40px; }
+}
+@media (min-width: 2400px) {
+  :root { --container: 1760px; }
+  body { font-size: 19px; }
+  h1 { font-size: clamp(88px, 4.4vw, 104px); }
+  h2 { font-size: clamp(58px, 3vw, 70px); }
+}
