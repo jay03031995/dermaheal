@@ -99,8 +99,6 @@ export const FAQS = [
 ];
 
 export const TRUST_ITEMS = [
-  { icon: "shield", text: "MD Dermatologist led" },
-  { icon: "check", text: "USFDA-cleared injectables" },
   { icon: "sparkle", text: "Calibrated for Indian skin" },
   { icon: "calendar", text: "6-month outcome support" },
 ];

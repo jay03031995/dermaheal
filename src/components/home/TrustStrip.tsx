@@ -9,8 +9,14 @@ const ICON: Record<string, React.ElementType> = {
   calendar: Calendar,
 };
 
+// Items intentionally hidden regardless of CMS content.
+// Matches "FDA-approved devices", "USFDA-cleared injectables" (any FDA wording)
+// and "MD Dermatologist led".
+const isHidden = (text: string) =>
+  /fda/i.test(text) || text.trim().toLowerCase() === "md dermatologist led";
+
 export default async function TrustStrip() {
-  const items = await getTrustItems();
+  const items = (await getTrustItems()).filter((it) => !isHidden(it.text));
 
   return (
     <div className="trust">
