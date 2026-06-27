@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, MapPin, Phone } from "@/components/icons";
+import { MapPin, Phone } from "@/components/icons";
 import { CLINIC } from "@/data/clinic";
 import BookButton from "@/components/BookButton";
 import ResultsGallery from "@/components/ResultsGallery";
@@ -66,20 +66,6 @@ export default async function ResultsPage() {
           </div>
 
           <ResultsGallery results={results} />
-
-          <div style={{ textAlign: "center", marginTop: 44 }}>
-            <a
-              className="btn btn-ghost"
-              href="https://dermaheal.co.in/patient-gallery.html"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Browse the full archive at dermaheal.co.in{" "}
-              <span className="arrow">
-                <ArrowRight />
-              </span>
-            </a>
-          </div>
         </div>
       </section>
 
