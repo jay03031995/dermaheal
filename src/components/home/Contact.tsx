@@ -18,8 +18,8 @@ export default function Contact() {
             <h2>Two ways to reach us. Both are answered.</h2>
           </div>
           <p>
-            Walk in, call, message or email, our care team replies within 10
-            minutes during clinic hours.
+            Walk in, call, message or email, our care team replies quickly
+            during clinic hours.
           </p>
         </div>
         <div className="contact-grid">

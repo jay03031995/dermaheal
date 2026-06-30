@@ -34,9 +34,8 @@ export default async function TreatmentsPage() {
             one <em>standard of care.</em>
           </h1>
           <p>
-            Every device is FDA-approved. Every protocol is calibrated for
-            Indian skin. And every procedure is performed personally by an MD
-            dermatologist, never delegated.
+            Every protocol is calibrated for Indian skin. And every procedure
+            is performed personally by an MD dermatologist, never delegated.
           </p>
           <div className="page-hero-stats">
             <div className="page-hero-stat">
