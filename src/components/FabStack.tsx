@@ -1,5 +1,5 @@
 import { CLINIC, telHref, waHref } from "@/data/clinic";
-import { Phone, Bag } from "@/components/icons";
+import { Phone, WhatsappFilled } from "@/components/icons";
 
 export default function FabStack() {
   const wa = waHref("Hi Dermaheal, I'd like to book a consultation.");
@@ -7,20 +7,20 @@ export default function FabStack() {
   return (
     <div className="fab-stack">
       <a
-        className="fab fab-shop fab-pulse"
+        className="fab-shop fab-pulse"
         href={CLINIC.shopUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Shop"
+        aria-label="Shop Now"
       >
-        <Bag /> <span>Shop</span>
+        <span className="fab-shop-text">Shop Now</span>
       </a>
       <a
-        className="fab fab-call fab-pulse"
+        className="fab fab-call"
         href={telHref()}
         aria-label={`Call ${CLINIC.phone}`}
       >
-        <Phone size={20} stroke={2} />
+        <Phone size={22} stroke={2} />
         <span className="fab-tip">Call {CLINIC.phone}</span>
       </a>
       <a
@@ -30,7 +30,7 @@ export default function FabStack() {
         rel="noopener noreferrer"
         aria-label="WhatsApp"
       >
-        <img src="/whatsapp-icon.png" alt="" />
+        <WhatsappFilled />
         <span className="fab-tip">Chat on WhatsApp</span>
       </a>
     </div>
