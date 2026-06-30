@@ -152,7 +152,7 @@ export const CONCERNS_FULL: ConcernDetail[] = [
     icon: "⟡",
     headline: "Smooth skin, calibrated for Indian tones.",
     summary:
-      "FDA-approved diode and Nd:YAG laser hair reduction safely reduces unwanted hair, with protocols specifically built for higher-melanin Indian skin. Six to eight sessions usually deliver 80 to 90 percent reduction.",
+      "Diode and Nd:YAG laser hair reduction safely reduces unwanted hair, with protocols specifically built for higher-melanin Indian skin. Six to eight sessions usually deliver 80 to 90 percent reduction.",
     symptoms: [
       "Coarse or dense facial or body hair",
       "Ingrown hairs from waxing or shaving",

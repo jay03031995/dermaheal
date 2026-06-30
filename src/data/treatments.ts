@@ -78,7 +78,7 @@ export type Category = { key: string; title: string; desc: string };
 export const CATEGORIES: Category[] = [
   { key: "Hair", title: "Hair Restoration", desc: "From regenerative protocols to FUE transplant, solutions for shedding, thinning and bald patches." },
   { key: "Injectables", title: "Injectables & Volume", desc: "Botox, fillers, threads and lipolysis, delivered with a natural Indian aesthetic." },
-  { key: "Lasers", title: "Lasers & Energy Devices", desc: "FDA-approved devices calibrated specifically for Indian skin, pigmentation, hair, scars, contouring." },
+  { key: "Lasers", title: "Lasers & Energy Devices", desc: "Advanced devices calibrated specifically for Indian skin, pigmentation, hair, scars, contouring." },
   { key: "Peels", title: "Peels & Pigmentation", desc: "Cosmelan, Dermamelan and graded chemical peels, the gold standard for melasma and acne marks." },
   { key: "Skin", title: "Skin & Glow", desc: "Medical-grade facials, brightening therapies, and protocols for dullness and vitiligo." },
   { key: "Regenerative", title: "Regenerative Medicine", desc: "Exosomes, PDRN and platelet therapies, next-generation healing at the cellular level." },
@@ -207,7 +207,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
       "Forehead, frown lines and crow's feet",
       "Natural, soft results, never frozen",
       "Performed by MD dermatologist",
-      "Genuine, FDA-approved products only",
+      "Genuine, authentic products only",
     ],
     suitableFor: ["Forehead lines", "Frown lines (11s)", "Crow's feet", "Bunny lines", "Jaw slimming", "Excessive sweating (axillary)"],
     process: [
@@ -236,7 +236,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     overview: "Hyaluronic acid fillers add subtle volume and definition to areas that have lost youthful contour, cheeks, lips, chin, jawline and under-eyes. Reversible, modular, and tailored to your facial proportions.",
     quick: { duration: "40 min", sessions: "Single visit", downtime: "1 to 2 days" },
     keyPoints: [
-      "FDA-approved HA fillers",
+      "Premium HA fillers",
       "Reversible and adjustable",
       "Subtle, ratio-driven enhancement",
       "Topical numbing for comfort",
@@ -259,7 +259,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     faqs: [
       { q: "Will fillers make me look done?", a: "Not when conservatively dosed. Our approach is small volumes, multiple sessions if needed, to keep results subtle and proportional to your face." },
       { q: "How long do fillers last?", a: "Depending on the area and product, HA fillers last 9 to 18 months. Cheek and chin fillers tend to last longer than lip filler due to less muscle movement." },
-      { q: "Are they safe?", a: "We use only FDA-approved hyaluronic acid fillers. HA is naturally found in the body and is fully reversible with hyaluronidase if needed." },
+      { q: "Are they safe?", a: "We use only premium hyaluronic acid fillers. HA is naturally found in the body and is fully reversible with hyaluronidase if needed." },
     ],
   },
   "thread-lifting": {
@@ -457,7 +457,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
   "laser-hair-reduction": {
     slug: "laser-hair-reduction", name: "Laser Hair Reduction", cat: "Lasers", img: "v4",
     headline: "Silky, fuss-free skin, calibrated for Indian tones.",
-    overview: "FDA-approved diode and Nd:YAG laser hair reduction safely targets the pigment in hair follicles, gradually reducing growth over multiple sessions. Calibrated specifically for Indian skin tones.",
+    overview: "Diode and Nd:YAG laser hair reduction safely targets the pigment in hair follicles, gradually reducing growth over multiple sessions. Calibrated specifically for Indian skin tones.",
     quick: { duration: "20 to 60 min", sessions: "6 to 8 sessions", downtime: "Zero" },
     keyPoints: [
       "Safe for Indian skin (Type IV to V)",

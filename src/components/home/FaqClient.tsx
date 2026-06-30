@@ -23,8 +23,8 @@ export default function FaqClient({
               Honest answers to the questions you&apos;d ask first.
             </h2>
             <p style={{ marginBottom: 28 }}>
-              Can&apos;t find what you&apos;re looking for? Our care team replies
-              within 10 minutes on WhatsApp.
+              Can&apos;t find what you&apos;re looking for? Our care team is
+              quick to reply on WhatsApp.
             </p>
             <Link className="btn btn-sage" href="/#book">
               Message us on WhatsApp{" "}

@@ -16,7 +16,6 @@ export const HERO = {
     { value: "14", superscript: "yrs", label: "CARING FOR INDIAN SKIN" },
   ] as HeroStat[],
   badges: [
-    { icon: "dot", text: "FDA-approved tech only" },
     { icon: "award", text: "MD-Dermatologist led" },
   ] as HeroBadge[],
   imageMainLabel: "Treatment Suite, Dwarka",
