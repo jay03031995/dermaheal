@@ -1,9 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { CATEGORIES, TREATMENTS } from "@/data/treatments";
 
-export default function CategoryNav() {
+type CatChip = { key: string; title: string; count: number };
+
+export default function CategoryNav({
+  categories,
+  total,
+}: {
+  categories: CatChip[];
+  total: number;
+}) {
   const [active, setActive] = useState("all");
 
   const onPick = (key: string) => {
@@ -24,24 +31,19 @@ export default function CategoryNav() {
           className={"cat-nav-chip" + (active === "all" ? " active" : "")}
           onClick={() => onPick("all")}
         >
-          All<span className="cat-nav-count">{TREATMENTS.length}</span>
+          All<span className="cat-nav-count">{total}</span>
         </button>
-        {CATEGORIES.map((c) => {
-          const count = TREATMENTS.filter((t) => t.cat === c.key).length;
-          return (
-            <button
-              key={c.key}
-              type="button"
-              className={
-                "cat-nav-chip" + (active === c.key ? " active" : "")
-              }
-              onClick={() => onPick(c.key)}
-            >
-              {c.title}
-              <span className="cat-nav-count">{count}</span>
-            </button>
-          );
-        })}
+        {categories.map((c) => (
+          <button
+            key={c.key}
+            type="button"
+            className={"cat-nav-chip" + (active === c.key ? " active" : "")}
+            onClick={() => onPick(c.key)}
+          >
+            {c.title}
+            <span className="cat-nav-count">{c.count}</span>
+          </button>
+        ))}
       </div>
     </div>
   );

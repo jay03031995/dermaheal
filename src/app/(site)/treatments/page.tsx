@@ -21,6 +21,12 @@ export default async function TreatmentsPage() {
     getTreatmentCategories(),
   ]);
 
+  const catChips = categories.map((c) => ({
+    key: c.key,
+    title: c.title,
+    count: allTreatments.filter((t) => t.cat === c.key).length,
+  }));
+
   return (
     <>
       <section className="page-hero">
@@ -58,7 +64,7 @@ export default async function TreatmentsPage() {
         </div>
       </section>
 
-      <CategoryNav />
+      <CategoryNav categories={catChips} total={allTreatments.length} />
 
       {categories.map((c, ci) => {
         const items = allTreatments.filter((t) => t.cat === c.key);
