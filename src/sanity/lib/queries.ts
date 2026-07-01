@@ -148,6 +148,7 @@ export const doctorsQuery = /* groq */ `
 export const doctorBySlugQuery = /* groq */ `
   *[_type == "doctor" && slug.current == $slug][0]{
     ${doctorCardProjection},
+    bookingUrl,
     shortLine,
     listBio,
     statCreds[]{value, superscript, label},

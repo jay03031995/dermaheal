@@ -48,6 +48,14 @@ export const doctorSchema = defineType({
       initialValue: 0,
       group: "main",
     }),
+    defineField({
+      name: "bookingUrl",
+      title: "Booking URL",
+      type: "url",
+      group: "main",
+      description:
+        "Optional external booking link for this doctor. When set, this doctor's 'Book Appointment' buttons link here instead of opening the booking form.",
+    }),
     // Home card
     defineField({
       name: "focusLine",

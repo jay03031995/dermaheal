@@ -2,6 +2,7 @@ export type Doctor = {
   slug: string;
   name: string;
   title: string;
+  bookingUrl?: string; // optional external booking link for this doctor
   img: string; // d1 | d2 | d3
   focus: string; // home-card "patients seen" line
   years: number;
