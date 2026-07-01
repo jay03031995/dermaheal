@@ -105,7 +105,21 @@ export default async function DoctorDetailPage(props: {
               <div className="dp-tagline">&ldquo;{d.tagline}&rdquo;</div>
               <p className="dp-bio">{d.detailBio}</p>
               <div className="dp-cta">
-                <BookButton>Book a consultation</BookButton>
+                {d.bookingUrl ? (
+                  <a
+                    className="btn btn-primary"
+                    href={d.bookingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Book a consultation
+                    <span className="arrow">
+                      <ArrowRight />
+                    </span>
+                  </a>
+                ) : (
+                  <BookButton>Book a consultation</BookButton>
+                )}
                 <a className="btn btn-ghost" href={telHref()}>
                   Call {CLINIC.phone}
                 </a>
@@ -262,7 +276,21 @@ export default async function DoctorDetailPage(props: {
             A one-on-one assessment, a written treatment plan, and honest
             guidance, that&apos;s how every appointment at Dermaheal begins.
           </p>
-          <BookButton>Book Appointment</BookButton>
+          {d.bookingUrl ? (
+            <a
+              className="btn btn-primary"
+              href={d.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book Appointment
+              <span className="arrow">
+                <ArrowRight />
+              </span>
+            </a>
+          ) : (
+            <BookButton>Book Appointment</BookButton>
+          )}
         </div>
       </section>
     </>
