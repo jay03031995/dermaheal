@@ -151,10 +151,8 @@ export default async function TreatmentDetailPage(props: {
               <h2>{t.headline}</h2>
               <p>{t.overview}</p>
               <p>
-                Every {t.name.toLowerCase()} session at Dermaheal is performed
-                by a board-certified MD dermatologist, using internationally
-                approved products and protocols calibrated specifically for
-                Indian skin.
+                {t.overviewExtra ||
+                  `Every ${t.name.toLowerCase()} session at Dermaheal is performed by a board-certified MD dermatologist, using internationally approved products and protocols calibrated specifically for Indian skin.`}
               </p>
               <Link className="btn-text" href="/#book">
                 Speak to a dermatologist <ArrowRight size={12} />

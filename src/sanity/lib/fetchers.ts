@@ -142,6 +142,7 @@ export async function getTreatmentCards(): Promise<TreatmentCard[]> {
 type SanityTreatmentDetail = SanityTreatmentCard & {
   headline?: string;
   overview?: string;
+  overviewExtra?: string;
   quickDuration?: string;
   quickSessions?: string;
   quickDowntime?: string;
@@ -167,6 +168,7 @@ export async function getTreatmentDetailFetched(
       img: doc.imageVariant ?? "v1",
       headline: doc.headline ?? "",
       overview: doc.overview ?? "",
+      overviewExtra: doc.overviewExtra ?? "",
       quick: {
         duration: doc.quickDuration ?? "",
         sessions: doc.quickSessions ?? "",
