@@ -92,6 +92,7 @@ export type TreatmentDetail = {
   img: string;
   headline: string;
   overview: string;
+  overviewExtra?: string;
   quick: { duration: string; sessions: string; downtime: string };
   keyPoints: string[];
   suitableFor: string[];

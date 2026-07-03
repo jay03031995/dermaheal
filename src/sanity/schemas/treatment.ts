@@ -119,6 +119,7 @@ export const treatmentSchema = defineType({
     // Detail
     defineField({ name: "headline", title: "Headline", type: "text", rows: 2, group: "detail", validation: (r) => r.required() }),
     defineField({ name: "overview", title: "Overview", type: "text", rows: 5, group: "detail", validation: (r) => r.required() }),
+    defineField({ name: "overviewExtra", title: "Overview — second paragraph", type: "text", rows: 4, group: "detail", description: "Optional second paragraph under the overview. Leave empty to use the default line." }),
     defineField({ name: "quickDuration", title: "Quick stat — duration", type: "string", group: "detail" }),
     defineField({ name: "quickSessions", title: "Quick stat — sessions", type: "string", group: "detail" }),
     defineField({ name: "quickDowntime", title: "Quick stat — downtime", type: "string", group: "detail" }),

@@ -67,6 +67,7 @@ export const treatmentBySlugQuery = /* groq */ `
     ${treatmentCardProjection},
     headline,
     overview,
+    overviewExtra,
     quickDuration,
     quickSessions,
     quickDowntime,
