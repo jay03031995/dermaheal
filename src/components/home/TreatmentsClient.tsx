@@ -44,7 +44,7 @@ export default function TreatmentsClient({
             <h2>Clinically-backed, calibrated, considered.</h2>
           </div>
           <p>
-            Every protocol is authored in-house and calibrated for Indian skin.
+            Every protocol is authored in-house and calibrated for your skin.
             Tap any treatment to read its dedicated page.
           </p>
         </div>
