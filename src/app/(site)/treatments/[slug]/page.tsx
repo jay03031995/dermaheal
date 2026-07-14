@@ -63,6 +63,12 @@ export default async function TreatmentDetailPage(props: {
     ...others.filter((x) => x.cat !== t.cat),
   ].slice(0, 3);
 
+  const aboutBody =
+    t.overviewExtra ||
+    `Every ${t.name.toLowerCase()} session at Dermaheal is performed by a board-certified MD dermatologist, using internationally approved products and protocols calibrated specifically for Indian skin.`;
+  const aboutCtaLabel = t.aboutCtaLabel || "Speak to a dermatologist";
+  const aboutCtaHref = t.aboutCtaHref || "/#book";
+
   const schema = [
     breadcrumbSchema([
       { name: "Home", path: "/" },
@@ -150,12 +156,9 @@ export default async function TreatmentDetailPage(props: {
               </div>
               <h2>{t.headline}</h2>
               <p>{t.overview}</p>
-              <p>
-                {t.overviewExtra ||
-                  `Every ${t.name.toLowerCase()} session at Dermaheal is performed by a board-certified MD dermatologist, using internationally approved products and protocols calibrated specifically for Indian skin.`}
-              </p>
-              <Link className="btn-text" href="/#book">
-                Speak to a dermatologist <ArrowRight size={12} />
+              <p>{aboutBody}</p>
+              <Link className="btn-text" href={aboutCtaHref}>
+                {aboutCtaLabel} <ArrowRight size={12} />
               </Link>
             </div>
             <div className="tp-keypoints">
