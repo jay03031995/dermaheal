@@ -93,6 +93,8 @@ export type TreatmentDetail = {
   headline: string;
   overview: string;
   overviewExtra?: string;
+  aboutCtaLabel?: string;
+  aboutCtaHref?: string;
   quick: { duration: string; sessions: string; downtime: string };
   keyPoints: string[];
   suitableFor: string[];

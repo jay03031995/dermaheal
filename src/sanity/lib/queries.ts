@@ -68,6 +68,8 @@ export const treatmentBySlugQuery = /* groq */ `
     headline,
     overview,
     overviewExtra,
+    aboutCtaLabel,
+    aboutCtaHref,
     quickDuration,
     quickSessions,
     quickDowntime,

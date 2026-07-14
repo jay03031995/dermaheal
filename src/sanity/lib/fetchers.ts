@@ -143,6 +143,8 @@ type SanityTreatmentDetail = SanityTreatmentCard & {
   headline?: string;
   overview?: string;
   overviewExtra?: string;
+  aboutCtaLabel?: string;
+  aboutCtaHref?: string;
   quickDuration?: string;
   quickSessions?: string;
   quickDowntime?: string;
@@ -169,6 +171,8 @@ export async function getTreatmentDetailFetched(
       headline: doc.headline ?? "",
       overview: doc.overview ?? "",
       overviewExtra: doc.overviewExtra ?? "",
+      aboutCtaLabel: doc.aboutCtaLabel ?? "",
+      aboutCtaHref: doc.aboutCtaHref ?? "",
       quick: {
         duration: doc.quickDuration ?? "",
         sessions: doc.quickSessions ?? "",
