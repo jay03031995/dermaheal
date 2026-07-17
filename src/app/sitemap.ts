@@ -21,6 +21,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/concerns", priority: 0.9 },
     { path: "/doctors", priority: 0.9 },
     { path: "/results", priority: 0.8 },
+    { path: "/privacy-policy", priority: 0.3 },
+    { path: "/terms", priority: 0.3 },
   ];
 
   const treatments = treatmentSlugs.map((slug) => ({

@@ -1830,6 +1830,140 @@ p { margin: 0; color: var(--muted); }
 }
 
 /* =========================================================
+   Legal pages
+   ========================================================= */
+.legal-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, .9), rgba(251, 246, 238, .98)),
+    radial-gradient(circle at 18% 0%, rgba(121, 139, 91, .14), transparent 34%),
+    var(--paper);
+  padding: 78px 0 112px;
+}
+.page-hero:has(+ .legal-section) {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(244, 235, 220, .96), rgba(255, 253, 248, .92)),
+    linear-gradient(90deg, rgba(217, 190, 152, .24), transparent 58%);
+  padding: 70px 0 86px;
+}
+.page-hero:has(+ .legal-section)::after {
+  content: "";
+  position: absolute;
+  right: max(28px, calc((100vw - var(--container)) / 2));
+  bottom: -68px;
+  width: 240px;
+  height: 240px;
+  border: 1px solid rgba(140, 110, 84, .18);
+  border-radius: 50%;
+  background: rgba(255, 253, 248, .34);
+  pointer-events: none;
+}
+.page-hero:has(+ .legal-section) .container {
+  position: relative;
+  z-index: 1;
+}
+.page-hero:has(+ .legal-section) h1 {
+  max-width: 860px;
+  font-size: clamp(40px, 4.8vw, 68px);
+}
+.page-hero:has(+ .legal-section) p {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 18px;
+}
+.legal-wrap {
+  max-width: 920px;
+}
+.legal-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--tan);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+}
+.legal-meta::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: var(--tan);
+}
+.legal-card {
+  position: relative;
+  counter-reset: legal-section;
+  border: 1px solid rgba(230, 216, 194, .9);
+  background: rgba(255, 253, 248, .88);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: 0 28px 80px -42px rgba(66, 34, 23, .34);
+  backdrop-filter: blur(10px);
+}
+.legal-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(217, 190, 152, .32);
+  border-radius: 16px;
+  pointer-events: none;
+}
+.legal-card section {
+  position: relative;
+  counter-increment: legal-section;
+  padding: 34px 38px 34px 92px;
+  border-radius: 14px;
+  transition: background .2s var(--ease);
+}
+.legal-card section:hover {
+  background: rgba(244, 235, 220, .44);
+}
+.legal-card section + section {
+  margin-top: 0;
+  border-top: 1px solid rgba(230, 216, 194, .78);
+}
+.legal-card section::before {
+  content: counter(legal-section, decimal-leading-zero);
+  position: absolute;
+  top: 35px;
+  left: 34px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--cream-2);
+  color: var(--sage);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  box-shadow: inset 0 0 0 1px rgba(121, 139, 91, .2);
+}
+.legal-card h2 {
+  color: var(--cocoa);
+  font-size: clamp(22px, 2.1vw, 28px);
+  line-height: 1.18;
+  margin-bottom: 12px;
+}
+.legal-card p,
+.legal-card li {
+  color: #5f4b3d;
+  font-size: 16px;
+  line-height: 1.82;
+}
+.legal-card p + p {
+  margin-top: 12px;
+}
+.legal-card ul {
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
+/* =========================================================
    Treatments listing — category rows
    ========================================================= */
 .cat-section { padding: 70px 0; }
@@ -2758,6 +2892,21 @@ p { margin: 0; color: var(--muted); }
   .fab-shop { width: 44px; padding: 16px 0; }
   .fab-shop-text { font-size: 13px; letter-spacing: 0.12em; }
   .contact-info { padding: 30px 24px; }
+  .page-hero:has(+ .legal-section) { padding: 52px 0 62px; }
+  .page-hero:has(+ .legal-section)::after { width: 150px; height: 150px; bottom: -56px; right: -42px; }
+  .page-hero:has(+ .legal-section) p { font-size: 16px; }
+  .legal-section { padding: 48px 0 72px; }
+  .legal-meta { font-size: 11px; margin-bottom: 16px; }
+  .legal-card { padding: 8px; border-radius: var(--radius); }
+  .legal-card::before { inset: 8px; border-radius: 10px; }
+  .legal-card section { padding: 24px 20px 26px 20px; }
+  .legal-card section::before {
+    position: static;
+    margin-bottom: 14px;
+  }
+  .legal-card h2 { font-size: 21px; }
+  .legal-card p,
+  .legal-card li { font-size: 15px; line-height: 1.75; }
   .tp-section { padding: 60px 0; }
   .tp-quick { grid-template-columns: 1fr; }
   .tp-process, .tp-benefits, .tp-related, .tp-doctors { grid-template-columns: 1fr; }
