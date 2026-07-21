@@ -187,7 +187,7 @@ export default async function ConcernDetailPage(props: {
               <div className="eyebrow">Recommended treatments</div>
               <h2>Procedures we use for this concern.</h2>
               <p>
-                Each is performed personally by an MD dermatologist and
+                Each is performed personally by a dermatologist and
                 calibrated for your skin.
               </p>
             </div>
@@ -241,7 +241,7 @@ export default async function ConcernDetailPage(props: {
             Ready when you are
           </div>
           <h2>
-            Talk to an MD dermatologist about your {c.name.toLowerCase()}.
+            Talk to a dermatologist about your {c.name.toLowerCase()}.
           </h2>
           <p>
             A one-on-one consultation, a written plan, and honest guidance,

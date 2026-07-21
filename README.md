@@ -1,7 +1,7 @@
 # Dermaheal Skin & Hair Clinic
 
 Marketing site for [Dermaheal Skin & Hair Clinic](https://dermaheal.co.in),
-an MD-led dermatology, aesthetics and trichology practice in Dwarka, New
+a dermatologist-led dermatology, aesthetics and trichology practice in Dwarka, New
 Delhi. Built on **Next.js 16** (App Router, Turbopack), **React 19**,
 TypeScript, and **Sanity Studio** as the admin CMS.
 

@@ -6,9 +6,9 @@ import BookButton from "@/components/BookButton";
 import { bgImage } from "@/lib/bgImage";
 
 export const metadata: Metadata = {
-  title: "Our Doctors — MD Dermatologists in Dwarka",
+  title: "Our Doctors — Dermatology Team in Dwarka",
   description:
-    "Meet the dermatology team at Dermaheal Skin & Hair Clinic, Dwarka. Three MD dermatologists with subspecialties in cosmetic dermatology, aesthetics and lasers.",
+    "Meet the dermatology team at Dermaheal Skin & Hair Clinic, Dwarka. Three doctors with subspecialties in cosmetic dermatology, aesthetics and lasers.",
   alternates: { canonical: "/doctors" },
 };
 
@@ -29,7 +29,7 @@ export default async function DoctorsPage() {
           </h1>
           <p>
             Every procedure at Dermaheal is performed personally by a
-            board-certified MD dermatologist, never delegated. The same doctor
+            qualified dermatologist, never delegated. The same doctor
             sees you from consultation through follow-up.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default async function DoctorsPage() {
                   </div>
                 </div>
                 <div className="doc-badge doc-badge-2">
-                  <div className="doc-badge-icon">MD</div>
+                  <div className="doc-badge-icon">★</div>
                   <div>
                     <div className="doc-badge-label">Specialty</div>
                     <div className="doc-badge-val">Dermatology</div>

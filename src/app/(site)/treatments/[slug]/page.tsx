@@ -65,7 +65,7 @@ export default async function TreatmentDetailPage(props: {
 
   const aboutBody =
     t.overviewExtra ||
-    `Every ${t.name.toLowerCase()} session at Dermaheal is performed by a board-certified MD dermatologist, using internationally approved products and protocols calibrated specifically for Indian skin.`;
+    `Every ${t.name.toLowerCase()} session at Dermaheal is performed by a qualified dermatologist, using internationally approved products and protocols calibrated specifically for Indian skin.`;
   const aboutCtaLabel = t.aboutCtaLabel || "Speak to a dermatologist";
   const aboutCtaHref = t.aboutCtaHref || "/#book";
 
@@ -258,10 +258,10 @@ export default async function TreatmentDetailPage(props: {
         <div className="container">
           <div className="tp-section-head">
             <div className="eyebrow">Performed by</div>
-            <h2>Treated by MD dermatologists. Always.</h2>
+            <h2>Treated by dermatologists. Always.</h2>
             <p>
               Every procedure at Dermaheal is performed personally by a
-              board-certified MD dermatologist, never delegated to a therapist.
+              qualified dermatologist, never delegated to a therapist.
             </p>
           </div>
           <div className="tp-doctors">
@@ -279,7 +279,7 @@ export default async function TreatmentDetailPage(props: {
                   <div className="tp-doctor-name">{d.name}</div>
                   <div className="tp-doctor-title">{d.title}</div>
                   <div className="tp-doctor-exp">
-                    MD-DVL · {d.years}+ years
+                    Dermatology · {d.years}+ years
                   </div>
                 </div>
               </Link>
@@ -343,7 +343,7 @@ export default async function TreatmentDetailPage(props: {
           </div>
           <h2>Book your {t.name} consultation today.</h2>
           <p>
-            A one-on-one with an MD dermatologist. A written plan. No upsells.
+            A one-on-one with a skin specialist. A written plan. No upsells.
             Walk out knowing exactly what&apos;s right for your skin.
           </p>
           <BookButton>Book a consultation</BookButton>

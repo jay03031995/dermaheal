@@ -7,16 +7,16 @@ export const HERO = {
   headline:
     "Skin that knows the<br/>difference between <em>care</em><br/>and <em>cosmetics.</em>",
   subhead:
-    "Dwarka's trusted MD-led dermatology practice, calibrated for Indian skin, grounded in clinical evidence, and built around the kind of unhurried care that produces real, lasting results.",
+    "Dwarka's trusted dermatology practice, calibrated for Indian skin, grounded in clinical evidence, and built around the kind of unhurried care that produces real, lasting results.",
   primaryCta: "Book a consultation",
   secondaryCta: "Explore treatments",
   stats: [
     { value: "27", superscript: "+", label: "ADVANCED TREATMENTS" },
-    { value: "3", label: "MD DERMATOLOGISTS" },
+    { value: "3", label: "SKIN SPECIALISTS" },
     { value: "14", superscript: "yrs", label: "CARING FOR INDIAN SKIN" },
   ] as HeroStat[],
   badges: [
-    { icon: "award", text: "MD-Dermatologist led" },
+    { icon: "award", text: "Dermatologist led" },
   ] as HeroBadge[],
   imageMainLabel: "Treatment Suite, Dwarka",
   imageSubLabel: "Consultation Room",
@@ -33,7 +33,7 @@ export type BookSlotCard = {
 export const BOOK = {
   eyebrow: "Book Appointment",
   heading: "Talk to a dermatologist this week.",
-  body: "A one-on-one consultation with an MD dermatologist. A written plan, on the spot. Honest, unhurried, and built for your skin.",
+  body: "A one-on-one consultation with a skin specialist. A written plan, on the spot. Honest, unhurried, and built for your skin.",
   ctaLabel: "Book Appointment",
   meta: [
     "Same-day slots",
@@ -56,8 +56,8 @@ export const WHY = {
 };
 
 export const EEAT = [
-  { letter: "E", title: "Experience You Can See", desc: "Three MD-Dermatology specialists with a combined 29+ years of clinical experience treating Indian skin and hair." },
-  { letter: "E", title: "Expertise That's Earned", desc: "Every procedure (injectables, lasers, hair restoration, surgery) is performed personally by an MD dermatologist." },
+  { letter: "E", title: "Experience You Can See", desc: "Three dermatology specialists with a combined 29+ years of clinical experience treating Indian skin and hair." },
+  { letter: "E", title: "Expertise That's Earned", desc: "Every procedure (injectables, lasers, hair restoration, surgery) is performed personally by a qualified dermatologist." },
   { letter: "A", title: "Authoritative Protocols", desc: "Treatments calibrated for Indian skin types. Cosmelan, MNRF, HIFU and laser protocols rooted in clinical evidence." },
   { letter: "T", title: "Trust & Transparency", desc: "Honest written plans. Realistic outcomes. No high-pressure upselling, ever. Long-term skin health, not quick fixes." },
 ];
@@ -90,7 +90,7 @@ export const TESTIMONIALS = [
 
 export const FAQS = [
   { q: "Are your treatments safe for Indian skin tones?", a: "Yes. Every laser, peel and injectable we offer is calibrated for higher-melanin skin. Our protocols are developed in-house and our dermatologists are trained specifically on Indian skin types. If a treatment isn't safe for your skin, we'll tell you and recommend a better-suited alternative." },
-  { q: "What does a first consultation include?", a: "A one-on-one session with one of our MD dermatologists. We assess your skin or hair concern, discuss medical history, and share a written treatment plan with realistic timelines. There is no obligation to book any procedure." },
+  { q: "What does a first consultation include?", a: "A one-on-one session with one of our dermatologists. We assess your skin or hair concern, discuss medical history, and share a written treatment plan with realistic timelines. There is no obligation to book any procedure." },
   { q: "How is the cost of a treatment determined?", a: "Your dermatologist shares a complete, itemised plan during your consultation once your skin has been assessed. Plans are shared before any treatment begins, never high-pressure, never surprise-billed. We are happy to share an estimate range on WhatsApp before you book." },
   { q: "Where is Dermaheal located?", a: "Dermaheal Skin & Hair Clinic is at C-712, Ramphal Chowk, Block D, Sector 7 Dwarka, near Shiksha Bharti School, New Delhi 110075. We are easily reachable from across West Delhi and Gurgaon." },
   { q: "What are your clinic hours?", a: "Monday to Saturday, 10:00 AM to 7:30 PM. Sunday, 10:00 AM to 7:00 PM. Same-day slots are usually available, call +91 80809 10191 or WhatsApp us to check availability." },

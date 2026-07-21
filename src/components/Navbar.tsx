@@ -97,7 +97,7 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="nav-dd-foot">
-                <span>Every concern reviewed by an MD</span>
+                <span>Every concern reviewed by a dermatologist</span>
                 <Link href="/concerns">
                   See all concerns <ArrowRight size={11} />
                 </Link>
@@ -122,7 +122,7 @@ export default function Navbar() {
                 </Link>
               ))}
               <div className="nav-dd-foot">
-                <span>All MD-Dermatology certified</span>
+                <span>Experienced dermatology team</span>
                 <Link href="/doctors">
                   All doctors <ArrowRight size={11} />
                 </Link>

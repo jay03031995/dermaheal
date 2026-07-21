@@ -20,9 +20,9 @@ export default async function DoctorsSection() {
             </h2>
           </div>
           <p>
-            Every procedure at Dermaheal is performed by an MD dermatologist,
-            never delegated. The same doctor sees you from consultation through
-            follow-up.
+            Every procedure at Dermaheal is performed by a qualified
+            dermatologist, never delegated. The same doctor sees you from
+            consultation through follow-up.
           </p>
         </div>
         <div className="doctors-grid">

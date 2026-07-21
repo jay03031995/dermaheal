@@ -109,7 +109,7 @@ export const credentialObject = defineType({
       name: "icon",
       title: "Badge text",
       type: "string",
-      description: "Short text rendered in the badge (e.g. MD, FUE, ✦).",
+      description: "Short text rendered in the badge (e.g. Derm, FUE, ✦).",
       validation: (r) => r.required(),
     }),
     defineField({ name: "title", title: "Title", type: "string", validation: (r) => r.required() }),

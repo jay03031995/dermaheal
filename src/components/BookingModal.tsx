@@ -195,7 +195,7 @@ export default function BookingModal() {
             >
               The Dermaheal Consult
             </div>
-            <h3>Sit with an MD dermatologist. Walk out with a written plan.</h3>
+            <h3>Sit with a skin specialist. Walk out with a written plan.</h3>
             <p style={{ marginTop: 14 }}>
               A one-on-one assessment of your skin or hair concern, unhurried, honest,
               calibrated for Indian skin.
