@@ -115,10 +115,6 @@ export default async function ConcernDetailPage(props: {
                 <div className="tp-float-hd">Concern</div>
                 <div className="tp-float-val">{c.name}</div>
               </div>
-              <div className="tp-floating tp-floating-2">
-                <div className="tp-float-hd">Reviewed by</div>
-                <div className="tp-float-val">MD Dermatologists</div>
-              </div>
               <div
                 className={`tp-img-main ${concernImg(c.id)}`}
                 style={bgImage(c.imageUrl)}

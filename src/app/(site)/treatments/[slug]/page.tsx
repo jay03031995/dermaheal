@@ -127,14 +127,6 @@ export default async function TreatmentDetailPage(props: {
               </div>
             </div>
             <div className="tp-hero-visual">
-              {/* <div className="tp-floating tp-floating-1">
-                <div className="tp-float-hd">Performed by</div>
-                <div className="tp-float-val">MD Dermatologists</div>
-              </div>
-              <div className="tp-floating tp-floating-2">
-                <div className="tp-float-hd">Calibrated for</div>
-                <div className="tp-float-val">Indian skin tones</div>
-              </div> */}
               <div
                 className={"tp-img-main " + t.img}
                 style={bgImage(t.imageUrl)}
