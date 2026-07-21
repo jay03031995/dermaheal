@@ -89,9 +89,9 @@ export default async function DoctorDetailPage(props: {
                 </div>
               </div>
               <div className="dp-badge dp-badge-2">
-                <div className="dp-badge-num">MD</div>
+                <div className="dp-badge-num">Derm</div>
                 <div>
-                  <div className="dp-badge-label">Board Certified</div>
+                  <div className="dp-badge-label">Specialist</div>
                 </div>
               </div>
               <div className={"dp-photo " + d.img} style={bgImage(d.imageUrl)} />

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s — Dermaheal Skin & Hair Clinic",
   },
   description:
-    "Dermaheal is Dwarka's MD-led skin and hair clinic. 27+ advanced treatments — hair transplant, Botox, MNRF, Cosmelan, laser hair reduction and more, calibrated for Indian skin.",
+    "Dermaheal is Dwarka's trusted skin and hair clinic. 27+ advanced treatments — hair transplant, Botox, MNRF, Cosmelan, laser hair reduction and more, calibrated for Indian skin.",
   keywords: [
     "dermatologist in Dwarka",
     "skin clinic Dwarka Delhi",
@@ -55,13 +55,13 @@ export const metadata: Metadata = {
     siteName: CLINIC.name,
     title: "Dermaheal Skin & Hair Clinic — Top Dermatologist in Dwarka, Delhi",
     description:
-      "MD-led dermatology, aesthetics and trichology in Dwarka, New Delhi. Calibrated for Indian skin, grounded in clinical evidence.",
+      "Dermatology, aesthetics and trichology in Dwarka, New Delhi. Calibrated for Indian skin, grounded in clinical evidence.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Dermaheal Skin & Hair Clinic — Dwarka, New Delhi",
     description:
-      "MD-led dermatology, aesthetics and trichology. 27+ advanced treatments calibrated for Indian skin.",
+      "Dermatology, aesthetics and trichology. 27+ advanced treatments calibrated for Indian skin.",
   },
   robots: {
     index: true,

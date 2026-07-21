@@ -76,6 +76,34 @@ function isFilled<T>(v: T | null | undefined): v is T {
   return true;
 }
 
+function cleanSiteText(value: string): string {
+  return value
+    .replace(/\bwith an\s+M\.?D\.?\s+dermatologists?\b/gi, "with skin specialists")
+    .replace(/\bwith an\s+M\.?D\.?\s+dermatologist\b/gi, "with a skin specialist")
+    .replace(/\ban\s+M\.?D\.?\s+dermatologists?\b/gi, "dermatologists")
+    .replace(/\ban\s+M\.?D\.?\s+dermatologist\b/gi, "a dermatologist")
+    .replace(/\bboard-certified\s+M\.?D\.?\s+dermatologists?\b/gi, "qualified dermatologists")
+    .replace(/\bboard-certified\s+M\.?D\.?\s+dermatologist\b/gi, "qualified dermatologist")
+    .replace(/\bM\.?D\.?\s*[- ]\s*dermatologists?\b/gi, "dermatologists")
+    .replace(/\bM\.?D\.?\s*[- ]\s*dermatologist\b/gi, "dermatologist")
+    .replace(/\bM\.?D\.?\s*[- ]\s*dermatology\b/gi, "dermatology")
+    .replace(/\bM\.?D\.?\s*[- ]\s*led\b/gi, "doctor-led")
+    .replace(/\bwith an M\.?D\.?\b/gi, "with a skin specialist")
+    .replace(/\ban M\.?D\.?\b/gi, "a dermatologist")
+    .replace(/\bM\.?D\.?\b/g, "Derm");
+}
+
+function cleanContent<T>(value: T): T {
+  if (typeof value === "string") return cleanSiteText(value) as T;
+  if (Array.isArray(value)) return value.map((item) => cleanContent(item)) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, val]) => [key, cleanContent(val)]),
+    ) as T;
+  }
+  return value;
+}
+
 /**
  * Tag every Sanity fetch with "sanity" so the on-demand revalidation
  * webhook (`/api/revalidate`) can invalidate all of them at once when an
@@ -112,17 +140,18 @@ type SanityTreatmentCard = {
 };
 
 function mapTreatmentCard(d: SanityTreatmentCard, fallbackId: string): Treatment & { slug: string; imageUrl?: string } {
+  const clean = cleanContent(d);
   return {
-    id: d._id || fallbackId,
-    name: d.name,
-    cat: d.category?.key ?? "",
-    desc: d.shortDescription ?? "",
-    dur: d.duration ?? "",
-    img: d.imageVariant ?? "v1",
-    tag: d.tag,
-    slug: d.slug,
+    id: clean._id || fallbackId,
+    name: clean.name,
+    cat: clean.category?.key ?? "",
+    desc: clean.shortDescription ?? "",
+    dur: clean.duration ?? "",
+    img: clean.imageVariant ?? "v1",
+    tag: clean.tag,
+    slug: clean.slug,
     // Either uploaded image works as the card cover.
-    imageUrl: d.thumbnail?.url ?? d.heroImage?.url,
+    imageUrl: clean.thumbnail?.url ?? clean.heroImage?.url,
   };
 }
 
@@ -163,33 +192,34 @@ export async function getTreatmentDetailFetched(
 ): Promise<TreatmentDetailFetched | undefined> {
   const doc = await safeFetch<SanityTreatmentDetail | null>(treatmentBySlugQuery, { slug });
   if (doc) {
+    const clean = cleanContent(doc);
     return {
-      slug: doc.slug,
-      name: doc.name,
-      cat: doc.category?.title ?? doc.category?.key ?? "",
-      img: doc.imageVariant ?? "v1",
-      headline: doc.headline ?? "",
-      overview: doc.overview ?? "",
-      overviewExtra: doc.overviewExtra ?? "",
-      aboutCtaLabel: doc.aboutCtaLabel ?? "",
-      aboutCtaHref: doc.aboutCtaHref ?? "",
+      slug: clean.slug,
+      name: clean.name,
+      cat: clean.category?.title ?? clean.category?.key ?? "",
+      img: clean.imageVariant ?? "v1",
+      headline: clean.headline ?? "",
+      overview: clean.overview ?? "",
+      overviewExtra: clean.overviewExtra ?? "",
+      aboutCtaLabel: clean.aboutCtaLabel ?? "",
+      aboutCtaHref: clean.aboutCtaHref ?? "",
       quick: {
-        duration: doc.quickDuration ?? "",
-        sessions: doc.quickSessions ?? "",
-        downtime: doc.quickDowntime ?? "",
+        duration: clean.quickDuration ?? "",
+        sessions: clean.quickSessions ?? "",
+        downtime: clean.quickDowntime ?? "",
       },
-      keyPoints: doc.keyPoints ?? [],
-      suitableFor: doc.suitableFor ?? [],
-      protocols: doc.protocols ?? [],
-      process: (doc.process ?? []).map((s) => ({ t: s.title, d: s.description })),
-      benefits: (doc.benefits ?? []).map((b) => ({ i: b.icon, t: b.title, d: b.description })),
-      faqs: (doc.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
+      keyPoints: clean.keyPoints ?? [],
+      suitableFor: clean.suitableFor ?? [],
+      protocols: clean.protocols ?? [],
+      process: (clean.process ?? []).map((s) => ({ t: s.title, d: s.description })),
+      benefits: (clean.benefits ?? []).map((b) => ({ i: b.icon, t: b.title, d: b.description })),
+      faqs: (clean.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
       // Detail hero falls back to the card thumbnail so one upload is enough.
-      imageUrl: doc.heroImage?.url ?? doc.thumbnail?.url,
+      imageUrl: clean.heroImage?.url ?? clean.thumbnail?.url,
     };
   }
   const local = LOCAL_TREATMENTS_FULL[slug];
-  return local;
+  return local ? cleanContent(local) : local;
 }
 
 export async function getTreatmentSlugs(): Promise<string[]> {
@@ -236,10 +266,10 @@ export type ConcernDetailFetched = ConcernDetail & {
 
 export async function getConcerns(): Promise<ConcernDetail[]> {
   const docs = await safeFetch<SanityConcernCard[]>(concernsQuery);
-  if (!isFilled(docs)) return LOCAL_CONCERNS_FULL;
+  if (!isFilled(docs)) return cleanContent(LOCAL_CONCERNS_FULL);
   // Sanity concern listings only carry the card-level fields; pages that need
   // the full detail call getConcernBySlug.
-  return docs.map((d) => ({
+  return cleanContent(docs).map((d) => ({
     id: d._id,
     slug: d.slug,
     name: d.name,
@@ -267,27 +297,29 @@ export async function getConcernBySlug(
 ): Promise<ConcernDetailFetched | undefined> {
   const doc = await safeFetch<SanityConcernDetail | null>(concernBySlugQuery, { slug });
   if (doc) {
-    const treatmentCards = (doc.treatments ?? []).map((t, i) =>
+    const clean = cleanContent(doc);
+    const treatmentCards = (clean.treatments ?? []).map((t, i) =>
       mapTreatmentCard(t, `t${i}`),
     );
     return {
-      id: doc._id,
-      slug: doc.slug,
-      name: doc.name,
-      icon: doc.icon ?? "◍",
-      count: doc.cardTagline ?? "",
-      headline: doc.headline ?? "",
-      summary: doc.summary ?? "",
-      symptoms: doc.symptoms ?? [],
-      causes: doc.causes ?? [],
-      approach: doc.approach ?? [],
+      id: clean._id,
+      slug: clean.slug,
+      name: clean.name,
+      icon: clean.icon ?? "◍",
+      count: clean.cardTagline ?? "",
+      headline: clean.headline ?? "",
+      summary: clean.summary ?? "",
+      symptoms: clean.symptoms ?? [],
+      causes: clean.causes ?? [],
+      approach: clean.approach ?? [],
       treatmentSlugs: treatmentCards.map((t) => t.slug),
-      faqs: (doc.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
-      imageUrl: doc.image?.url,
+      faqs: (clean.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
+      imageUrl: clean.image?.url,
       treatmentCards,
     };
   }
-  return LOCAL_CONCERNS_FULL.find((c) => c.slug === slug);
+  const local = LOCAL_CONCERNS_FULL.find((c) => c.slug === slug);
+  return local ? cleanContent(local) : local;
 }
 
 // ----- Doctors --------------------------------------------------------------
@@ -319,53 +351,54 @@ type SanityDoctor = {
 export type DoctorFetched = Doctor & { imageUrl?: string };
 
 function mapDoctor(d: SanityDoctor): DoctorFetched {
+  const clean = cleanContent(d);
   return {
-    slug: d.slug,
-    name: d.name,
-    title: d.title,
-    bookingUrl: d.bookingUrl,
-    img: d.imageVariant ?? "d1",
-    focus: d.focusLine ?? "",
-    years: d.years ?? 0,
-    homeBio: d.homeBio ?? "",
-    short: d.shortLine ?? "",
-    listBio: d.listBio ?? "",
-    statCreds: (d.statCreds ?? []).map((s) => ({
+    slug: clean.slug,
+    name: clean.name,
+    title: clean.title,
+    bookingUrl: clean.bookingUrl,
+    img: clean.imageVariant ?? "d1",
+    focus: clean.focusLine ?? "",
+    years: clean.years ?? 0,
+    homeBio: clean.homeBio ?? "",
+    short: clean.shortLine ?? "",
+    listBio: clean.listBio ?? "",
+    statCreds: (clean.statCreds ?? []).map((s) => ({
       n: s.value,
       sup: s.superscript,
       l: s.label,
     })),
-    listExpertise: d.listExpertise ?? [],
-    tagline: d.tagline ?? "",
-    detailBio: d.detailBio ?? "",
-    credentials: (d.credentials ?? []).map((c) => ({
+    listExpertise: clean.listExpertise ?? [],
+    tagline: clean.tagline ?? "",
+    detailBio: clean.detailBio ?? "",
+    credentials: (clean.credentials ?? []).map((c) => ({
       i: c.icon,
       t: c.title,
       d: c.description ?? "",
     })),
-    timeline: (d.timeline ?? []).map((t) => ({
+    timeline: (clean.timeline ?? []).map((t) => ({
       y: t.year,
       t: t.title,
       d: t.description,
     })),
-    expertise: d.expertise ?? [],
-    treatments: (d.treatments ?? []).map((t) => ({
+    expertise: clean.expertise ?? [],
+    treatments: (clean.treatments ?? []).map((t) => ({
       i: t.icon ?? "✦",
       n: t.name,
       c: t.category ?? "",
     })),
-    quotes: (d.quotes ?? []).map((q) => ({
+    quotes: (clean.quotes ?? []).map((q) => ({
       q: q.quote,
       n: q.name,
       d: q.detail ?? "",
     })),
-    imageUrl: d.portrait?.url,
+    imageUrl: clean.portrait?.url,
   };
 }
 
 export async function getDoctors(): Promise<DoctorFetched[]> {
   const docs = await safeFetch<SanityDoctor[]>(doctorsQuery);
-  if (!isFilled(docs)) return LOCAL_DOCTORS;
+  if (!isFilled(docs)) return cleanContent(LOCAL_DOCTORS);
   return docs.map(mapDoctor);
 }
 
@@ -378,7 +411,8 @@ export async function getDoctorSlugs(): Promise<string[]> {
 export async function getDoctorBySlug(slug: string): Promise<DoctorFetched | undefined> {
   const doc = await safeFetch<SanityDoctor | null>(doctorBySlugQuery, { slug });
   if (doc) return mapDoctor(doc);
-  return LOCAL_DOCTORS.find((d) => d.slug === slug);
+  const local = LOCAL_DOCTORS.find((d) => d.slug === slug);
+  return local ? cleanContent(local) : local;
 }
 
 // ----- Results --------------------------------------------------------------
@@ -463,10 +497,10 @@ export type AnnouncementData = {
 
 export async function getAnnouncement(): Promise<AnnouncementData> {
   const doc = await safeFetch<AnnouncementData | null>(announcementQuery);
-  if (doc && typeof doc.message === "string") return doc;
+  if (doc && typeof doc.message === "string") return cleanContent(doc);
   return {
     enabled: true,
-    message: "BOOK A CONSULTATION WITH AN MD DERMATOLOGIST",
+    message: "BOOK A CONSULTATION WITH A SKIN SPECIALIST",
     linkLabel: "Book this week →",
     linkUrl: "/#book",
   };
@@ -489,12 +523,13 @@ export async function getSiteSettings(): Promise<SiteSettingsData> {
     defaultOgImage?: { url?: string };
   } | null>(siteSettingsQuery);
   if (!doc) return {};
+  const clean = cleanContent(doc);
   return {
-    siteUrl: doc.siteUrl,
-    defaultMetaTitle: doc.defaultMetaTitle,
-    titleTemplate: doc.titleTemplate,
-    defaultMetaDescription: doc.defaultMetaDescription,
-    defaultOgImageUrl: doc.defaultOgImage?.url,
+    siteUrl: clean.siteUrl,
+    defaultMetaTitle: clean.defaultMetaTitle,
+    titleTemplate: clean.titleTemplate,
+    defaultMetaDescription: clean.defaultMetaDescription,
+    defaultOgImageUrl: clean.defaultOgImage?.url,
   };
 }
 
@@ -528,18 +563,19 @@ export async function getHero(): Promise<HeroData> {
     heroImageMainUrl?: string;
     heroImageSubUrl?: string;
   } | null>(siteSettingsQuery);
+  const clean = cleanContent(doc);
   return {
-    eyebrow: doc?.heroEyebrow || LOCAL_HERO.eyebrow,
-    headline: doc?.heroHeadline || LOCAL_HERO.headline,
-    subhead: doc?.heroSubhead || LOCAL_HERO.subhead,
-    primaryCta: doc?.heroPrimaryCta || LOCAL_HERO.primaryCta,
-    secondaryCta: doc?.heroSecondaryCta || LOCAL_HERO.secondaryCta,
-    stats: isFilled(doc?.heroStats) ? doc!.heroStats! : LOCAL_HERO.stats,
-    badges: isFilled(doc?.heroBadges) ? doc!.heroBadges! : LOCAL_HERO.badges,
-    imageMainLabel: doc?.heroImageMainLabel || LOCAL_HERO.imageMainLabel,
-    imageSubLabel: doc?.heroImageSubLabel || LOCAL_HERO.imageSubLabel,
-    imageMainUrl: doc?.heroImageMainUrl,
-    imageSubUrl: doc?.heroImageSubUrl,
+    eyebrow: clean?.heroEyebrow || LOCAL_HERO.eyebrow,
+    headline: clean?.heroHeadline || LOCAL_HERO.headline,
+    subhead: clean?.heroSubhead || LOCAL_HERO.subhead,
+    primaryCta: clean?.heroPrimaryCta || LOCAL_HERO.primaryCta,
+    secondaryCta: clean?.heroSecondaryCta || LOCAL_HERO.secondaryCta,
+    stats: isFilled(clean?.heroStats) ? clean!.heroStats! : LOCAL_HERO.stats,
+    badges: isFilled(clean?.heroBadges) ? clean!.heroBadges! : LOCAL_HERO.badges,
+    imageMainLabel: clean?.heroImageMainLabel || LOCAL_HERO.imageMainLabel,
+    imageSubLabel: clean?.heroImageSubLabel || LOCAL_HERO.imageSubLabel,
+    imageMainUrl: clean?.heroImageMainUrl,
+    imageSubUrl: clean?.heroImageSubUrl,
   };
 }
 
@@ -565,15 +601,16 @@ export async function getWhySection(): Promise<WhyData> {
     whyImageMainUrl?: string;
     whyImageSubUrl?: string;
   } | null>(siteSettingsQuery);
+  const clean = cleanContent(doc);
   return {
-    eyebrow: doc?.whyEyebrow || LOCAL_WHY.eyebrow,
-    heading: doc?.whyHeading || LOCAL_WHY.heading,
-    statValue: doc?.whyStatValue || LOCAL_WHY.statValue,
-    statSuperscript: doc?.whyStatSuperscript || LOCAL_WHY.statSuperscript,
-    statLabel: doc?.whyStatLabel || LOCAL_WHY.statLabel,
-    imageLabel: doc?.whyImageLabel || LOCAL_WHY.imageLabel,
-    imageMainUrl: doc?.whyImageMainUrl,
-    imageSubUrl: doc?.whyImageSubUrl,
+    eyebrow: clean?.whyEyebrow || LOCAL_WHY.eyebrow,
+    heading: clean?.whyHeading || LOCAL_WHY.heading,
+    statValue: clean?.whyStatValue || LOCAL_WHY.statValue,
+    statSuperscript: clean?.whyStatSuperscript || LOCAL_WHY.statSuperscript,
+    statLabel: clean?.whyStatLabel || LOCAL_WHY.statLabel,
+    imageLabel: clean?.whyImageLabel || LOCAL_WHY.imageLabel,
+    imageMainUrl: clean?.whyImageMainUrl,
+    imageSubUrl: clean?.whyImageSubUrl,
   };
 }
 
@@ -595,13 +632,14 @@ export async function getBook(): Promise<BookData> {
     bookMeta?: string[];
     bookCards?: BookSlotCard[];
   } | null>(siteSettingsQuery);
+  const clean = cleanContent(doc);
   return {
-    eyebrow: doc?.bookEyebrow || LOCAL_BOOK.eyebrow,
-    heading: doc?.bookHeading || LOCAL_BOOK.heading,
-    body: doc?.bookBody || LOCAL_BOOK.body,
-    ctaLabel: doc?.bookCtaLabel || LOCAL_BOOK.ctaLabel,
-    meta: isFilled(doc?.bookMeta) ? doc!.bookMeta! : LOCAL_BOOK.meta,
-    cards: isFilled(doc?.bookCards) ? doc!.bookCards! : LOCAL_BOOK.cards,
+    eyebrow: clean?.bookEyebrow || LOCAL_BOOK.eyebrow,
+    heading: clean?.bookHeading || LOCAL_BOOK.heading,
+    body: clean?.bookBody || LOCAL_BOOK.body,
+    ctaLabel: clean?.bookCtaLabel || LOCAL_BOOK.ctaLabel,
+    meta: isFilled(clean?.bookMeta) ? clean!.bookMeta! : LOCAL_BOOK.meta,
+    cards: isFilled(clean?.bookCards) ? clean!.bookCards! : LOCAL_BOOK.cards,
   };
 }
 
@@ -611,26 +649,26 @@ export async function getTestimonials() {
   const docs = await safeFetch<{ quote: string; name: string; detail?: string }[]>(
     testimonialsQuery,
   );
-  if (!isFilled(docs)) return LOCAL_TESTIMONIALS;
-  return docs.map((d) => ({ q: d.quote, name: d.name, detail: d.detail ?? "" }));
+  if (!isFilled(docs)) return cleanContent(LOCAL_TESTIMONIALS);
+  return cleanContent(docs).map((d) => ({ q: d.quote, name: d.name, detail: d.detail ?? "" }));
 }
 
 export async function getHomepageFaqs() {
   const docs = await safeFetch<{ question: string; answer: string }[]>(homepageFaqsQuery);
-  if (!isFilled(docs)) return LOCAL_FAQS;
-  return docs.map((d) => ({ q: d.question, a: d.answer }));
+  if (!isFilled(docs)) return cleanContent(LOCAL_FAQS);
+  return cleanContent(docs).map((d) => ({ q: d.question, a: d.answer }));
 }
 
 export async function getEeatPillars() {
   const docs = await safeFetch<{ letter: string; title: string; description: string }[]>(
     eeatPillarsQuery,
   );
-  if (!isFilled(docs)) return LOCAL_EEAT;
-  return docs.map((d) => ({ letter: d.letter, title: d.title, desc: d.description }));
+  if (!isFilled(docs)) return cleanContent(LOCAL_EEAT);
+  return cleanContent(docs).map((d) => ({ letter: d.letter, title: d.title, desc: d.description }));
 }
 
 export async function getTrustItems(): Promise<{ icon: string; text: string }[]> {
   const docs = await safeFetch<{ icon: string; text: string }[]>(trustItemsQuery);
-  if (!isFilled(docs)) return LOCAL_TRUST_ITEMS;
-  return docs;
+  if (!isFilled(docs)) return cleanContent(LOCAL_TRUST_ITEMS);
+  return cleanContent(docs);
 }

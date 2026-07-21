@@ -29,14 +29,14 @@ export const DOCTORS: Doctor[] = [
     focus: "Skin · Hair · Nail",
     years: 14,
     homeBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Expertise in cosmetic dermatology, acne & scar management, advanced laser procedures and hair restoration.",
+      "Dermatology, Venereology & Leprosy training with expertise in cosmetic dermatology, acne & scar management, advanced laser procedures and hair restoration.",
     short: "Cosmetic dermatology · Acne & scars · Hair restoration",
     listBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. As the founder of Dermaheal, Dr. Arora has built one of Dwarka's most trusted dermatology practices over the last 14 years. His approach is anchored in honest assessments, ethical recommendations, and clinically calibrated outcomes for Indian skin.",
+      "With advanced training in Dermatology, Venereology & Leprosy, Dr. Arora has built one of Dwarka's most trusted dermatology practices over the last 14 years. His approach is anchored in honest assessments, ethical recommendations, and clinically calibrated outcomes for Indian skin.",
     statCreds: [
       { n: "14", sup: "yrs", l: "Practising" },
       { n: "9k", sup: "+", l: "Patients seen" },
-      { n: "MD", l: "Dermatology" },
+      { n: "DERM", l: "Specialist" },
     ],
     listExpertise: [
       "Acne & Scar Management",
@@ -49,15 +49,15 @@ export const DOCTORS: Doctor[] = [
     tagline:
       "Skin health is medical first, cosmetic second. My job is to get the science right and let the results follow.",
     detailBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. As the founder of Dermaheal, Dr. Arora has built one of Dwarka's most trusted dermatology practices over the last 14 years. His clinical work spans cosmetic dermatology, scar revision, and hair restoration, with a reputation for honest assessments and a no-upsell philosophy.",
+      "With advanced training in Dermatology, Venereology & Leprosy, Dr. Arora has built one of Dwarka's most trusted dermatology practices over the last 14 years. His clinical work spans cosmetic dermatology, scar revision, and hair restoration, with a reputation for honest assessments and a no-upsell philosophy.",
     credentials: [
-      { i: "MD", t: "MD Dermatology, Venereology & Leprosy", d: "Specialised post-graduate training in clinical and cosmetic dermatology." },
+      { i: "Derm", t: "Dermatology, Venereology & Leprosy", d: "Specialised post-graduate training in clinical and cosmetic dermatology." },
       { i: "FUE", t: "Hair Transplant Certification", d: "Advanced training in Follicular Unit Extraction (FUE) hair restoration." },
       { i: "✦", t: "Cosmetic Dermatology Fellowship", d: "Specialised training in advanced laser and injectable procedures." },
     ],
     timeline: [
       { y: "2012", t: "MBBS, Bachelor of Medicine, Bachelor of Surgery" },
-      { y: "2016", t: "MD, Dermatology, Venereology & Leprosy" },
+      { y: "2016", t: "Dermatology, Venereology & Leprosy" },
       { y: "2018", t: "Fellowship in Cosmetic Dermatology", d: "Advanced training in laser dermatology and aesthetic medicine." },
       { y: "2020", t: "Founded Dermaheal Skin & Hair Clinic", d: "Established the flagship practice in Sector 7 Dwarka, Delhi." },
       { y: "Today", t: "14+ years of clinical practice", d: "Over 9,000 patients treated across skin, hair and aesthetic concerns." },
@@ -96,14 +96,14 @@ export const DOCTORS: Doctor[] = [
     focus: "Aesthetic · Anti-Ageing",
     years: 10,
     homeBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Cosmetologist and dermato-surgeon focused on anti-ageing, skin rejuvenation and pigmentation treatments.",
+      "Dermatology, Venereology & Leprosy training with a focus on anti-ageing, skin rejuvenation and pigmentation treatments.",
     short: "Anti-ageing · Pigmentation · Aesthetic medicine",
     listBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Dr. Kohli is a board-certified cosmetologist and dermato-surgeon whose work focuses on age-related skin concerns, melasma protocols and aesthetic injectables. Her philosophy: subtle, natural-looking enhancements that respect individual proportions.",
+      "With advanced training in Dermatology, Venereology & Leprosy, Dr. Kohli is a cosmetologist and dermato-surgeon whose work focuses on age-related skin concerns, melasma protocols and aesthetic injectables. Her philosophy: subtle, natural-looking enhancements that respect individual proportions.",
     statCreds: [
       { n: "10", sup: "yrs", l: "Practising" },
       { n: "6k", sup: "+", l: "Patients seen" },
-      { n: "MD", l: "Dermatology" },
+      { n: "DERM", l: "Specialist" },
     ],
     listExpertise: [
       "Anti-Ageing & Wrinkles",
@@ -116,15 +116,15 @@ export const DOCTORS: Doctor[] = [
     tagline:
       "I think of every patient like family. Subtle, natural, age-appropriate, those are the words that guide my work.",
     detailBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Dr. Kohli is a board-certified cosmetologist and dermato-surgeon whose work focuses on age-related skin concerns, melasma protocols and aesthetic injectables. Her philosophy emphasises subtle, natural-looking enhancements that respect individual proportions and skin biology.",
+      "With advanced training in Dermatology, Venereology & Leprosy, Dr. Kohli is a cosmetologist and dermato-surgeon whose work focuses on age-related skin concerns, melasma protocols and aesthetic injectables. Her philosophy emphasises subtle, natural-looking enhancements that respect individual proportions and skin biology.",
     credentials: [
-      { i: "MD", t: "MD Dermatology, Venereology & Leprosy", d: "Specialised post-graduate training in clinical and cosmetic dermatology." },
+      { i: "Derm", t: "Dermatology, Venereology & Leprosy", d: "Specialised post-graduate training in clinical and cosmetic dermatology." },
       { i: "Aest", t: "Aesthetic Medicine Certification", d: "Advanced training in dermal fillers, botulinum toxin and threads." },
       { i: "✦", t: "Pigmentation Specialist", d: "Cosmelan, Dermamelan and laser pigmentation protocols." },
     ],
     timeline: [
       { y: "2014", t: "MBBS, Bachelor of Medicine, Bachelor of Surgery" },
-      { y: "2018", t: "MD, Dermatology, Venereology & Leprosy" },
+      { y: "2018", t: "Dermatology, Venereology & Leprosy" },
       { y: "2019", t: "Certified in Aesthetic Medicine", d: "Specialised training in fillers, Botox and thread lift procedures." },
       { y: "2022", t: "Joined Dermaheal as Senior Consultant", d: "Leads the anti-ageing and pigmentation practice at the clinic." },
       { y: "Today", t: "10+ years of clinical practice", d: "Over 6,000 patients treated with a focus on natural-look aesthetics." },
@@ -163,14 +163,14 @@ export const DOCTORS: Doctor[] = [
     focus: "Lasers · Brightening",
     years: 5,
     homeBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Specialises in laser hair removal, tattoo removal, scar reduction and skin brightening treatments.",
+      "Dermatology, Venereology & Leprosy training with a focus on laser hair removal, tattoo removal, scar reduction and skin brightening treatments.",
     short: "Lasers · Tattoo removal · Skin brightening",
     listBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Dr. Soni specialises in laser-based dermatology, from precision hair reduction across Indian skin tones to tattoo removal and scar revision. She is known for her methodical, evidence-first approach with every patient.",
+      "With advanced training in Dermatology, Venereology & Leprosy, Dr. Soni specialises in laser-based dermatology, from precision hair reduction across Indian skin tones to tattoo removal and scar revision. She is known for her methodical, evidence-first approach with every patient.",
     statCreds: [
       { n: "5", sup: "yrs", l: "Practising" },
       { n: "3k", sup: "+", l: "Patients seen" },
-      { n: "MD", l: "Dermatology" },
+      { n: "DERM", l: "Specialist" },
     ],
     listExpertise: [
       "Laser Hair Reduction",
@@ -183,15 +183,15 @@ export const DOCTORS: Doctor[] = [
     tagline:
       "Lasers are powerful tools, but only when you know exactly which one to use, and when not to use one at all.",
     detailBio:
-      "MBBS, MD, Dermatology, Venereology & Leprosy. Dr. Soni specialises in laser-based dermatology, from precision hair reduction across Indian skin tones to tattoo removal and scar revision. Her practice is grounded in evidence, calibration, and a deep respect for the science of melanin-rich skin.",
+      "With advanced training in Dermatology, Venereology & Leprosy, Dr. Soni specialises in laser-based dermatology, from precision hair reduction across Indian skin tones to tattoo removal and scar revision. Her practice is grounded in evidence, calibration, and a deep respect for the science of melanin-rich skin.",
     credentials: [
-      { i: "MD", t: "MD Dermatology, Venereology & Leprosy", d: "Specialised post-graduate training in clinical and cosmetic dermatology." },
+      { i: "Derm", t: "Dermatology, Venereology & Leprosy", d: "Specialised post-graduate training in clinical and cosmetic dermatology." },
       { i: "Las", t: "Advanced Laser Certification", d: "Multi-platform training across diode, Nd:YAG, IPL and Q-switch systems." },
       { i: "✦", t: "Indian Skin Specialist", d: "Calibration protocols developed for Fitzpatrick IV to VI skin types." },
     ],
     timeline: [
       { y: "2018", t: "MBBS, Bachelor of Medicine, Bachelor of Surgery" },
-      { y: "2022", t: "MD, Dermatology, Venereology & Leprosy" },
+      { y: "2022", t: "Dermatology, Venereology & Leprosy" },
       { y: "2023", t: "Advanced Laser Dermatology Training", d: "Multi-platform certification in laser-based dermatology procedures." },
       { y: "2024", t: "Joined Dermaheal", d: "Leads the laser, tattoo removal and skin brightening practice." },
       { y: "Today", t: "5+ years of clinical practice", d: "Over 3,000 patients treated with laser-based protocols." },

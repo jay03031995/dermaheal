@@ -41,7 +41,7 @@ export default async function TreatmentsPage() {
           </h1>
           <p>
             Every protocol is calibrated for Indian skin. And every procedure
-            is performed personally by an MD dermatologist, never delegated.
+            is performed personally by a dermatologist, never delegated.
           </p>
           <div className="page-hero-stats">
             <div className="page-hero-stat">
@@ -58,7 +58,7 @@ export default async function TreatmentsPage() {
               <div className="page-hero-stat-num">
                 100<sup>%</sup>
               </div>
-              <div className="page-hero-stat-label">MD-Dermatologist led</div>
+              <div className="page-hero-stat-label">Dermatologist led</div>
             </div>
           </div>
         </div>

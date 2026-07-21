@@ -279,7 +279,7 @@ async function main() {
       "Dermaheal Skin & Hair Clinic — Top Dermatologist in Dwarka, Delhi",
     titleTemplate: "%s — Dermaheal Skin & Hair Clinic",
     defaultMetaDescription:
-      "Dermaheal is Dwarka's MD-led skin and hair clinic. 27+ advanced treatments calibrated for Indian skin.",
+      "Dermaheal is Dwarka's trusted skin and hair clinic. 27+ advanced treatments calibrated for Indian skin.",
     heroEyebrow: HERO.eyebrow,
     heroHeadline: HERO.headline,
     heroSubhead: HERO.subhead,
@@ -351,7 +351,7 @@ async function main() {
     _id: "announcementBar",
     _type: "announcementBar",
     enabled: true,
-    message: "BOOK A CONSULTATION WITH AN MD DERMATOLOGIST",
+    message: "BOOK A CONSULTATION WITH A SKIN SPECIALIST",
     linkLabel: "Book this week →",
     linkUrl: "/#book",
   } as never);

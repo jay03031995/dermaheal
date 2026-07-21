@@ -27,7 +27,7 @@ export default async function ConcernsPage() {
           </h1>
           <p>
             From cystic acne to age-related volume loss, every concern is mapped
-            to a treatment plan reviewed personally by an MD dermatologist.
+            to a treatment plan reviewed personally by a dermatologist.
           </p>
         </div>
       </section>

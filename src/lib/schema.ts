@@ -19,7 +19,7 @@ export const localBusinessSchema = {
   "@id": CLINIC_ID,
   name: CLINIC.name,
   description:
-    "MD-led skin and hair clinic in Dwarka, New Delhi offering advanced dermatology, aesthetics and trichology treatments calibrated for Indian skin.",
+    "Skin and hair clinic in Dwarka, New Delhi offering advanced dermatology, aesthetics and trichology treatments calibrated for Indian skin.",
   url: SITE_URL,
   logo: abs("/dermaheal-logo.png"),
   image: abs("/dermaheal-logo.png"),

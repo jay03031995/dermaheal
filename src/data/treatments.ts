@@ -112,7 +112,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     quick: { duration: "6 to 8 hours", sessions: "1 to 2 sittings", downtime: "5 to 7 days" },
     keyPoints: [
       "FUE technique, minimally invasive, no linear scar",
-      "Natural hairline designed by an MD dermatologist",
+      "Natural hairline designed by a hair restoration specialist",
       "Long-term, permanent transplanted follicles",
       "Performed under local anaesthesia",
     ],
@@ -192,7 +192,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
       { i: "◐", t: "Customised regimen", d: "Plans differ for hormonal, nutritional or genetic hair loss." },
       { i: "❋", t: "Measured progress", d: "Trichoscopy lets us see new growth before it's visible." },
       { i: "✶", t: "Layered therapy", d: "Topicals + oral + PRP often outperform single interventions." },
-      { i: "⟡", t: "Doctor supervised", d: "Reviewed by an MD dermatologist every visit." },
+      { i: "⟡", t: "Doctor supervised", d: "Reviewed by a dermatologist every visit." },
       { i: "◍", t: "Honest expectations", d: "We tell you what's possible and what isn't, on day one." },
     ],
     faqs: [
@@ -209,7 +209,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     keyPoints: [
       "Forehead, frown lines and crow's feet",
       "Natural, soft results, never frozen",
-      "Performed by MD dermatologist",
+      "Performed by a qualified dermatologist",
       "Genuine, authentic products only",
     ],
     suitableFor: ["Forehead lines", "Frown lines (11s)", "Crow's feet", "Bunny lines", "Jaw slimming", "Excessive sweating (axillary)"],
@@ -353,7 +353,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
       { i: "◐", t: "Boosts other treatments", d: "Adds visible uplift when layered onto MNRF or laser." },
       { i: "✶", t: "Minimal downtime", d: "Most patients return to routine immediately." },
       { i: "⟡", t: "Speeds recovery", d: "Excellent post-procedure to settle redness and inflammation." },
-      { i: "◍", t: "Doctor-supervised", d: "Performed only by an MD dermatologist." },
+      { i: "◍", t: "Doctor-supervised", d: "Performed only by a qualified dermatologist." },
     ],
     faqs: [
       { q: "Are exosomes safe?", a: "When sourced from accredited labs and used by trained dermatologists, exosomes have a strong safety profile. We use products with documented sourcing only." },
@@ -689,7 +689,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     keyPoints: [
       "Stronger than Cosmelan for severe melasma",
       "Reserved for treatment-resistant pigmentation",
-      "Performed only by an MD dermatologist",
+      "Performed only by a qualified dermatologist",
       "Structured 6 to 9 month aftercare protocol",
     ],
     suitableFor: ["Severe melasma", "Treatment-resistant pigmentation", "Deep dermal melasma", "Post-pregnancy hyperpigmentation", "Hormonal pigmentation", "Patients who have plateaued on Cosmelan"],
@@ -703,7 +703,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
       { i: "✦", t: "Resistant cases", d: "Effective where milder protocols stall." },
       { i: "✶", t: "Even, brighter tone", d: "Visible change across hyperpigmented areas." },
       { i: "❋", t: "Long-term suppression", d: "Multi-month tapering maintains gains." },
-      { i: "◐", t: "Doctor-only", d: "Always performed and supervised by an MD dermatologist." },
+      { i: "◐", t: "Doctor-only", d: "Always performed and supervised by a qualified dermatologist." },
       { i: "⟡", t: "Structured", d: "A clear plan: in-clinic mask, home care, scheduled reviews." },
       { i: "◍", t: "Combines well", d: "Layered with peels and lasers once pigment settles." },
     ],
@@ -737,7 +737,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
       { i: "◐", t: "Long-term collagen", d: "Remodelling continues for 3 to 6 months after the course." },
       { i: "❋", t: "Indian skin safe", d: "Conservative settings reduce post-inflammatory pigment risk." },
       { i: "⟡", t: "Pairs with PRP", d: "Adding PRP or exosomes accelerates results." },
-      { i: "◍", t: "Doctor-led", d: "Performed entirely by an MD dermatologist." },
+      { i: "◍", t: "Doctor-led", d: "Performed entirely by a qualified dermatologist." },
     ],
     faqs: [
       { q: "How much improvement should I expect?", a: "Realistic expectations: 50 to 80 percent improvement in most cases over a complete course. Severe scarring may need ongoing maintenance." },
@@ -797,7 +797,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     ],
     benefits: [
       { i: "✦", t: "Radiance", d: "Complexion looks clearer and brighter over a course." },
-      { i: "◐", t: "Doctor supervised", d: "Carried out only by an MD dermatologist." },
+      { i: "◐", t: "Doctor supervised", d: "Carried out only by a qualified dermatologist." },
       { i: "✶", t: "Honest expectations", d: "We are transparent about what is realistic." },
       { i: "❋", t: "Supports other therapy", d: "Useful alongside melasma and brightening protocols." },
       { i: "⟡", t: "Antioxidant load", d: "Broader systemic antioxidant support." },
@@ -893,7 +893,7 @@ export const TREATMENTS_FULL: Record<string, TreatmentDetail> = {
     ],
     benefits: [
       { i: "✦", t: "Multi-pronged", d: "Topicals + light + grafting (where indicated) gives the best chance of repigmentation." },
-      { i: "◐", t: "Doctor-led", d: "Performed by an MD dermatologist who specialises in pigmentary disorders." },
+      { i: "◐", t: "Doctor-led", d: "Performed by a dermatologist who specialises in pigmentary disorders." },
       { i: "✶", t: "Honest forecasting", d: "We do not promise full repigmentation; we share realistic ranges." },
       { i: "❋", t: "Targeted phototherapy", d: "Excimer focuses light on patches only, sparing normal skin." },
       { i: "⟡", t: "Holistic", d: "Trigger review, autoimmune screen and lifestyle counselling included." },

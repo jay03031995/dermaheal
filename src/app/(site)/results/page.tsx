@@ -76,7 +76,7 @@ export default async function ResultsPage() {
           </div>
           <h2>Book a consultation to discuss your case.</h2>
           <p>
-            A one-on-one assessment with an MD dermatologist. A written plan
+            A one-on-one assessment with a skin specialist. A written plan
             with realistic timelines. Walk out knowing exactly what is possible
             for your skin or hair.
           </p>
