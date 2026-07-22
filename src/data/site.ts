@@ -98,6 +98,7 @@ export const FAQS = [
 ];
 
 export const TRUST_ITEMS = [
+  { icon: "award", text: "Dermatologist-led" },
   { icon: "sparkle", text: "Calibrated for Indian skin" },
   { icon: "calendar", text: "6-month outcome support" },
 ];
