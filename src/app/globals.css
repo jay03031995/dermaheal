@@ -512,6 +512,43 @@ p { margin: 0; color: var(--muted); }
   gap: 10px;
   color: rgba(217, 190, 152, .9);
   letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+.trust-item svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+@media (max-width: 640px) {
+  .trust { padding: 16px 0; }
+  .trust-inner {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 8px;
+    padding: 0 14px;
+    align-items: start;
+  }
+  .trust-label {
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding-right: 0;
+    border-right: 0;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+  }
+  .trust-item {
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    font-size: 10.5px;
+    line-height: 1.2;
+    text-align: center;
+    letter-spacing: 0;
+  }
+  .trust-item svg {
+    width: 13px;
+    height: 13px;
+  }
 }
 
 /* ---------- Concerns ---------- */

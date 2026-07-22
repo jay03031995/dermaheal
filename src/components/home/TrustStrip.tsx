@@ -15,8 +15,42 @@ const ICON: Record<string, React.ElementType> = {
 const isHidden = (text: string) =>
   /fda/i.test(text) || /m\.?d\.?\s+dermatologist\s+led/i.test(text);
 
+const REQUIRED_ITEMS = [
+  { icon: "award", text: "Dermatologist-led" },
+  { icon: "sparkle", text: "Calibrated for Indian skin" },
+];
+
+const normalizeTextKey = (text: string) =>
+  text.toLowerCase().replace(/[-\s]+/g, " ").trim();
+
+const normalizeTrustItem = (item: { icon: string; text: string }) => {
+  if (/^dermatologists?\s*-?\s*led$/i.test(item.text)) {
+    return { icon: "award", text: "Dermatologist-led" };
+  }
+
+  return item;
+};
+
+const normalizeTrustItems = (items: { icon: string; text: string }[]) => {
+  const visibleItems = items
+    .filter((it) => !isHidden(it.text))
+    .map(normalizeTrustItem);
+  const itemTexts = new Set(visibleItems.map((it) => normalizeTextKey(it.text)));
+
+  const requiredItems = REQUIRED_ITEMS.filter(
+    (it) => !itemTexts.has(normalizeTextKey(it.text)),
+  );
+
+  const uniqueItems = [...requiredItems, ...visibleItems].filter((item, index, all) => {
+    const key = normalizeTextKey(item.text);
+    return all.findIndex((it) => normalizeTextKey(it.text) === key) === index;
+  });
+
+  return uniqueItems.slice(0, 3);
+};
+
 export default async function TrustStrip() {
-  const items = (await getTrustItems()).filter((it) => !isHidden(it.text));
+  const items = normalizeTrustItems(await getTrustItems());
 
   return (
     <div className="trust">
