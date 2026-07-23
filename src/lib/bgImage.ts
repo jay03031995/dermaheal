@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { normalizeAssetUrl } from "@/lib/seo";
 
 /**
  * Inline `background-image` style for an optional (often remote) image URL.
@@ -6,9 +7,10 @@ import type { CSSProperties } from "react";
  * defined on the element's variant class shows through instead.
  */
 export function bgImage(url?: string): CSSProperties | undefined {
-  return url
+  const normalizedUrl = normalizeAssetUrl(url);
+  return normalizedUrl
     ? {
-        backgroundImage: `url(${url})`,
+        backgroundImage: `url(${normalizedUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }

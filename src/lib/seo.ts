@@ -25,6 +25,13 @@ export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
+export function normalizeAssetUrl(url?: string) {
+  return url?.replace(
+    /^https:\/\/dermaheal\.co\.in(?=\/)/,
+    "https://www.dermaheal.co.in",
+  );
+}
+
 export function pageMetadata({
   title,
   description,

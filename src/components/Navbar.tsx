@@ -26,6 +26,7 @@ const MOBILE_LINKS = [
   { href: "/concerns", label: "Concerns" },
   { href: "/doctors", label: "Doctors" },
   { href: "/results", label: "Results" },
+  { href: "https://www.dermaheal.co.in/blog/", label: "Blog", external: true },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -133,6 +134,9 @@ export default function Navbar() {
           <Link className="nav-link" href="/results">
             Results
           </Link>
+          <a className="nav-link" href="https://www.dermaheal.co.in/blog/">
+            Blog
+          </a>
           <Link className="nav-link" href="/#contact">
             Contact
           </Link>
@@ -171,17 +175,29 @@ export default function Navbar() {
       </div>
 
       <div className={"nav-mobile" + (menuOpen ? " open" : "")}>
-        {MOBILE_LINKS.map(({ href, label }) => (
-          <Link
-            key={href}
-            className="nav-mobile-link"
-            href={href}
-            onClick={() => setMenuOpen(false)}
-          >
-            {label}
-            <ArrowRight size={14} />
-          </Link>
-        ))}
+        {MOBILE_LINKS.map(({ href, label, external }) =>
+          external ? (
+            <a
+              key={href}
+              className="nav-mobile-link"
+              href={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+              <ArrowRight size={14} />
+            </a>
+          ) : (
+            <Link
+              key={href}
+              className="nav-mobile-link"
+              href={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+              <ArrowRight size={14} />
+            </Link>
+          ),
+        )}
         <a className="nav-mobile-phone" href={`tel:${CLINIC.phone.replace(/\s/g, "")}`}>
           <Phone /> {CLINIC.phone}
         </a>

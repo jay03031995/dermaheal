@@ -8,7 +8,7 @@ export const CLINIC = {
     "C-712, Ramphal Chowk, Block D, Sector 7 Dwarka, Palam, near Shiksha Bharti School, New Delhi 110075",
   hours: "Mon to Sat 10:00 AM to 7:30 PM · Sun 10:00 AM to 7:00 PM",
   cities: ["Dwarka", "New Delhi"],
-  shopUrl: "https://dermaheal.co.in/shop",
+  shopUrl: "https://www.dermaheal.co.in/shop",
   reviewsUrl: "https://share.google/dc4lU10Jdo97k42ij",
   social: {
     instagram: "https://www.instagram.com/dermaheal_india/",

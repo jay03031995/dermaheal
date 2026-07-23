@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { RESULT_CATS } from "@/data/site";
+import { normalizeAssetUrl } from "@/lib/seo";
 import type { ResultFetched } from "@/sanity/lib/fetchers";
 
 export default function ResultsGallery({ results }: { results: ResultFetched[] }) {
@@ -43,6 +44,7 @@ export default function ResultsGallery({ results }: { results: ResultFetched[] }
   };
 
   const current = openIndex === null ? null : filtered[openIndex];
+  const imageSrc = (r: ResultFetched) => normalizeAssetUrl(r.imageUrl || r.img) || "";
 
   return (
     <>
@@ -69,7 +71,7 @@ export default function ResultsGallery({ results }: { results: ResultFetched[] }
               aria-label={`View ${r.name} before and after result`}
             >
               <img
-                src={r.imageUrl || r.img}
+                src={imageSrc(r)}
                 alt={`${r.name} before and after at Dermaheal`}
                 loading="lazy"
               />
@@ -129,7 +131,7 @@ export default function ResultsGallery({ results }: { results: ResultFetched[] }
           )}
           <figure className="ba-lightbox-fig" onClick={(e) => e.stopPropagation()}>
             <img
-              src={current.imageUrl || current.img}
+              src={imageSrc(current)}
               alt={`${current.name} before and after at Dermaheal`}
             />
             <figcaption>
