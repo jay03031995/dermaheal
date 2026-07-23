@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CLINIC } from "@/data/clinic";
 
-export const SITE_URL = "https://dermaheal.co.in";
+export const SITE_URL = "https://www.dermaheal.co.in";
 
 export const SITE_NAME = CLINIC.name;
 
