@@ -86,13 +86,7 @@ The Studio at `/studio` lets staff edit:
    - Under **API → Tokens**, create a token with **Editor** permissions.
      Copy it — you'll only see the value once.
 
-3. Add env vars in `.env.local` (copy from `.env.local.example`):
-
-   ```
-   NEXT_PUBLIC_SANITY_PROJECT_ID=xxxxxxxx
-   NEXT_PUBLIC_SANITY_DATASET=production
-   SANITY_API_TOKEN=sk... # editor token, server-only
-   ```
+3. c
 
 4. Seed your project with the bundled content:
 

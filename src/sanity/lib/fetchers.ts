@@ -66,6 +66,7 @@ import {
   type HeroStat,
   type Result,
 } from "@/data/site";
+import { normalizeAssetUrl } from "@/lib/seo";
 
 // ----- Shared helpers -------------------------------------------------------
 
@@ -151,7 +152,7 @@ function mapTreatmentCard(d: SanityTreatmentCard, fallbackId: string): Treatment
     tag: clean.tag,
     slug: clean.slug,
     // Either uploaded image works as the card cover.
-    imageUrl: clean.thumbnail?.url ?? clean.heroImage?.url,
+    imageUrl: normalizeAssetUrl(clean.thumbnail?.url ?? clean.heroImage?.url),
   };
 }
 
@@ -215,7 +216,7 @@ export async function getTreatmentDetailFetched(
       benefits: (clean.benefits ?? []).map((b) => ({ i: b.icon, t: b.title, d: b.description })),
       faqs: (clean.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
       // Detail hero falls back to the card thumbnail so one upload is enough.
-      imageUrl: clean.heroImage?.url ?? clean.thumbnail?.url,
+      imageUrl: normalizeAssetUrl(clean.heroImage?.url ?? clean.thumbnail?.url),
     };
   }
   const local = LOCAL_TREATMENTS_FULL[slug];
@@ -275,7 +276,7 @@ export async function getConcerns(): Promise<ConcernDetail[]> {
     name: d.name,
     icon: d.icon ?? "◍",
     count: d.cardTagline ?? "",
-    imageUrl: d.cardImageUrl,
+    imageUrl: normalizeAssetUrl(d.cardImageUrl),
     headline: "",
     summary: "",
     symptoms: [],
@@ -314,7 +315,7 @@ export async function getConcernBySlug(
       approach: clean.approach ?? [],
       treatmentSlugs: treatmentCards.map((t) => t.slug),
       faqs: (clean.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
-      imageUrl: clean.image?.url,
+      imageUrl: normalizeAssetUrl(clean.image?.url),
       treatmentCards,
     };
   }
@@ -392,7 +393,7 @@ function mapDoctor(d: SanityDoctor): DoctorFetched {
       n: q.name,
       d: q.detail ?? "",
     })),
-    imageUrl: clean.portrait?.url,
+    imageUrl: normalizeAssetUrl(clean.portrait?.url),
   };
 }
 
@@ -442,8 +443,8 @@ export async function getResults(): Promise<ResultFetched[]> {
     sessions: d.sessions,
     patient: d.patient,
     concern: d.concern,
-    img: d.image?.url || d.externalImageUrl || "",
-    imageUrl: d.image?.url || d.externalImageUrl,
+    img: normalizeAssetUrl(d.image?.url || d.externalImageUrl) || "",
+    imageUrl: normalizeAssetUrl(d.image?.url || d.externalImageUrl),
   }));
 }
 

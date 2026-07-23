@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       // The legacy patient gallery still points at the live clinic site;
       // keep this allow-list entry until those images are migrated into Sanity.
       { protocol: "https", hostname: "dermaheal.co.in" },
+      { protocol: "https", hostname: "www.dermaheal.co.in" },
     ],
   },
   async redirects() {

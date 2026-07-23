@@ -74,10 +74,10 @@ export type Result = {
 };
 
 export const RESULTS: Result[] = [
-  { id: "r1", name: "Acne Scar Reduction (MNRF)", cat: "Acne Scars", weeks: "16 weeks", sessions: "3 sessions, 4 wks apart", patient: "Adult patient", concern: "Rolling + box scars", img: "https://dermaheal.co.in/assets/DermaHeal/Acne%20Scar%20(2).jpg" },
-  { id: "r2", name: "Cosmelan for Melasma", cat: "Pigmentation", weeks: "12 weeks", sessions: "1 mask + home care", patient: "Adult patient", concern: "Hyperpigmentation", img: "https://dermaheal.co.in/assets/DermaHeal/hyperpig%20(6).jpg" },
-  { id: "r3", name: "Hair PRP Protocol", cat: "Hair Loss", weeks: "24 weeks", sessions: "6 sessions monthly", patient: "Adult patient", concern: "Diffuse thinning crown", img: "https://dermaheal.co.in/assets/DermaHeal/hair%20loss%20(8).jpg" },
-  { id: "r4", name: "Anti-wrinkle Therapy (Botox)", cat: "Anti-Ageing", weeks: "2 weeks", sessions: "Single visit", patient: "Adult patient", concern: "Forehead lines + glabella", img: "https://dermaheal.co.in/assets/DermaHeal/Botox.jpg" },
+  { id: "r1", name: "Acne Scar Reduction (MNRF)", cat: "Acne Scars", weeks: "16 weeks", sessions: "3 sessions, 4 wks apart", patient: "Adult patient", concern: "Rolling + box scars", img: "https://www.dermaheal.co.in/assets/DermaHeal/Acne%20Scar%20(2).jpg" },
+  { id: "r2", name: "Cosmelan for Melasma", cat: "Pigmentation", weeks: "12 weeks", sessions: "1 mask + home care", patient: "Adult patient", concern: "Hyperpigmentation", img: "https://www.dermaheal.co.in/assets/DermaHeal/hyperpig%20(6).jpg" },
+  { id: "r3", name: "Hair PRP Protocol", cat: "Hair Loss", weeks: "24 weeks", sessions: "6 sessions monthly", patient: "Adult patient", concern: "Diffuse thinning crown", img: "https://www.dermaheal.co.in/assets/DermaHeal/hair%20loss%20(8).jpg" },
+  { id: "r4", name: "Anti-wrinkle Therapy (Botox)", cat: "Anti-Ageing", weeks: "2 weeks", sessions: "Single visit", patient: "Adult patient", concern: "Forehead lines + glabella", img: "https://www.dermaheal.co.in/assets/DermaHeal/Botox.jpg" },
 ];
 
 export const RESULT_CATS = ["All", "Acne Scars", "Pigmentation", "Hair Loss", "Anti-Ageing"];
@@ -128,7 +128,7 @@ export const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   ],
   Resources: [
     { label: "Book a Consultation", href: "/#book" },
-    { label: "Shop", href: "https://dermaheal.co.in/shop" },
+    { label: "Shop", href: "https://www.dermaheal.co.in/shop" },
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms & Conditions", href: "/terms" },
   ],

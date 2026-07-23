@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { RESULT_CATS } from "@/data/site";
 import { ArrowRight } from "@/components/icons";
+import { normalizeAssetUrl } from "@/lib/seo";
 import type { ResultFetched } from "@/sanity/lib/fetchers";
 
 export default function HomeResultsClient({ results }: { results: ResultFetched[] }) {
@@ -21,6 +22,8 @@ export default function HomeResultsClient({ results }: { results: ResultFetched[
 
   const r = filtered[idx] ?? filtered[0] ?? results[0];
   if (!r) return null;
+  const imageSrc = (result: ResultFetched) =>
+    normalizeAssetUrl(result.imageUrl || result.img) || "";
 
   return (
     <section className="section results" id="results">
@@ -54,7 +57,7 @@ export default function HomeResultsClient({ results }: { results: ResultFetched[
             <div className="ba-slider">
               <img
                 className="ba-photo"
-                src={r.imageUrl || r.img}
+                src={imageSrc(r)}
                 alt={`${r.name} before and after at Dermaheal`}
               />
               <span className="ba-label before">Before</span>
@@ -96,7 +99,7 @@ export default function HomeResultsClient({ results }: { results: ResultFetched[
                   onClick={() => setIdx(i)}
                   aria-label={R.name}
                 >
-                  <img src={R.imageUrl || R.img} alt="" />
+                  <img src={imageSrc(R)} alt="" />
                 </button>
               ))}
             </div>
