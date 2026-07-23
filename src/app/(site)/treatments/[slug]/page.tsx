@@ -18,6 +18,7 @@ import {
   faqSchema,
   medicalProcedureSchema,
 } from "@/lib/schema";
+import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
 
 const ROMAN = ["i", "ii", "iii", "iv"];
 
@@ -33,13 +34,22 @@ export async function generateMetadata(props: {
   const t = await getTreatmentDetailFetched(slug);
   if (!t) return { title: "Treatment Not Found" };
   return {
-    title: `${t.name} in Dwarka — Dermaheal`,
+    title: `${t.name} in Dwarka`,
     description: t.overview,
     alternates: { canonical: `/treatments/${slug}` },
     openGraph: {
-      title: `${t.name} — Dermaheal Skin & Hair Clinic`,
+      type: "article",
+      locale: "en_IN",
+      url: absoluteUrl(`/treatments/${slug}`),
+      title: `${t.name} - Dermaheal Skin & Hair Clinic`,
       description: t.overview,
-      images: t.imageUrl ? [t.imageUrl] : undefined,
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${t.name} in Dwarka`,
+      description: t.overview,
+      images: [OG_IMAGE.secureUrl],
     },
   };
 }

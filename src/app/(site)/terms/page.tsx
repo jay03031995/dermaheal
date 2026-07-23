@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { CLINIC } from "@/data/clinic";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Terms & Conditions",
   description:
     "Terms and Conditions for using the Dermaheal Skin & Hair Clinic website and services.",
-  alternates: { canonical: "/terms" },
-};
+  canonical: "/terms",
+});
 
 export default function TermsPage() {
   return (

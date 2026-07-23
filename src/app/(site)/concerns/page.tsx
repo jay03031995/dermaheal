@@ -3,13 +3,14 @@ import Link from "next/link";
 import { getConcerns } from "@/sanity/lib/fetchers";
 import { ArrowRight } from "@/components/icons";
 import { bgImage } from "@/lib/bgImage";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Skin & Hair Concerns — Treatments at Dermaheal Dwarka",
+export const metadata: Metadata = pageMetadata({
+  title: "Skin & Hair Concerns - Treatments at Dermaheal Dwarka",
   description:
     "Twelve common skin and hair concerns mapped to proven, dermatologist-led treatments at Dermaheal Skin & Hair Clinic, Dwarka.",
-  alternates: { canonical: "/concerns" },
-};
+  canonical: "/concerns",
+});
 
 export default async function ConcernsPage() {
   const concerns = await getConcerns();

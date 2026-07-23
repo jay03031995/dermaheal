@@ -13,6 +13,7 @@ import FaqItem from "@/components/FaqItem";
 import JsonLd from "@/components/JsonLd";
 import { bgImage } from "@/lib/bgImage";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const slugs = await getConcernSlugs();
@@ -26,13 +27,22 @@ export async function generateMetadata(props: {
   const c = await getConcernBySlug(slug);
   if (!c) return { title: "Concern Not Found" };
   return {
-    title: `${c.name} in Dwarka — Dermaheal`,
+    title: `${c.name} in Dwarka`,
     description: c.summary,
     alternates: { canonical: `/concerns/${slug}` },
     openGraph: {
-      title: `${c.name} — Dermaheal Skin & Hair Clinic`,
+      type: "article",
+      locale: "en_IN",
+      url: absoluteUrl(`/concerns/${slug}`),
+      title: `${c.name} - Dermaheal Skin & Hair Clinic`,
       description: c.summary,
-      images: c.imageUrl ? [c.imageUrl] : undefined,
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${c.name} in Dwarka`,
+      description: c.summary,
+      images: [OG_IMAGE.secureUrl],
     },
   };
 }

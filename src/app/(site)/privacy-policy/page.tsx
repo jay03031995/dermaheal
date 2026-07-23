@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { CLINIC } from "@/data/clinic";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Privacy Policy",
   description:
     "Privacy Policy for Dermaheal Skin & Hair Clinic, Dwarka, New Delhi.",
-  alternates: { canonical: "/privacy-policy" },
-};
+  canonical: "/privacy-policy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

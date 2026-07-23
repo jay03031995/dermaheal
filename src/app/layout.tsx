@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import { Poppins, Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { CLINIC } from "@/data/clinic";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_TITLE,
+  OG_IMAGE,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/seo";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -26,13 +33,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dermaheal.co.in"),
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
-    default: "Dermaheal Skin & Hair Clinic — Top Dermatologist in Dwarka, Delhi",
-    template: "%s — Dermaheal Skin & Hair Clinic",
+    default: DEFAULT_TITLE,
+    template: `%s - ${SITE_NAME}`,
   },
-  description:
-    "Dermaheal is Dwarka's trusted skin and hair clinic. 27+ advanced treatments — hair transplant, Botox, MNRF, Cosmelan, laser hair reduction and more, calibrated for Indian skin.",
+  description: DEFAULT_DESCRIPTION,
   keywords: [
     "dermatologist in Dwarka",
     "skin clinic Dwarka Delhi",
@@ -47,21 +54,29 @@ export const metadata: Metadata = {
   authors: [{ name: CLINIC.name }],
   creator: CLINIC.name,
   publisher: CLINIC.name,
+  category: "Healthcare",
   alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://dermaheal.co.in",
+    url: SITE_URL,
     siteName: CLINIC.name,
-    title: "Dermaheal Skin & Hair Clinic — Top Dermatologist in Dwarka, Delhi",
-    description:
-      "Dermatology, aesthetics and trichology in Dwarka, New Delhi. Calibrated for Indian skin, grounded in clinical evidence.",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dermaheal Skin & Hair Clinic — Dwarka, New Delhi",
-    description:
-      "Dermatology, aesthetics and trichology. 27+ advanced treatments calibrated for Indian skin.",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE.secureUrl],
   },
   robots: {
     index: true,

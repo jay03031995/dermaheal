@@ -4,13 +4,14 @@ import { CLINIC } from "@/data/clinic";
 import BookButton from "@/components/BookButton";
 import ResultsGallery from "@/components/ResultsGallery";
 import { getResults } from "@/sanity/lib/fetchers";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Patient Results — Before & After at Dermaheal Dwarka",
+export const metadata: Metadata = pageMetadata({
+  title: "Patient Results - Before & After at Dermaheal Dwarka",
   description:
-    "Real patient results from Dermaheal Skin & Hair Clinic, Dwarka — acne scars, pigmentation, hair loss and anti-ageing protocols. Photographed and shared with consent.",
-  alternates: { canonical: "/results" },
-};
+    "Real patient results from Dermaheal Skin & Hair Clinic, Dwarka - acne scars, pigmentation, hair loss and anti-ageing protocols. Photographed and shared with consent.",
+  canonical: "/results",
+});
 
 export default async function ResultsPage() {
   const results = await getResults();

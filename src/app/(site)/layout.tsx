@@ -6,7 +6,7 @@ import FabStack from "@/components/FabStack";
 import BookingModal from "@/components/BookingModal";
 import RevealInit from "@/components/RevealInit";
 import JsonLd from "@/components/JsonLd";
-import { localBusinessSchema } from "@/lib/schema";
+import { localBusinessSchema, websiteSchema } from "@/lib/schema";
 
 /**
  * Safety-net revalidation: every page under (site)/ re-renders at most once
@@ -20,7 +20,7 @@ export default function SiteLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <>
-      <JsonLd data={localBusinessSchema} />
+      <JsonLd data={[localBusinessSchema, websiteSchema]} />
       <BookingProvider>
         <Announcement />
         <Navbar />

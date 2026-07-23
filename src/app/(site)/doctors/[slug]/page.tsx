@@ -12,6 +12,7 @@ import BookButton from "@/components/BookButton";
 import JsonLd from "@/components/JsonLd";
 import { bgImage } from "@/lib/bgImage";
 import { breadcrumbSchema, physicianSchema } from "@/lib/schema";
+import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const slugs = await getDoctorSlugs();
@@ -25,13 +26,22 @@ export async function generateMetadata(props: {
   const d = await getDoctorBySlug(slug);
   if (!d) return { title: "Doctor Not Found" };
   return {
-    title: `${d.name} — ${d.title}, Dermaheal`,
+    title: `${d.name} - ${d.title}`,
     description: d.detailBio,
     alternates: { canonical: `/doctors/${slug}` },
     openGraph: {
-      title: `${d.name} — ${d.title} · Dermaheal`,
+      type: "profile",
+      locale: "en_IN",
+      url: absoluteUrl(`/doctors/${slug}`),
+      title: `${d.name} - ${d.title} · Dermaheal`,
       description: d.detailBio,
-      images: d.imageUrl ? [d.imageUrl] : undefined,
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${d.name} - ${d.title}`,
+      description: d.detailBio,
+      images: [OG_IMAGE.secureUrl],
     },
   };
 }
