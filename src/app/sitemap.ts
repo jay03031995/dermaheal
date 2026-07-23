@@ -6,7 +6,7 @@ import {
 } from "@/sanity/lib/fetchers";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://dermaheal.co.in";
+  const baseUrl = "https://www.dermaheal.co.in";
   const lastModified = new Date();
 
   const [treatmentSlugs, concernSlugs, doctorSlugs] = await Promise.all([
