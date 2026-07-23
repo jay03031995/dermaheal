@@ -7,13 +7,14 @@ import {
 import { ArrowRight, Clock, Tag } from "@/components/icons";
 import CategoryNav from "@/components/CategoryNav";
 import { bgImage } from "@/lib/bgImage";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "All Treatments — 27 advanced dermatology procedures",
+export const metadata: Metadata = pageMetadata({
+  title: "All Treatments - 27 advanced dermatology procedures",
   description:
     "Dermaheal Skin & Hair Clinic, Dwarka offers 27 advanced treatments across hair restoration, injectables, lasers, peels, regenerative medicine and day-care surgery. Calibrated for Indian skin.",
-  alternates: { canonical: "/treatments" },
-};
+  canonical: "/treatments",
+});
 
 export default async function TreatmentsPage() {
   const [allTreatments, categories] = await Promise.all([

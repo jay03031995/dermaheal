@@ -1,12 +1,10 @@
 import { CLINIC } from "@/data/clinic";
-
-/** Canonical production origin, reused by every JSON-LD node and absolute URL. */
-export const SITE_URL = "https://dermaheal.co.in";
+import { SITE_URL, absoluteUrl } from "@/lib/seo";
 
 /** Stable @id for the clinic so other nodes can reference it by graph link. */
 const CLINIC_ID = `${SITE_URL}/#clinic`;
 
-const abs = (path: string) => `${SITE_URL}${path}`;
+const abs = absoluteUrl;
 
 /**
  * Site-wide LocalBusiness node (MedicalClinic). Rendered once in the site
@@ -22,7 +20,7 @@ export const localBusinessSchema = {
     "Skin and hair clinic in Dwarka, New Delhi offering advanced dermatology, aesthetics and trichology treatments calibrated for Indian skin.",
   url: SITE_URL,
   logo: abs("/dermaheal-logo.png"),
-  image: abs("/dermaheal-logo.png"),
+  image: abs("/og-image.png"),
   telephone: [CLINIC.phone, CLINIC.phone2].map((p) => p.replace(/\s/g, "")),
   email: CLINIC.email,
   priceRange: "$$",
@@ -60,6 +58,15 @@ export const localBusinessSchema = {
     CLINIC.social.youtube,
     CLINIC.social.facebook,
   ],
+};
+
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: CLINIC.name,
+  url: SITE_URL,
+  publisher: { "@id": CLINIC_ID },
 };
 
 type Crumb = { name: string; path: string };

@@ -4,13 +4,14 @@ import { getDoctors } from "@/sanity/lib/fetchers";
 import { ArrowRight } from "@/components/icons";
 import BookButton from "@/components/BookButton";
 import { bgImage } from "@/lib/bgImage";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Our Doctors — Dermatology Team in Dwarka",
+export const metadata: Metadata = pageMetadata({
+  title: "Our Doctors - Dermatology Team in Dwarka",
   description:
     "Meet the dermatology team at Dermaheal Skin & Hair Clinic, Dwarka. Three doctors with subspecialties in cosmetic dermatology, aesthetics and lasers.",
-  alternates: { canonical: "/doctors" },
-};
+  canonical: "/doctors",
+});
 
 export default async function DoctorsPage() {
   const doctors = await getDoctors();

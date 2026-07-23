@@ -10,7 +10,7 @@
  * Pure Studio component (runs in the browser inside the Studio bundle),
  * so no "use client" directive is needed and no server boundaries apply.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -177,10 +177,14 @@ export default function AppointmentsDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshTick, setRefreshTick] = useState(0);
 
-  useEffect(() => {
-    let cancelled = false;
+  const refreshNow = useCallback(() => {
     setLoading(true);
     setError(null);
+    setRefreshTick((n) => n + 1);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
     client
       .fetch<DashboardData>(QUERY, makeQueryParams())
       .then((result) => {
@@ -199,12 +203,9 @@ export default function AppointmentsDashboard() {
   }, [client, refreshTick]);
 
   useEffect(() => {
-    const id = window.setInterval(
-      () => setRefreshTick((n) => n + 1),
-      REFRESH_MS,
-    );
+    const id = window.setInterval(refreshNow, REFRESH_MS);
     return () => window.clearInterval(id);
-  }, []);
+  }, [refreshNow]);
 
   const conversionPct = useMemo(() => {
     if (!data || data.last30dNew === 0) return null;
@@ -235,7 +236,7 @@ export default function AppointmentsDashboard() {
             text={loading ? "Refreshing…" : "Refresh now"}
             mode="ghost"
             disabled={loading}
-            onClick={() => setRefreshTick((n) => n + 1)}
+            onClick={refreshNow}
           />
         </Flex>
 
