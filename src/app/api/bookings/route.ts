@@ -9,6 +9,7 @@
  */
 import { NextResponse, type NextRequest } from "next/server";
 import { writeClient } from "@/sanity/lib/client";
+import { dataset, projectId } from "@/sanity/env";
 import { sendBookingConfirmation } from "@/lib/email";
 
 // Don't try to statically prerender a POST route.
@@ -32,6 +33,18 @@ function bad(message: string, status = 400) {
 
 export async function POST(req: NextRequest) {
   const token = process.env.SANITY_API_TOKEN;
+  if (!projectId || projectId === "missing") {
+    return bad(
+      "Server is missing NEXT_PUBLIC_SANITY_PROJECT_ID. Add it to environment variables and redeploy.",
+      500,
+    );
+  }
+  if (!dataset) {
+    return bad(
+      "Server is missing NEXT_PUBLIC_SANITY_DATASET. Add it to environment variables and redeploy.",
+      500,
+    );
+  }
   if (!token) {
     return bad(
       "Server is missing SANITY_API_TOKEN. Add it to environment variables and redeploy.",
