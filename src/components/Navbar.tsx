@@ -26,7 +26,7 @@ const MOBILE_LINKS = [
   { href: "/concerns", label: "Concerns" },
   { href: "/doctors", label: "Doctors" },
   { href: "/results", label: "Results" },
-  { href: "https://www.dermaheal.co.in/blog/", label: "Blog", external: true },
+  { href: "/blog", label: "Blog", external: true },
   { href: "/#contact", label: "Contact" },
 ];
 
