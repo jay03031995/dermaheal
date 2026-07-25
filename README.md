@@ -86,7 +86,18 @@ The Studio at `/studio` lets staff edit:
    - Under **API → Tokens**, create a token with **Editor** permissions.
      Copy it — you'll only see the value once.
 
-3. c
+3. Add environment variables locally and in your production host:
+
+   ```bash
+   NEXT_PUBLIC_SANITY_PROJECT_ID=114e9aeb
+   NEXT_PUBLIC_SANITY_DATASET=production
+   NEXT_PUBLIC_SANITY_API_VERSION=2024-11-01
+   SANITY_API_TOKEN=<editor-token-from-sanity>
+   ```
+
+   `NEXT_PUBLIC_SANITY_PROJECT_ID` is public and is also used by `/studio`.
+   `SANITY_API_TOKEN` is server-only and is required by `/api/bookings` to
+   save contact/booking submissions into Sanity.
 
 4. Seed your project with the bundled content:
 
@@ -112,6 +123,11 @@ The pages are statically generated. After editing in Studio, Sanity
 content reaches the live site at the next build (e.g. when you push to
 `main` and Vercel rebuilds). For instant updates, configure on-demand
 revalidation in a follow-up iteration.
+
+The booking/contact form uses the Next.js API route at `/api/bookings`.
+Deploy the app on a server-capable Next.js host such as Vercel for that
+route to work. A static `out/` upload to shared hosting can show the
+pages and `/studio`, but it cannot run `/api/bookings`.
 
 ---
 
