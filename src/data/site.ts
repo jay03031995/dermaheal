@@ -128,7 +128,7 @@ export const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   ],
   Resources: [
     { label: "Book a Consultation", href: "/#book" },
-    { label: "Shop", href: "https://www.dermaheal.co.in/shop" },
+    { label: "Shop", href: "https://www.dermahealshop.link/" },
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms & Conditions", href: "/terms" },
   ],
