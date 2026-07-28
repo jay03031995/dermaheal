@@ -26,6 +26,7 @@ const MOBILE_LINKS = [
   { href: "/concerns", label: "Concerns" },
   { href: "/doctors", label: "Doctors" },
   { href: "/results", label: "Results" },
+  { href: CLINIC.shopUrl, label: "Shop", external: true },
   { href: "/blog", label: "Blog", external: true },
   { href: "/#contact", label: "Contact" },
 ];
@@ -134,6 +135,14 @@ export default function Navbar() {
           <Link className="nav-link" href="/results">
             Results
           </Link>
+          <a
+            className="nav-link"
+            href={CLINIC.shopUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Shop
+          </a>
           <a className="nav-link" href="https://www.dermaheal.co.in/blog/">
             Blog
           </a>
@@ -181,6 +190,8 @@ export default function Navbar() {
               key={href}
               className="nav-mobile-link"
               href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               onClick={() => setMenuOpen(false)}
             >
               {label}
