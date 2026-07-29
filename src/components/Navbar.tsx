@@ -8,6 +8,7 @@ import { DOCTORS } from "@/data/doctors";
 import { CONCERNS } from "@/data/concerns";
 import {
   ArrowRight,
+  Bag,
   Phone,
   InstagramIcon,
   YoutubeIcon,
@@ -26,7 +27,7 @@ const MOBILE_LINKS = [
   { href: "/concerns", label: "Concerns" },
   { href: "/doctors", label: "Doctors" },
   { href: "/results", label: "Results" },
-  { href: CLINIC.shopUrl, label: "Shop", external: true },
+  { href: CLINIC.shopUrl, label: "Shop", external: true, featured: true },
   { href: "/blog", label: "Blog", external: true },
   { href: "/#contact", label: "Contact" },
 ];
@@ -184,17 +185,20 @@ export default function Navbar() {
       </div>
 
       <div className={"nav-mobile" + (menuOpen ? " open" : "")}>
-        {MOBILE_LINKS.map(({ href, label, external }) =>
+        {MOBILE_LINKS.map(({ href, label, external, featured }) =>
           external ? (
             <a
               key={href}
-              className="nav-mobile-link"
+              className={"nav-mobile-link" + (featured ? " nav-mobile-shop-link" : "")}
               href={href}
               target={href.startsWith("http") ? "_blank" : undefined}
               rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
               onClick={() => setMenuOpen(false)}
             >
-              {label}
+              <span>
+                {featured && <Bag size={16} />}
+                {label}
+              </span>
               <ArrowRight size={14} />
             </a>
           ) : (

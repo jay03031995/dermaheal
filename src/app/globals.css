@@ -346,7 +346,23 @@ p { margin: 0; color: var(--muted); }
   color: var(--ink);
   border-bottom: 1px solid var(--line);
 }
+.nav-mobile-link span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 .nav-mobile-link svg { color: var(--tan); }
+.nav-mobile-shop-link {
+  margin: 12px 0 6px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--cocoa);
+  color: var(--cream);
+  font-weight: 700;
+  box-shadow: 0 12px 28px -18px rgba(75, 51, 36, .65);
+}
+.nav-mobile-shop-link svg { color: var(--sand); }
 .nav-mobile-phone {
   display: flex;
   align-items: center;
