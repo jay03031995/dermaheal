@@ -12,21 +12,34 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // Pull URL redirects from Sanity at build time. Falls back to an empty
-    // list when Sanity isn't configured yet.
+    // Canonical host: send every www.dermaheal.co.in request to the apex
+    // domain (301). This only fires when the deployment actually serves the
+    // www host, so it's harmless on the preview URL.
+    const canonicalHost = {
+      source: "/:path*",
+      has: [{ type: "host" as const, value: "www.dermaheal.co.in" }],
+      destination: "https://dermaheal.co.in/:path*",
+      permanent: true,
+    };
+
+    // Pull URL redirects from Sanity at build time. Falls back to just the
+    // canonical-host rule when Sanity isn't configured yet.
     try {
       const { sanityEnabled, client } = await import("./src/sanity/lib/client");
-      if (!sanityEnabled) return [];
+      if (!sanityEnabled) return [canonicalHost];
       const docs = await client.fetch<
         { from: string; to: string; permanent?: boolean }[]
       >(`*[_type == "redirect" && defined(from) && defined(to)]{from,to,permanent}`);
-      return docs.map((d) => ({
-        source: d.from,
-        destination: d.to,
-        permanent: d.permanent ?? true,
-      }));
+      return [
+        canonicalHost,
+        ...docs.map((d) => ({
+          source: d.from,
+          destination: d.to,
+          permanent: d.permanent ?? true,
+        })),
+      ];
     } catch {
-      return [];
+      return [canonicalHost];
     }
   },
 };
