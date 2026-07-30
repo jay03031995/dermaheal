@@ -64,26 +64,18 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // Canonical host: send every www.dermaheal.co.in request to the apex
-    // domain (301). This only fires when the deployment actually serves the
-    // www host, so it's harmless on the preview URL.
-    const canonicalHost = {
-      source: "/:path*",
-      has: [{ type: "host" as const, value: "www.dermaheal.co.in" }],
-      destination: "https://dermaheal.co.in/:path*",
-      permanent: true,
-    };
+    // Note: www ⇄ apex canonicalization is handled by Vercel's "Primary
+    // domain" setting (set www.dermaheal.co.in as primary), NOT here — doing
+    // it in code as well would fight the platform redirect and could loop.
 
-    // Pull URL redirects from Sanity at build time. Falls back to just the
-    // canonical-host rule when Sanity isn't configured yet.
+    // Legacy .html redirects + any URL redirects managed in Sanity.
     try {
       const { sanityEnabled, client } = await import("./src/sanity/lib/client");
-      if (!sanityEnabled) return [canonicalHost];
+      if (!sanityEnabled) return [...LEGACY_REDIRECTS];
       const docs = await client.fetch<
         { from: string; to: string; permanent?: boolean }[]
       >(`*[_type == "redirect" && defined(from) && defined(to)]{from,to,permanent}`);
       return [
-        canonicalHost,
         ...LEGACY_REDIRECTS,
         ...docs.map((d) => ({
           source: d.from,
@@ -92,7 +84,7 @@ const nextConfig: NextConfig = {
         })),
       ];
     } catch {
-      return [canonicalHost, ...LEGACY_REDIRECTS];
+      return [...LEGACY_REDIRECTS];
     }
   },
 };
