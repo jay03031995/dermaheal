@@ -50,7 +50,7 @@ const LEGACY_REDIRECTS = [
   // --- Other ---
   { source: "/testimonial.html", destination: "/#testimonials" },
   { source: "/contact.html", destination: "/#contact" },
-].map((r) => ({ ...r, permanent: true }));
+].map((r) => ({ ...r, statusCode: 301 as const }));
 
 const nextConfig: NextConfig = {
   images: {
