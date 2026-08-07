@@ -18,6 +18,7 @@ import {
   doctorSlugsQuery,
   doctorsQuery,
   eeatPillarsQuery,
+  galleryImagesQuery,
   homepageFaqsQuery,
   resultsQuery,
   siteSettingsQuery,
@@ -66,6 +67,7 @@ import {
   type HeroStat,
   type Result,
 } from "@/data/site";
+import { LOCAL_GALLERY, type GalleryCategory, type GalleryItem } from "@/data/gallery";
 import { normalizeAssetUrl } from "@/lib/seo";
 
 // ----- Shared helpers -------------------------------------------------------
@@ -446,6 +448,37 @@ export async function getResults(): Promise<ResultFetched[]> {
     img: normalizeAssetUrl(d.image?.url || d.externalImageUrl) || "",
     imageUrl: normalizeAssetUrl(d.image?.url || d.externalImageUrl),
   }));
+}
+
+// ----- Gallery --------------------------------------------------------------
+
+export async function getGalleryImages(): Promise<GalleryItem[]> {
+  const docs = await safeFetch<
+    {
+      _id: string;
+      title?: string;
+      category?: GalleryCategory;
+      alt?: string;
+      image?: { url?: string };
+    }[]
+  >(galleryImagesQuery);
+  if (!isFilled(docs)) return LOCAL_GALLERY;
+  return docs
+    .map((d, index) => {
+      const imageUrl = normalizeAssetUrl(d.image?.url);
+      if (!imageUrl || (d.category !== "clinic" && d.category !== "equipment")) {
+        return null;
+      }
+      const title = d.title || (d.category === "clinic" ? "Clinic" : "Equipment");
+      return {
+        id: d._id || `gallery-${index}`,
+        title,
+        category: d.category,
+        imageUrl,
+        alt: d.alt || `${title} at Dermaheal Skin & Hair Clinic`,
+      };
+    })
+    .filter((item): item is GalleryItem => Boolean(item));
 }
 
 // ----- Site singletons ------------------------------------------------------

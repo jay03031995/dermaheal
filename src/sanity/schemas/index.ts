@@ -22,6 +22,7 @@ import {
 import { treatmentCategorySchema, treatmentSchema } from "./treatment";
 import { concernSchema } from "./concern";
 import { doctorSchema } from "./doctor";
+import { galleryImageSchema } from "./galleryImage";
 import { resultSchema } from "./result";
 import {
   eeatPillarSchema,
@@ -58,6 +59,7 @@ export const schemaTypes = [
   concernSchema,
   doctorSchema,
   resultSchema,
+  galleryImageSchema,
   testimonialSchema,
   homepageFaqSchema,
   eeatPillarSchema,

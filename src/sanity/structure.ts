@@ -105,6 +105,7 @@ export const structure = (S: StructureBuilder) =>
       S.documentTypeListItem("concern").title("Concerns"),
       S.documentTypeListItem("doctor").title("Doctors"),
       S.documentTypeListItem("result").title("Patient results"),
+      S.documentTypeListItem("galleryImage").title("Gallery images"),
       S.divider(),
       S.documentTypeListItem("testimonial").title("Testimonials"),
       S.documentTypeListItem("homepageFaq").title("Homepage FAQs"),

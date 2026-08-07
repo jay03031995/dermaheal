@@ -27,6 +27,7 @@ const MOBILE_LINKS = [
   { href: "/concerns", label: "Concerns" },
   { href: "/doctors", label: "Doctors" },
   { href: "/results", label: "Results" },
+  { href: "/gallery", label: "Gallery" },
   { href: CLINIC.shopUrl, label: "Shop", external: true, featured: true },
   { href: "/blog", label: "Blog", external: true },
   { href: "/#contact", label: "Contact" },
@@ -136,12 +137,16 @@ export default function Navbar() {
           <Link className="nav-link" href="/results">
             Results
           </Link>
+          <Link className="nav-link" href="/gallery">
+            Gallery
+          </Link>
           <a
-            className="nav-link"
+            className="nav-link nav-shop-link"
             href={CLINIC.shopUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
+            <Bag size={14} />
             Shop
           </a>
           <a className="nav-link" href="https://www.dermaheal.co.in/blog/">
