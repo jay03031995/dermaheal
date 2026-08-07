@@ -216,13 +216,14 @@ p { margin: 0; color: var(--muted); }
 }
 .nav.scrolled { border-bottom-color: var(--line); }
 .nav-inner {
-  max-width: var(--container);
+  width: 100%;
+  max-width: 1640px;
   margin: 0 auto;
-  padding: 14px 28px;
+  padding: 12px clamp(18px, 2.6vw, 44px);
   display: flex;
   align-items: center;
-  gap: 40px;
-  min-height: 92px;
+  gap: clamp(18px, 2vw, 32px);
+  min-height: 86px;
 }
 .logo {
   display: flex;
@@ -235,9 +236,9 @@ p { margin: 0; color: var(--muted); }
 }
 .footer .logo { font-size: 30px; }
 .logo-img {
-  height: 72px;
+  height: clamp(56px, 4.6vw, 68px);
   width: auto;
-  max-width: 320px;
+  max-width: min(285px, 24vw);
   display: block;
   object-fit: contain;
 }
@@ -249,11 +250,13 @@ p { margin: 0; color: var(--muted); }
 }
 .nav-links {
   display: flex;
-  gap: 32px;
+  align-items: center;
+  gap: clamp(14px, 1.45vw, 26px);
   margin-left: auto;
+  min-width: 0;
 }
 .nav-link {
-  font-size: 14px;
+  font-size: clamp(13px, .86vw, 14px);
   color: var(--ink);
   font-weight: 400;
   position: relative;
@@ -292,7 +295,8 @@ p { margin: 0; color: var(--muted); }
 .nav-cta {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: clamp(8px, 1vw, 14px);
+  flex-shrink: 0;
 }
 .nav-phone {
   font-size: 13px;
@@ -307,10 +311,10 @@ p { margin: 0; color: var(--muted); }
 .nav-social {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 .nav-social a {
-  width: 32px; height: 32px;
+  width: 30px; height: 30px;
   border-radius: 50%;
   display: grid; place-items: center;
   color: var(--muted);
@@ -323,6 +327,9 @@ p { margin: 0; color: var(--muted); }
   color: var(--sand);
 }
 .nav-social a svg { width: 15px; height: 15px; display: block; }
+.nav-cta .btn-primary {
+  padding-inline: clamp(16px, 1.6vw, 24px);
+}
 
 /* Hamburger — desktop hidden, shown on tablet/mobile */
 .nav-burger {
@@ -1221,6 +1228,25 @@ p { margin: 0; color: var(--muted); }
   .nav-mobile-shop-link {
     animation: none;
   }
+}
+
+@media (max-width: 1320px) {
+  .nav-phone { display: none; }
+}
+
+@media (max-width: 1220px) {
+  .nav-social { display: none; }
+  .nav-links { gap: 13px; }
+  .nav-shop-link { padding-inline: 12px; }
+}
+
+@media (max-width: 1120px) {
+  .nav-links { display: none; }
+  .nav-dd { display: none; }
+  .nav-burger { display: flex; }
+  .nav-mobile.open { display: flex; }
+  .nav-inner { padding: 12px 18px; gap: 16px; min-height: 72px; }
+  .logo-img { height: 56px; max-width: 260px; }
 }
 
 /* ===== Contact section ===== */
