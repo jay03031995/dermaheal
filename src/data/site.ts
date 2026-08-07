@@ -122,6 +122,7 @@ export const FOOTER_LINKS: Record<string, { label: string; href: string }[]> = {
   Clinic: [
     { label: "Our Doctors", href: "/doctors" },
     { label: "Patient Results", href: "/results" },
+    { label: "Clinic Gallery", href: "/gallery" },
     { label: "Patient Stories", href: "/#testimonials" },
     { label: "FAQs", href: "/#faq" },
     { label: "Contact", href: "/#contact" },

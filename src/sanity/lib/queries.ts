@@ -186,6 +186,16 @@ export const resultsQuery = /* groq */ `
   }
 `;
 
+export const galleryImagesQuery = /* groq */ `
+  *[_type == "galleryImage" && isActive != false] | order(order asc, _createdAt asc){
+    _id,
+    title,
+    category,
+    alt,
+    "image": image.asset->{_id, url}
+  }
+`;
+
 export const testimonialsQuery = /* groq */ `
   *[_type == "testimonial" && showOnHomepage == true] | order(order asc){
     quote, name, detail

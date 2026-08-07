@@ -261,6 +261,28 @@ p { margin: 0; color: var(--muted); }
   transition: color .2s;
 }
 .nav-link:hover { color: var(--cocoa); }
+.nav-shop-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  color: var(--cream);
+  background: var(--cocoa);
+  box-shadow: 0 8px 24px -14px rgba(66, 34, 23, .78);
+  animation: shopBlink 1.35s ease-in-out infinite;
+}
+.nav-shop-link:hover {
+  color: var(--cream);
+  background: var(--espresso);
+  transform: translateY(-1px);
+}
+.nav-shop-link svg {
+  width: 14px;
+  height: 14px;
+  color: var(--sand);
+}
 .nav-link.has-dd::after {
   content: "▾";
   font-size: 9px;
@@ -361,6 +383,7 @@ p { margin: 0; color: var(--muted); }
   color: var(--cream);
   font-weight: 700;
   box-shadow: 0 12px 28px -18px rgba(75, 51, 36, .65);
+  animation: shopBlink 1.35s ease-in-out infinite;
 }
 .nav-mobile-shop-link svg { color: var(--sand); }
 .nav-mobile-phone {
@@ -1122,6 +1145,83 @@ p { margin: 0; color: var(--muted); }
   justify-content: center;
 }
 .results-filter .filter-chip { padding: 8px 16px; }
+
+/* ===== Clinic gallery ===== */
+.gallery-hero {
+  padding-bottom: 84px;
+}
+.gallery-section {
+  background: var(--paper);
+}
+.gallery-wrap {
+  width: 100%;
+}
+.gallery-filter {
+  margin-bottom: 34px;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+.gallery-card {
+  position: relative;
+  min-height: 330px;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--cream-2);
+  box-shadow: var(--shadow-sm);
+}
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s var(--ease);
+}
+.gallery-card:hover img {
+  transform: scale(1.04);
+}
+.gallery-card-meta {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(251, 246, 238, .36);
+  border-radius: 8px;
+  background: rgba(42, 24, 16, .72);
+  color: var(--cream);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.gallery-card-meta span {
+  flex-shrink: 0;
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--sand);
+}
+.gallery-card-meta strong {
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--cream);
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-shop-link,
+  .nav-mobile-shop-link {
+    animation: none;
+  }
+}
 
 /* ===== Contact section ===== */
 .contact-section { background: var(--paper); padding: 100px 0; }
@@ -2535,9 +2635,21 @@ p { margin: 0; color: var(--muted); }
 }
 @media (max-width: 980px) {
   .tp-gallery { grid-template-columns: 1fr 1fr; }
+  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .tp-gallery { grid-template-columns: 1fr; }
+  .gallery-grid { grid-template-columns: 1fr; gap: 16px; }
+  .gallery-card { min-height: 280px; }
+  .gallery-card-meta {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .gallery-card-meta strong { text-align: left; }
 }
 
 /* =========================================================
