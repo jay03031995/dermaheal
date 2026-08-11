@@ -18,6 +18,7 @@ export type BookingEmailData = {
   name: string;
   email?: string;
   phone: string;
+  doctorName?: string;
   concern?: string;
   city?: string;
   date?: string;
@@ -75,7 +76,7 @@ export async function sendBookingConfirmation(
       <h1 style="font-size:22px;color:#2A1810;margin:0 0 12px;">Thank you, ${esc(firstName)}.</h1>
       <p style="font-size:15px;line-height:1.6;color:#6B5848;margin:0 0 22px;">
         We've received your request for a consultation at Dermaheal Skin &amp; Hair Clinic, Dwarka.
-        Our care team will reach out on WhatsApp shortly to confirm your slot. Here's a copy of your details:
+        Our care team will review your request and email you once your slot is confirmed. Here's a copy of your details:
       </p>
       <table style="width:100%;border-collapse:collapse;border-top:1px solid #E6D8C2;border-bottom:1px solid #E6D8C2;">
         ${rows}
@@ -92,7 +93,7 @@ export async function sendBookingConfirmation(
 
   const text = `Thank you, ${firstName}.
 
-We've received your consultation request at ${CLINIC.name}, Dwarka. Our care team will reach out on WhatsApp shortly to confirm your slot.
+We've received your consultation request at ${CLINIC.name}, Dwarka. Our care team will review your request and email you once your slot is confirmed.
 
 Concern: ${d.concern || "-"}
 Clinic: ${d.city || "-"}
@@ -116,6 +117,94 @@ ${CLINIC.name} · ${CLINIC.address}`;
         cc: clinicEmail ? [clinicEmail] : undefined,
         reply_to: clinicEmail || undefined,
         subject: "Your Dermaheal consultation request — confirmation",
+        html,
+        text,
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      return { sent: false, reason: `Resend ${res.status}: ${body.slice(0, 200)}` };
+    }
+    return { sent: true };
+  } catch (err) {
+    return {
+      sent: false,
+      reason: err instanceof Error ? err.message : "email request failed",
+    };
+  }
+}
+
+export async function sendAppointmentApprovedEmail(
+  d: BookingEmailData,
+): Promise<SendResult> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: false, reason: "RESEND_API_KEY not configured" };
+  if (!d.email) return { sent: false, reason: "no patient email provided" };
+
+  const from =
+    process.env.BOOKING_FROM_EMAIL ||
+    "Dermaheal Skin & Hair Clinic <appointments@dermaheal.co.in>";
+  const clinicEmail = process.env.BOOKING_NOTIFY_EMAIL || CLINIC.email;
+  const firstName = d.name.split(" ")[0] || "there";
+  const when = [d.date, d.time].filter(Boolean).join(" · ") || "as scheduled";
+
+  const rows = renderRows([
+    ["Doctor", d.doctorName],
+    ["Appointment date & time", when],
+    ["Concern", d.concern],
+    ["Clinic", d.city],
+    ["Name", d.name],
+    ["Phone", d.phone],
+  ]);
+
+  const html = `<!doctype html>
+<html><body style="margin:0;background:#FBF6EE;font-family:Helvetica,Arial,sans-serif;">
+  <div style="max-width:560px;margin:0 auto;padding:32px 24px;">
+    <div style="background:#FFFDF8;border:1px solid #E6D8C2;border-radius:16px;padding:32px;">
+      <div style="font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#798B5B;margin-bottom:10px;">Appointment confirmed</div>
+      <h1 style="font-size:22px;color:#2A1810;margin:0 0 12px;">Your booking is confirmed, ${esc(firstName)}.</h1>
+      <p style="font-size:15px;line-height:1.6;color:#6B5848;margin:0 0 22px;">
+        Your consultation at Dermaheal Skin &amp; Hair Clinic has been confirmed. Please find your appointment details below.
+      </p>
+      <table style="width:100%;border-collapse:collapse;border-top:1px solid #E6D8C2;border-bottom:1px solid #E6D8C2;">
+        ${rows}
+      </table>
+      <p style="font-size:14px;line-height:1.6;color:#6B5848;margin:22px 0 0;">
+        If you need to reschedule, please call <a href="tel:${esc(CLINIC.phone.replace(/\s/g, ""))}" style="color:#422217;font-weight:600;">${esc(CLINIC.phone)}</a>.
+      </p>
+    </div>
+    <p style="text-align:center;font-size:12px;color:#8C6E54;margin:18px 0 0;">
+      ${esc(CLINIC.name)} · ${esc(CLINIC.address)}
+    </p>
+  </div>
+</body></html>`;
+
+  const text = `Your booking is confirmed, ${firstName}.
+
+Appointment details:
+Doctor: ${d.doctorName || "-"}
+Date & time: ${when}
+Concern: ${d.concern || "-"}
+Clinic: ${d.city || "-"}
+Name: ${d.name}
+Phone: ${d.phone}
+
+If you need to reschedule, call ${CLINIC.phone}.
+${CLINIC.name} · ${CLINIC.address}`;
+
+  try {
+    const res = await fetch(RESEND_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [d.email],
+        cc: clinicEmail ? [clinicEmail] : undefined,
+        reply_to: clinicEmail || undefined,
+        subject: "Your Dermaheal appointment is confirmed",
         html,
         text,
       }),

@@ -51,7 +51,7 @@ const QUERY = /* groq */ `{
     _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, submittedAt
   },
   "upcomingConfirmed": *[_type == "appointment" && status == "confirmed" && preferredDate >= $today] | order(preferredDate asc, preferredTime asc) [0...5] {
-    _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, whatsappConfirmationSent
+    _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, emailConfirmationSent
   }
 }`;
 
@@ -65,7 +65,7 @@ type ApptStub = {
   preferredDate?: string;
   preferredTime?: string;
   submittedAt?: string;
-  whatsappConfirmationSent?: boolean;
+  emailConfirmationSent?: boolean;
 };
 
 type DashboardData = {
@@ -199,9 +199,9 @@ function ApptRow({
               </Text>
             )}
           </Inline>
-          {a.whatsappConfirmationSent && (
+          {a.emailConfirmationSent && (
             <Text size={1} muted>
-              WhatsApp confirmation sent
+              Email confirmation sent
             </Text>
           )}
         </Stack>
@@ -279,13 +279,13 @@ export default function AppointmentsDashboard() {
         const payload = (await res.json().catch(() => ({}))) as {
           ok?: boolean;
           message?: string;
-          whatsappReason?: string;
+          emailReason?: string;
         };
         if (!res.ok || !payload.ok) {
           throw new Error(payload.message || `Could not update appointment (${res.status})`);
         }
-        if (status === "confirmed" && payload.whatsappReason) {
-          setError(`Appointment approved, but WhatsApp was not sent: ${payload.whatsappReason}`);
+        if (status === "confirmed" && payload.emailReason) {
+          setError(`Appointment approved, but email was not sent: ${payload.emailReason}`);
         }
         refreshNow();
       } catch (err) {

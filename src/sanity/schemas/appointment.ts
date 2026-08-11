@@ -28,7 +28,7 @@ export const appointmentSchema = defineType({
         list: [
           { title: "Pending — needs admin approval", value: "pending" },
           { title: "New — needs follow-up", value: "new" },
-          { title: "Contacted (WhatsApp / phone)", value: "contacted" },
+          { title: "Contacted (email / phone)", value: "contacted" },
           { title: "Confirmed", value: "confirmed" },
           { title: "Rejected", value: "rejected" },
           { title: "Completed", value: "completed" },
@@ -126,22 +126,22 @@ export const appointmentSchema = defineType({
       readOnly: true,
     }),
     defineField({
-      name: "whatsappConfirmationSent",
-      title: "WhatsApp confirmation sent (system)",
+      name: "emailConfirmationSent",
+      title: "Email confirmation sent (system)",
       type: "boolean",
       readOnly: true,
       description:
-        "This is updated automatically after using Approve & send WhatsApp or Send WhatsApp confirmation.",
+        "This is updated automatically after using Approve & send email or Send confirmation email.",
     }),
     defineField({
-      name: "whatsappConfirmationSentAt",
-      title: "WhatsApp confirmation sent at",
+      name: "emailConfirmationSentAt",
+      title: "Email confirmation sent at",
       type: "datetime",
       readOnly: true,
     }),
     defineField({
-      name: "whatsappConfirmationError",
-      title: "WhatsApp confirmation error",
+      name: "emailConfirmationError",
+      title: "Email confirmation error",
       type: "string",
       readOnly: true,
     }),

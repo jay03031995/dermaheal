@@ -556,7 +556,7 @@ export default function BookingModal() {
                   ? `We've sent a copy of this request to ${data.email}. `
                   : ""}
                 Our care team will approve the slot and send the final
-                confirmation on WhatsApp.
+                confirmation by email.
               </p>
               <div className="summary-box">
                 <div className="summary-row">

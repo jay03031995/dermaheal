@@ -7,8 +7,8 @@ type AppointmentValue = {
   status?: string;
   name?: string;
   phone?: string;
-  whatsappConfirmationSent?: boolean;
-  whatsappConfirmationError?: string;
+  emailConfirmationSent?: boolean;
+  emailConfirmationError?: string;
 };
 
 type ActionStatus = "confirmed" | "rejected" | "cancelled";
@@ -28,18 +28,18 @@ export default function AppointmentActionsInput() {
   const canApprove = status === "pending" || status === "new";
   const canReject = status === "pending" || status === "new";
   const canCancel = canApprove || status === "confirmed";
-  const canSendWhatsApp = status === "confirmed";
+  const canSendEmail = status === "confirmed";
 
   const helperText = useMemo(() => {
     if (!id) return "Save this appointment before using admin actions.";
-    if (appointment?.whatsappConfirmationSent) {
-      return "WhatsApp confirmation has been sent for this appointment.";
+    if (appointment?.emailConfirmationSent) {
+      return "Email confirmation has been sent for this appointment.";
     }
     if (status === "confirmed") {
-      return "Use Send WhatsApp if this appointment was confirmed manually.";
+      return "Use Send confirmation email if this appointment was confirmed manually.";
     }
-    return "Use Approve & send WhatsApp to confirm the appointment and notify the patient.";
-  }, [appointment?.whatsappConfirmationSent, id, status]);
+    return "Use Approve & send email to confirm the appointment and notify the patient.";
+  }, [appointment?.emailConfirmationSent, id, status]);
 
   const runAction = async (nextStatus: ActionStatus) => {
     if (!id) return;
@@ -55,17 +55,17 @@ export default function AppointmentActionsInput() {
       const payload = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         message?: string;
-        whatsappSent?: boolean;
-        whatsappReason?: string;
+        emailSent?: boolean;
+        emailReason?: string;
       };
       if (!res.ok || !payload.ok) {
         throw new Error(payload.message || `Action failed (${res.status})`);
       }
       if (nextStatus === "confirmed") {
         setMessage(
-          payload.whatsappSent
-            ? "Appointment confirmed and WhatsApp sent. Refresh the document to see the updated status."
-            : `Appointment confirmed, but WhatsApp was not sent: ${payload.whatsappReason || "missing WhatsApp setup"}`,
+          payload.emailSent
+            ? "Appointment confirmed and email sent. Refresh the document to see the updated status."
+            : `Appointment confirmed, but email was not sent: ${payload.emailReason || "missing email setup"}`,
         );
       } else {
         setMessage(`Appointment ${nextStatus}. Refresh the document to see the updated status.`);
@@ -90,18 +90,18 @@ export default function AppointmentActionsInput() {
         <Flex gap={2} wrap="wrap">
           {canApprove && (
             <Button
-              text="Approve & send WhatsApp"
+              text="Approve & send email"
               tone="positive"
               disabled={!id || Boolean(loading)}
               loading={loading === "confirmed"}
               onClick={() => runAction("confirmed")}
             />
           )}
-          {canSendWhatsApp && (
+          {canSendEmail && (
             <Button
-              text="Send WhatsApp confirmation"
+              text="Send confirmation email"
               tone="positive"
-              mode={appointment?.whatsappConfirmationSent ? "ghost" : "default"}
+              mode={appointment?.emailConfirmationSent ? "ghost" : "default"}
               disabled={!id || Boolean(loading)}
               loading={loading === "confirmed"}
               onClick={() => runAction("confirmed")}
@@ -138,10 +138,10 @@ export default function AppointmentActionsInput() {
             <Text size={1}>{error}</Text>
           </Card>
         )}
-        {appointment?.whatsappConfirmationError && (
+        {appointment?.emailConfirmationError && (
           <Box>
             <Text size={1} muted>
-              Last WhatsApp error: {appointment.whatsappConfirmationError}
+              Last email error: {appointment.emailConfirmationError}
             </Text>
           </Box>
         )}

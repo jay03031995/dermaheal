@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getDoctorName } from "@/data/appointments";
 import { projectId, dataset } from "@/sanity/env";
 import { writeClient } from "@/sanity/lib/client";
-import { sendAppointmentWhatsAppConfirmation } from "@/lib/whatsapp";
+import { sendAppointmentApprovedEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +14,9 @@ type AppointmentDoc = {
   _id: string;
   name?: string;
   phone?: string;
+  email?: string;
+  concern?: string;
+  preferredClinic?: string;
   doctor?: string;
   doctorName?: string;
   preferredDate?: string;
@@ -48,7 +51,7 @@ export async function POST(
   const client = writeClient(token);
   const appointment = await client.fetch<AppointmentDoc | null>(
     `*[_type == "appointment" && _id == $id][0]{
-      _id, name, phone, doctor, doctorName, preferredDate, preferredTime
+      _id, name, phone, email, concern, preferredClinic, doctor, doctorName, preferredDate, preferredTime
     }`,
     { id },
   );
@@ -61,30 +64,33 @@ export async function POST(
   if (body.status === "cancelled") patch.set({ cancelledAt: now });
   await patch.commit();
 
-  let whatsappSent = false;
-  let whatsappReason: string | undefined;
+  let emailSent = false;
+  let emailReason: string | undefined;
   if (body.status === "confirmed") {
-    const result = await sendAppointmentWhatsAppConfirmation({
-      name: appointment.name,
-      phone: appointment.phone,
+    const result = await sendAppointmentApprovedEmail({
+      name: appointment.name || "Patient",
+      phone: appointment.phone || "",
+      email: appointment.email,
+      concern: appointment.concern,
+      city: appointment.preferredClinic,
       doctorName: appointment.doctorName || getDoctorName(appointment.doctor),
-      preferredDate: appointment.preferredDate,
-      preferredTime: appointment.preferredTime,
+      date: appointment.preferredDate,
+      time: appointment.preferredTime,
     });
-    whatsappSent = result.sent;
-    whatsappReason = result.reason;
-    const whatsappPatch: Record<string, string | boolean> = {
-      whatsappConfirmationSent: result.sent,
+    emailSent = result.sent;
+    emailReason = result.reason;
+    const emailPatch: Record<string, string | boolean> = {
+      emailConfirmationSent: result.sent,
     };
-    if (result.sent) whatsappPatch.whatsappConfirmationSentAt = new Date().toISOString();
-    if (result.reason) whatsappPatch.whatsappConfirmationError = result.reason;
-    await client.patch(id).set(whatsappPatch).commit();
+    if (result.sent) emailPatch.emailConfirmationSentAt = new Date().toISOString();
+    if (result.reason) emailPatch.emailConfirmationError = result.reason;
+    await client.patch(id).set(emailPatch).commit();
   }
 
   return NextResponse.json({
     ok: true,
     status: body.status,
-    whatsappSent,
-    whatsappReason,
+    emailSent,
+    emailReason,
   });
 }
