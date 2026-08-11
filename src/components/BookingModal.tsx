@@ -309,29 +309,29 @@ export default function BookingModal() {
               </div>
 
               <div className={"field" + (errors.doctor ? " error" : "")}>
-                <label>Doctor</label>
-                <div className="doctor-choice-grid">
+                <label htmlFor="bk-doctor">Doctor</label>
+                <select
+                  id="bk-doctor"
+                  value={data.doctor}
+                  onChange={(e) =>
+                    setData((current) => ({
+                      ...current,
+                      doctor: e.target.value,
+                      date: "",
+                      time: "",
+                    }))
+                  }
+                >
+                  <option value="">Select a doctor…</option>
                   {DOCTOR_OPTIONS.map((doctor) => (
-                    <button
+                    <option
                       key={doctor.id}
-                      type="button"
-                      className={
-                        "doctor-choice" + (data.doctor === doctor.id ? " selected" : "")
-                      }
-                      onClick={() =>
-                        setData((current) => ({
-                          ...current,
-                          doctor: doctor.id,
-                          date: "",
-                          time: "",
-                        }))
-                      }
+                      value={doctor.id}
                     >
-                      <strong>{doctor.name}</strong>
-                      <span>{doctor.schedule}</span>
-                    </button>
+                      {doctor.name} · {doctor.schedule}
+                    </option>
                   ))}
-                </div>
+                </select>
                 {selectedDoctor && (
                   <p className="field-hint">{selectedDoctor.note}</p>
                 )}
