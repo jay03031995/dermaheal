@@ -1,4 +1,5 @@
 import { defineType, defineField } from "sanity";
+import AppointmentActionsInput from "../components/AppointmentActionsInput";
 
 /**
  * One appointment request submitted through the website booking modal.
@@ -11,6 +12,13 @@ export const appointmentSchema = defineType({
   title: "Appointment",
   type: "document",
   fields: [
+    defineField({
+      name: "adminActions",
+      title: "Admin actions",
+      type: "string",
+      readOnly: true,
+      components: { input: AppointmentActionsInput },
+    }),
     defineField({
       name: "status",
       title: "Status",
@@ -119,9 +127,11 @@ export const appointmentSchema = defineType({
     }),
     defineField({
       name: "whatsappConfirmationSent",
-      title: "WhatsApp confirmation sent",
+      title: "WhatsApp confirmation sent (system)",
       type: "boolean",
       readOnly: true,
+      description:
+        "This is updated automatically after using Approve & send WhatsApp or Send WhatsApp confirmation.",
     }),
     defineField({
       name: "whatsappConfirmationSentAt",
