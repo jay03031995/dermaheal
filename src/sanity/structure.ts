@@ -35,21 +35,11 @@ export const structure = (S: StructureBuilder) =>
             .title("Appointments")
             .items([
               S.listItem()
-                .title("🟠 Needs follow-up (new)")
+                .title("🟡 Pending approval")
                 .child(
                   S.documentTypeList("appointment")
-                    .title("New — needs follow-up")
-                    .filter('_type == "appointment" && status == "new"')
-                    .defaultOrdering([
-                      { field: "submittedAt", direction: "desc" },
-                    ]),
-                ),
-              S.listItem()
-                .title("📞 Contacted")
-                .child(
-                  S.documentTypeList("appointment")
-                    .title("Contacted")
-                    .filter('_type == "appointment" && status == "contacted"')
+                    .title("Pending approval")
+                    .filter('_type == "appointment" && status in ["pending","new"]')
                     .defaultOrdering([
                       { field: "submittedAt", direction: "desc" },
                     ]),
@@ -62,6 +52,16 @@ export const structure = (S: StructureBuilder) =>
                     .filter('_type == "appointment" && status == "confirmed"')
                     .defaultOrdering([
                       { field: "preferredDate", direction: "asc" },
+                    ]),
+                ),
+              S.listItem()
+                .title("✗ Rejected / cancelled")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("Rejected / cancelled")
+                    .filter('_type == "appointment" && status in ["rejected","cancelled"]')
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
                     ]),
                 ),
               S.divider(),

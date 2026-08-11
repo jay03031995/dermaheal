@@ -33,9 +33,11 @@ import { useClient } from "sanity";
 
 const QUERY = /* groq */ `{
   "counts": {
+    "pending": count(*[_type == "appointment" && status == "pending"]),
     "new": count(*[_type == "appointment" && status == "new"]),
     "contacted": count(*[_type == "appointment" && status == "contacted"]),
     "confirmed": count(*[_type == "appointment" && status == "confirmed"]),
+    "rejected": count(*[_type == "appointment" && status == "rejected"]),
     "completed": count(*[_type == "appointment" && status == "completed"]),
     "cancelled": count(*[_type == "appointment" && status == "cancelled"]),
     "noShow": count(*[_type == "appointment" && status == "noShow"])
@@ -45,29 +47,34 @@ const QUERY = /* groq */ `{
   "thisWeekSubmitted": count(*[_type == "appointment" && submittedAt >= $weekAgo]),
   "last30dNew": count(*[_type == "appointment" && submittedAt >= $monthAgo]),
   "last30dConfirmed": count(*[_type == "appointment" && status in ["confirmed","completed"] && submittedAt >= $monthAgo]),
-  "recentNew": *[_type == "appointment" && status == "new"] | order(submittedAt desc) [0...5] {
-    _id, name, phone, concern, preferredDate, preferredTime, submittedAt
+  "recentPending": *[_type == "appointment" && status in ["pending","new"]] | order(submittedAt desc) [0...8] {
+    _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, submittedAt
   },
   "upcomingConfirmed": *[_type == "appointment" && status == "confirmed" && preferredDate >= $today] | order(preferredDate asc, preferredTime asc) [0...5] {
-    _id, name, phone, concern, preferredDate, preferredTime
+    _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, whatsappConfirmationSent
   }
 }`;
 
 type ApptStub = {
   _id: string;
+  status?: string;
   name?: string;
   phone?: string;
   concern?: string;
+  doctorName?: string;
   preferredDate?: string;
   preferredTime?: string;
   submittedAt?: string;
+  whatsappConfirmationSent?: boolean;
 };
 
 type DashboardData = {
   counts: {
+    pending: number;
     new: number;
     contacted: number;
     confirmed: number;
+    rejected: number;
     completed: number;
     cancelled: number;
     noShow: number;
@@ -77,7 +84,7 @@ type DashboardData = {
   thisWeekSubmitted: number;
   last30dNew: number;
   last30dConfirmed: number;
-  recentNew: ApptStub[];
+  recentPending: ApptStub[];
   upcomingConfirmed: ApptStub[];
 };
 
@@ -133,18 +140,51 @@ function StatCard({
   );
 }
 
-function ApptRow({ a }: { a: ApptStub }) {
+const STATUS_LABELS: Record<string, string> = {
+  pending: "Pending",
+  new: "New",
+  contacted: "Contacted",
+  confirmed: "Confirmed",
+  rejected: "Rejected",
+  cancelled: "Cancelled",
+  completed: "Completed",
+  noShow: "No-show",
+};
+
+function ApptRow({
+  a,
+  onAction,
+  actionLoading,
+}: {
+  a: ApptStub;
+  onAction?: (id: string, status: "confirmed" | "rejected" | "cancelled") => void;
+  actionLoading?: string | null;
+}) {
+  const canApproveReject = a.status === "pending" || a.status === "new";
+  const canCancel = canApproveReject || a.status === "confirmed";
   return (
     <Card padding={3} radius={2} shadow={0} tone="transparent">
       <Flex align="center" justify="space-between" gap={3} wrap="wrap">
         <Stack space={2} flex={1}>
-          <Text weight="semibold" size={2}>
-            {a.name ?? "Unnamed"}
-          </Text>
+          <Flex align="center" gap={2} wrap="wrap">
+            <Text weight="semibold" size={2}>
+              {a.name ?? "Unnamed"}
+            </Text>
+            {a.status && (
+              <Text size={1} muted>
+                · {STATUS_LABELS[a.status] ?? a.status}
+              </Text>
+            )}
+          </Flex>
           <Inline space={3}>
             {a.phone && (
               <Text size={1} muted>
                 📞 {a.phone}
+              </Text>
+            )}
+            {a.doctorName && (
+              <Text size={1} muted>
+                · {a.doctorName}
               </Text>
             )}
             {a.concern && (
@@ -159,12 +199,54 @@ function ApptRow({ a }: { a: ApptStub }) {
               </Text>
             )}
           </Inline>
+          {a.whatsappConfirmationSent && (
+            <Text size={1} muted>
+              WhatsApp confirmation sent
+            </Text>
+          )}
         </Stack>
-        {a.submittedAt && (
-          <Text size={1} muted>
-            {relativeTime(a.submittedAt)}
-          </Text>
-        )}
+        <Stack space={2}>
+          {a.submittedAt && (
+            <Text size={1} muted>
+              {relativeTime(a.submittedAt)}
+            </Text>
+          )}
+          {(canApproveReject || canCancel) && onAction && (
+            <Inline space={2}>
+              {canApproveReject && (
+                <>
+                  <Button
+                    text="Approve"
+                    tone="positive"
+                    fontSize={1}
+                    disabled={Boolean(actionLoading)}
+                    loading={actionLoading === `${a._id}:confirmed`}
+                    onClick={() => onAction(a._id, "confirmed")}
+                  />
+                  <Button
+                    text="Reject"
+                    tone="critical"
+                    mode="ghost"
+                    fontSize={1}
+                    disabled={Boolean(actionLoading)}
+                    loading={actionLoading === `${a._id}:rejected`}
+                    onClick={() => onAction(a._id, "rejected")}
+                  />
+                </>
+              )}
+              {canCancel && (
+                <Button
+                  text="Cancel"
+                  mode="ghost"
+                  fontSize={1}
+                  disabled={Boolean(actionLoading)}
+                  loading={actionLoading === `${a._id}:cancelled`}
+                  onClick={() => onAction(a._id, "cancelled")}
+                />
+              )}
+            </Inline>
+          )}
+        </Stack>
       </Flex>
     </Card>
   );
@@ -175,6 +257,7 @@ export default function AppointmentsDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [refreshTick, setRefreshTick] = useState(0);
 
   const refreshNow = useCallback(() => {
@@ -182,6 +265,37 @@ export default function AppointmentsDashboard() {
     setError(null);
     setRefreshTick((n) => n + 1);
   }, []);
+
+  const updateAppointmentStatus = useCallback(
+    async (id: string, status: "confirmed" | "rejected" | "cancelled") => {
+      setActionLoading(`${id}:${status}`);
+      setError(null);
+      try {
+        const res = await fetch(`/api/appointments/${id}/status`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status }),
+        });
+        const payload = (await res.json().catch(() => ({}))) as {
+          ok?: boolean;
+          message?: string;
+          whatsappReason?: string;
+        };
+        if (!res.ok || !payload.ok) {
+          throw new Error(payload.message || `Could not update appointment (${res.status})`);
+        }
+        if (status === "confirmed" && payload.whatsappReason) {
+          setError(`Appointment approved, but WhatsApp was not sent: ${payload.whatsappReason}`);
+        }
+        refreshNow();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to update appointment");
+      } finally {
+        setActionLoading(null);
+      }
+    },
+    [refreshNow],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -261,10 +375,10 @@ export default function AppointmentsDashboard() {
               </Text>
               <Grid columns={[2, 2, 4]} gap={3}>
                 <StatCard
-                  label="🟠 New — needs follow-up"
-                  value={data.counts.new}
-                  tone={data.counts.new > 0 ? "caution" : "default"}
-                  hint="Open the Appointments tab in the sidebar to action"
+                  label="🟡 Pending approval"
+                  value={data.counts.pending + data.counts.new}
+                  tone={data.counts.pending + data.counts.new > 0 ? "caution" : "default"}
+                  hint="Approve, reject, or cancel from this dashboard"
                 />
                 <StatCard
                   label="📞 Contacted"
@@ -279,9 +393,10 @@ export default function AppointmentsDashboard() {
                   hint="Booked & scheduled"
                 />
                 <StatCard
-                  label="✓ Completed (all-time)"
-                  value={data.counts.completed}
-                  hint="Patient visited"
+                  label="Rejected / cancelled"
+                  value={data.counts.rejected + data.counts.cancelled}
+                  tone={data.counts.rejected + data.counts.cancelled > 0 ? "critical" : "default"}
+                  hint={`${data.counts.completed} completed all-time`}
                 />
               </Grid>
             </Stack>
@@ -336,16 +451,21 @@ export default function AppointmentsDashboard() {
                 <Stack space={4}>
                   <Flex align="center" gap={2}>
                     <UsersIcon />
-                    <Heading size={1}>Newest bookings (needs follow-up)</Heading>
+                    <Heading size={1}>Pending approval</Heading>
                   </Flex>
-                  {data.recentNew.length === 0 ? (
+                  {data.recentPending.length === 0 ? (
                     <Text muted>
-                      Inbox zero ✨ — no bookings waiting for follow-up.
+                      Inbox zero — no bookings waiting for approval.
                     </Text>
                   ) : (
                     <Stack space={2}>
-                      {data.recentNew.map((a) => (
-                        <ApptRow key={a._id} a={a} />
+                      {data.recentPending.map((a) => (
+                        <ApptRow
+                          key={a._id}
+                          a={a}
+                          onAction={updateAppointmentStatus}
+                          actionLoading={actionLoading}
+                        />
                       ))}
                     </Stack>
                   )}
@@ -365,7 +485,12 @@ export default function AppointmentsDashboard() {
                   ) : (
                     <Stack space={2}>
                       {data.upcomingConfirmed.map((a) => (
-                        <ApptRow key={a._id} a={a} />
+                        <ApptRow
+                          key={a._id}
+                          a={a}
+                          onAction={updateAppointmentStatus}
+                          actionLoading={actionLoading}
+                        />
                       ))}
                     </Stack>
                   )}

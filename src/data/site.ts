@@ -36,8 +36,9 @@ export const BOOK = {
   body: "A one-on-one consultation with a skin specialist. A written plan, on the spot. Honest, unhurried, and built for your skin.",
   ctaLabel: "Book Appointment",
   meta: [
-    "Same-day slots",
-    "Mon to Sat 10 AM to 7:30 PM",
+    "Dr. Jasmine: Tue, Thu, Sat · 9:20 AM to 4:30 PM",
+    "Dr. Sonika: Mon, Fri · 2 PM to 6 PM",
+    "Dr. Navjot: Healthplix and call bookings",
   ],
   cards: [
     { time: "Today · 4:30 PM", doctor: "Dr. Navjot Singh Arora", detail: "Dwarka Clinic · Skin Consultation", availability: "2 slots left", highlight: false },

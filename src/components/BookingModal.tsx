@@ -3,6 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBooking } from "@/components/BookingContext";
 import { ArrowRight, Check } from "@/components/icons";
+import {
+  DOCTOR_OPTIONS,
+  getDoctorName,
+  getSlotsForDoctor,
+  isDoctorAvailableOnDate,
+} from "@/data/appointments";
 
 const CONCERN_CHIPS = [
   "Acne or scars",
@@ -15,12 +21,10 @@ const CONCERN_CHIPS = [
   "Something else",
 ];
 
-const TIMES = ["9:30", "11:00", "12:30", "2:00", "4:30", "6:00", "7:30"];
-const DISABLED_SLOTS = ["12:30", "6:00"];
-
 type FormData = {
   concern: string;
   city: string;
+  doctor: string;
   date: string;
   time: string;
   name: string;
@@ -32,6 +36,7 @@ type FormData = {
 const EMPTY: FormData = {
   concern: "",
   city: "",
+  doctor: "",
   date: "",
   time: "",
   name: "",
@@ -83,6 +88,7 @@ export default function BookingModal() {
       if (!data.concern) e.concern = "Pick what brought you here";
     } else if (step === 1) {
       if (!data.city) e.city = "Pick a city";
+      if (!data.doctor) e.doctor = "Pick a doctor";
       if (!data.date) e.date = "Pick a date";
       if (!data.time) e.time = "Pick a time";
     } else if (step === 2) {
@@ -109,6 +115,8 @@ export default function BookingModal() {
           age: data.age,
           concern: data.concern,
           city: data.city,
+          doctor: data.doctor,
+          doctorName: getDoctorName(data.doctor),
           date: data.date,
           time: data.time,
           source: "website-booking-modal",
@@ -164,6 +172,9 @@ export default function BookingModal() {
     }
     return arr;
   }, []);
+
+  const doctorSlots = useMemo(() => getSlotsForDoctor(data.doctor), [data.doctor]);
+  const selectedDoctor = DOCTOR_OPTIONS.find((doctor) => doctor.id === data.doctor);
 
   return (
     <div
@@ -297,30 +308,69 @@ export default function BookingModal() {
                 )}
               </div>
 
+              <div className={"field" + (errors.doctor ? " error" : "")}>
+                <label>Doctor</label>
+                <div className="doctor-choice-grid">
+                  {DOCTOR_OPTIONS.map((doctor) => (
+                    <button
+                      key={doctor.id}
+                      type="button"
+                      className={
+                        "doctor-choice" + (data.doctor === doctor.id ? " selected" : "")
+                      }
+                      onClick={() =>
+                        setData((current) => ({
+                          ...current,
+                          doctor: doctor.id,
+                          date: "",
+                          time: "",
+                        }))
+                      }
+                    >
+                      <strong>{doctor.name}</strong>
+                      <span>{doctor.schedule}</span>
+                    </button>
+                  ))}
+                </div>
+                {selectedDoctor && (
+                  <p className="field-hint">{selectedDoctor.note}</p>
+                )}
+                {errors.doctor && (
+                  <div className="field-error">{errors.doctor}</div>
+                )}
+              </div>
+
               <div className={"field" + (errors.date ? " error" : "")}>
                 <label>Date</label>
                 <div className="slot-grid">
-                  {dates.map((d) => (
-                    <button
-                      key={d.v}
-                      type="button"
-                      className={
-                        "slot" + (data.date === d.v ? " selected" : "")
-                      }
-                      onClick={() => set("date", d.v)}
-                    >
-                      <div style={{ fontSize: 10, opacity: 0.7 }}>{d.wd}</div>
-                      <div
-                        style={{
-                          fontSize: 16,
-                          fontWeight: 500,
-                          marginTop: 2,
+                  {dates.map((d) => {
+                    const disabled = Boolean(data.doctor) && !isDoctorAvailableOnDate(data.doctor, d.v);
+                    return (
+                      <button
+                        key={d.v}
+                        type="button"
+                        disabled={disabled}
+                        className={
+                          "slot" + (data.date === d.v ? " selected" : "")
+                        }
+                        onClick={() => {
+                          set("date", d.v);
+                          set("time", "");
                         }}
                       >
-                        {d.d}
-                      </div>
-                    </button>
-                  ))}
+                        <div style={{ fontSize: 10, opacity: 0.7 }}>{d.wd}</div>
+                        <div
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 500,
+                            marginTop: 2,
+                          }}
+                        >
+                          {d.d}
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
                 {errors.date && (
                   <div className="field-error">{errors.date}</div>
@@ -331,13 +381,13 @@ export default function BookingModal() {
                 <label>Time</label>
                 <div
                   className="slot-grid"
-                  style={{ gridTemplateColumns: "repeat(7, 1fr)" }}
+                  style={{ gridTemplateColumns: "repeat(auto-fit, minmax(94px, 1fr))" }}
                 >
-                  {TIMES.map((t) => (
+                  {doctorSlots.map((t) => (
                     <button
                       key={t}
                       type="button"
-                      disabled={DISABLED_SLOTS.includes(t)}
+                      disabled={!data.doctor || !data.date}
                       className={
                         "slot" + (data.time === t ? " selected" : "")
                       }
@@ -498,19 +548,24 @@ export default function BookingModal() {
                 <Check />
               </div>
               <h4>
-                You&apos;re on the books,{" "}
+                Request received,{" "}
                 {data.name.split(" ")[0] || "friend"}.
               </h4>
               <p>
                 {emailSent
-                  ? `We've sent a confirmation to ${data.email}. `
+                  ? `We've sent a copy of this request to ${data.email}. `
                   : ""}
-                Our care team will reach out to confirm your appointment.
+                Our care team will approve the slot and send the final
+                confirmation on WhatsApp.
               </p>
               <div className="summary-box">
                 <div className="summary-row">
                   <span>Concern</span>
                   <span>{data.concern}</span>
+                </div>
+                <div className="summary-row">
+                  <span>Doctor</span>
+                  <span>{getDoctorName(data.doctor)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Clinic</span>

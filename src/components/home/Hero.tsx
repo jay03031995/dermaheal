@@ -20,6 +20,10 @@ export default async function Hero() {
             </span>
             <h1 dangerouslySetInnerHTML={{ __html: hero.headline }} />
             <p className="hero-sub">{hero.subhead}</p>
+            <p className="hero-doctor-note">
+              Dr. Navjot Singh Arora bookings are taken through Healthplix and
+              on call.
+            </p>
             <div className="hero-cta">
               <BookButton>{hero.primaryCta}</BookButton>
               <Link className="btn btn-ghost" href="#treatments">
