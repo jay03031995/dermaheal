@@ -15,12 +15,14 @@ export const appointmentSchema = defineType({
       name: "status",
       title: "Status",
       type: "string",
-      initialValue: "new",
+      initialValue: "pending",
       options: {
         list: [
+          { title: "Pending — needs admin approval", value: "pending" },
           { title: "New — needs follow-up", value: "new" },
           { title: "Contacted (WhatsApp / phone)", value: "contacted" },
           { title: "Confirmed", value: "confirmed" },
+          { title: "Rejected", value: "rejected" },
           { title: "Completed", value: "completed" },
           { title: "Cancelled by patient", value: "cancelled" },
           { title: "No-show", value: "noShow" },
@@ -62,6 +64,25 @@ export const appointmentSchema = defineType({
       type: "string",
     }),
     defineField({
+      name: "doctor",
+      title: "Selected doctor",
+      type: "string",
+      options: {
+        list: [
+          { title: "Dr. Navjot Singh Arora", value: "navjot-arora" },
+          { title: "Dr. Jasmine Kohli", value: "jasmine-kohli" },
+          { title: "Dr. Sonika Soni", value: "sonika-soni" },
+        ],
+      },
+    }),
+    defineField({
+      name: "doctorName",
+      title: "Doctor name",
+      type: "string",
+      readOnly: true,
+      description: "Stored at submission time so old records remain readable if doctor IDs change.",
+    }),
+    defineField({
       name: "preferredDate",
       title: "Preferred date",
       type: "date",
@@ -76,6 +97,42 @@ export const appointmentSchema = defineType({
       name: "submittedAt",
       title: "Submitted at",
       type: "datetime",
+      readOnly: true,
+    }),
+    defineField({
+      name: "approvedAt",
+      title: "Approved at",
+      type: "datetime",
+      readOnly: true,
+    }),
+    defineField({
+      name: "rejectedAt",
+      title: "Rejected at",
+      type: "datetime",
+      readOnly: true,
+    }),
+    defineField({
+      name: "cancelledAt",
+      title: "Cancelled at",
+      type: "datetime",
+      readOnly: true,
+    }),
+    defineField({
+      name: "whatsappConfirmationSent",
+      title: "WhatsApp confirmation sent",
+      type: "boolean",
+      readOnly: true,
+    }),
+    defineField({
+      name: "whatsappConfirmationSentAt",
+      title: "WhatsApp confirmation sent at",
+      type: "datetime",
+      readOnly: true,
+    }),
+    defineField({
+      name: "whatsappConfirmationError",
+      title: "WhatsApp confirmation error",
+      type: "string",
       readOnly: true,
     }),
     defineField({
@@ -99,15 +156,18 @@ export const appointmentSchema = defineType({
       name: "name",
       concern: "concern",
       status: "status",
+      doctorName: "doctorName",
       date: "preferredDate",
       time: "preferredTime",
       phone: "phone",
     },
-    prepare({ name, concern, status, date, time, phone }) {
+    prepare({ name, concern, status, doctorName, date, time, phone }) {
       const statusLabel: Record<string, string> = {
+        pending: "🟡 Pending",
         new: "🟠 New",
         contacted: "📞 Contacted",
         confirmed: "✅ Confirmed",
+        rejected: "✗ Rejected",
         completed: "✓ Completed",
         cancelled: "✗ Cancelled",
         noShow: "⚠ No-show",
@@ -116,6 +176,7 @@ export const appointmentSchema = defineType({
         title: `${statusLabel[status] ?? status} — ${name ?? "Unnamed"}`,
         subtitle: [
           phone,
+          doctorName,
           concern,
           date && time ? `${date} · ${time}` : date || time,
         ]

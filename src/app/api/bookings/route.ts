@@ -8,6 +8,7 @@
  * Required env var: SANITY_API_TOKEN (Editor role).
  */
 import { NextResponse, type NextRequest } from "next/server";
+import { getDoctorName } from "@/data/appointments";
 import { writeClient } from "@/sanity/lib/client";
 import { dataset, projectId } from "@/sanity/env";
 import { sendBookingConfirmation } from "@/lib/email";
@@ -22,6 +23,8 @@ type Body = {
   age?: string;
   concern?: string;
   city?: string;
+  doctor?: string;
+  doctorName?: string;
   date?: string;
   time?: string;
   source?: string;
@@ -69,13 +72,15 @@ export async function POST(req: NextRequest) {
     const client = writeClient(token);
     const doc = await client.create({
       _type: "appointment",
-      status: "new",
+      status: "pending",
       name,
       phone,
       email: email || undefined,
       ageRange: body.age || undefined,
       concern: body.concern || undefined,
       preferredClinic: body.city || undefined,
+      doctor: body.doctor || undefined,
+      doctorName: body.doctorName || getDoctorName(body.doctor),
       preferredDate: body.date || undefined,
       preferredTime: body.time || undefined,
       submittedAt: new Date().toISOString(),
