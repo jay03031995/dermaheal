@@ -1947,39 +1947,6 @@ p { margin: 0; color: var(--muted); }
   background: var(--paper);
 }
 
-.doctor-choice-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-.doctor-choice {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 11px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  background: var(--paper);
-  color: var(--ink);
-  text-align: left;
-  transition: all .2s;
-}
-.doctor-choice:hover { border-color: var(--tan); }
-.doctor-choice.selected {
-  border-color: var(--cocoa);
-  background: var(--cream-2);
-}
-.doctor-choice strong {
-  color: var(--cocoa);
-  font-size: 13px;
-  font-weight: 600;
-}
-.doctor-choice span {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.4;
-}
-
 .slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .slot {
   padding: 10px 6px;
