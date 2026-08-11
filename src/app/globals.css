@@ -1808,9 +1808,9 @@ p { margin: 0; color: var(--muted); }
 .modal {
   background: var(--paper);
   border-radius: var(--radius-lg);
-  max-width: 720px;
+  max-width: 840px;
   width: 100%;
-  max-height: 92vh;
+  max-height: 94vh;
   overflow: hidden;
   display: grid;
   grid-template-columns: 0.7fr 1fr;
@@ -1850,7 +1850,11 @@ p { margin: 0; color: var(--muted); }
   font-size: 12px;
   flex-shrink: 0;
 }
-.modal-body { padding: 40px 36px; overflow-y: auto; }
+.modal-body {
+  padding: 40px 36px 0;
+  overflow-y: auto;
+  max-height: 92vh;
+}
 .modal-close {
   position: absolute;
   top: 14px; right: 14px;
@@ -1949,7 +1953,7 @@ p { margin: 0; color: var(--muted); }
 
 .slot-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .slot {
-  padding: 10px 6px;
+  padding: 9px 6px;
   border-radius: 8px;
   border: 1px solid var(--line);
   font-size: 12px;
@@ -1962,7 +1966,23 @@ p { margin: 0; color: var(--muted); }
 .slot.selected { background: var(--cocoa); color: var(--cream); border-color: var(--cocoa); }
 .slot:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
 
-.modal-actions { display: flex; gap: 10px; justify-content: space-between; margin-top: 22px; }
+.modal-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  margin: 18px -36px 0;
+  padding: 16px 36px 22px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 253, 248, 0),
+    var(--paper) 18px,
+    var(--paper)
+  );
+  border-top: 1px solid rgba(230, 216, 194, .75);
+}
 .success-state { text-align: center; padding: 30px 10px; }
 .success-icon {
   width: 80px; height: 80px;
@@ -3180,11 +3200,17 @@ p { margin: 0; color: var(--muted); }
   .modal-side { padding: 14px 18px; }
   .modal-side h3 { font-size: 16px; line-height: 1.25; margin-bottom: 0; }
   .modal-side p { display: none; }
-  .modal-body { padding: 22px 18px; }
+  .modal-body { padding: 22px 18px 0; }
   .modal-body h4 { font-size: 19px; margin-bottom: 18px; }
   .modal-close { top: 10px; right: 10px; width: 30px; height: 30px; }
   .field-row { grid-template-columns: 1fr; }
   .slot-grid { grid-template-columns: repeat(3, 1fr); }
-  .modal-actions { flex-direction: column-reverse; gap: 10px; }
+  .modal-actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+    margin-left: -18px;
+    margin-right: -18px;
+    padding: 14px 18px 18px;
+  }
   .modal-actions .btn { width: 100%; justify-content: center; }
 }
