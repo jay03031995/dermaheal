@@ -7,6 +7,7 @@
  * migration.
  */
 
+import { cache } from "react";
 import { client, sanityEnabled } from "./client";
 import {
   announcementQuery,
@@ -112,19 +113,29 @@ function cleanContent<T>(value: T): T {
  * webhook (`/api/revalidate`) can invalidate all of them at once when an
  * editor publishes in Studio.
  *
- * `revalidate: 60` is a safety net: even without the webhook, pages refresh
- * at most every 60 seconds.
+ * `revalidate` is a safety net: the webhook should do immediate updates, while
+ * a longer TTL avoids spending Sanity quota on every busy-minute refresh.
  */
+const SANITY_REVALIDATE_SECONDS = 3600;
+
+const cachedSanityFetch = cache(
+  async <T>(query: string, paramsKey: string): Promise<T | null> => {
+    if (!sanityEnabled) return null;
+    const params = JSON.parse(paramsKey) as Record<string, unknown>;
+    try {
+      return await client.fetch<T>(query, params, {
+        next: { tags: ["sanity"], revalidate: SANITY_REVALIDATE_SECONDS },
+      });
+    } catch (e) {
+      console.warn("[sanity] fetch failed, falling back to local data:", e);
+      return null;
+    }
+  },
+);
+
 async function safeFetch<T>(query: string, params?: Record<string, unknown>) {
   if (!sanityEnabled) return null;
-  try {
-    return await client.fetch<T>(query, params ?? {}, {
-      next: { tags: ["sanity"], revalidate: 60 },
-    });
-  } catch (e) {
-    console.warn("[sanity] fetch failed, falling back to local data:", e);
-    return null;
-  }
+  return cachedSanityFetch<T>(query, JSON.stringify(params ?? {}));
 }
 
 // ----- Treatments -----------------------------------------------------------

@@ -10,10 +10,10 @@ import { localBusinessSchema, websiteSchema } from "@/lib/schema";
 
 /**
  * Safety-net revalidation: every page under (site)/ re-renders at most once
- * per 60 seconds, picking up Sanity edits automatically. For instant updates,
- * Sanity's webhook hits /api/revalidate which calls revalidateTag("sanity").
+ * per hour. For instant updates, Sanity's webhook hits /api/revalidate which
+ * calls revalidateTag("sanity").
  */
-export const revalidate = 60;
+export const revalidate = 3600;
 
 export default function SiteLayout({
   children,
