@@ -1,4 +1,4 @@
-export type DoctorId = "jasmine-kohli" | "sonika-soni";
+export type DoctorId = "navjot-arora" | "jasmine-kohli" | "sonika-soni";
 
 export type DoctorOption = {
   id: DoctorId;
@@ -8,6 +8,12 @@ export type DoctorOption = {
 };
 
 export const DOCTOR_OPTIONS: DoctorOption[] = [
+  {
+    id: "navjot-arora",
+    name: "Dr. Navjot Singh Arora",
+    schedule: "Call-only bookings",
+    note: "Dr. Navjot Singh Arora bookings are taken through call only.",
+  },
   {
     id: "jasmine-kohli",
     name: "Dr. Jasmine Kohli",
@@ -26,7 +32,6 @@ const jasmineSlots = ["9:20 AM", "10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", 
 const sonikaSlots = ["2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "5:30 PM"];
 
 export function getDoctorName(id?: string) {
-  if (id === "navjot-arora") return "Dr. Navjot Singh Arora";
   return DOCTOR_OPTIONS.find((doctor) => doctor.id === id)?.name || id || "";
 }
 
