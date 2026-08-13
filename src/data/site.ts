@@ -38,7 +38,7 @@ export const BOOK = {
   meta: [
     "Dr. Jasmine: Tue, Thu, Sat · 9:20 AM to 4:30 PM",
     "Dr. Sonika: Mon, Fri · 2 PM to 6 PM",
-    "Dr. Navjot: Healthplix and call bookings",
+    "Dr. Navjot: call-only bookings",
   ],
   cards: [
     { time: "Today · 4:30 PM", doctor: "Dr. Navjot Singh Arora", detail: "Dwarka Clinic · Skin Consultation", availability: "2 slots left", highlight: false },
