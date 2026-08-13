@@ -1965,6 +1965,32 @@ p { margin: 0; color: var(--muted); }
 .slot:hover:not(:disabled) { border-color: var(--tan); }
 .slot.selected { background: var(--cocoa); color: var(--cream); border-color: var(--cocoa); }
 .slot:disabled { opacity: 0.35; cursor: not-allowed; text-decoration: line-through; }
+.call-only-box {
+  margin-top: 8px;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--cream-2);
+}
+.call-only-title {
+  color: var(--cocoa);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.call-only-box p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.call-only-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.call-only-actions .btn {
+  justify-content: center;
+}
 
 .modal-actions {
   position: sticky;

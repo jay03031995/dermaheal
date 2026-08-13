@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBooking } from "@/components/BookingContext";
 import { ArrowRight, Check } from "@/components/icons";
+import { CLINIC, telHref } from "@/data/clinic";
 import {
   DOCTOR_OPTIONS,
   getDoctorName,
@@ -89,8 +90,10 @@ export default function BookingModal() {
     } else if (step === 1) {
       if (!data.city) e.city = "Pick a city";
       if (!data.doctor) e.doctor = "Pick a doctor";
-      if (!data.date) e.date = "Pick a date";
-      if (!data.time) e.time = "Pick a time";
+      if (data.doctor !== "navjot-arora") {
+        if (!data.date) e.date = "Pick a date";
+        if (!data.time) e.time = "Pick a time";
+      }
     } else if (step === 2) {
       if (!data.name || data.name.length < 2) e.name = "Full name needed";
       if (!/^\+?[0-9\s-]{10,}$/.test(data.phone)) e.phone = "Valid phone please";
@@ -175,6 +178,7 @@ export default function BookingModal() {
 
   const doctorSlots = useMemo(() => getSlotsForDoctor(data.doctor), [data.doctor]);
   const selectedDoctor = DOCTOR_OPTIONS.find((doctor) => doctor.id === data.doctor);
+  const navjotCallOnly = data.doctor === "navjot-arora";
 
   return (
     <div
@@ -340,67 +344,88 @@ export default function BookingModal() {
                 )}
               </div>
 
-              <div className={"field" + (errors.date ? " error" : "")}>
-                <label>Date</label>
-                <div className="slot-grid">
-                  {dates.map((d) => {
-                    const disabled = Boolean(data.doctor) && !isDoctorAvailableOnDate(data.doctor, d.v);
-                    return (
-                      <button
-                        key={d.v}
-                        type="button"
-                        disabled={disabled}
-                        className={
-                          "slot" + (data.date === d.v ? " selected" : "")
-                        }
-                        onClick={() => {
-                          set("date", d.v);
-                          set("time", "");
-                        }}
-                      >
-                        <div style={{ fontSize: 10, opacity: 0.7 }}>{d.wd}</div>
-                        <div
-                          style={{
-                            fontSize: 16,
-                            fontWeight: 500,
-                            marginTop: 2,
-                          }}
-                        >
-                          {d.d}
-                        </div>
-                      </button>
-                    );
-                  })}
+              {navjotCallOnly ? (
+                <div className="call-only-box">
+                  <div className="call-only-title">Call to book Dr. Navjot</div>
+                  <p>
+                    Dr. Navjot Singh Arora appointments are handled by phone.
+                    Please call the clinic and our team will confirm the best
+                    available slot.
+                  </p>
+                  <div className="call-only-actions">
+                    <a className="btn btn-primary" href={telHref()}>
+                      Call {CLINIC.phone}
+                    </a>
+                    <a className="btn btn-ghost" href={telHref(CLINIC.phone2)}>
+                      Call {CLINIC.phone2}
+                    </a>
+                  </div>
                 </div>
-                {errors.date && (
-                  <div className="field-error">{errors.date}</div>
-                )}
-              </div>
+              ) : (
+                <>
+                  <div className={"field" + (errors.date ? " error" : "")}>
+                    <label>Date</label>
+                    <div className="slot-grid">
+                      {dates.map((d) => {
+                        const disabled = Boolean(data.doctor) && !isDoctorAvailableOnDate(data.doctor, d.v);
+                        return (
+                          <button
+                            key={d.v}
+                            type="button"
+                            disabled={disabled}
+                            className={
+                              "slot" + (data.date === d.v ? " selected" : "")
+                            }
+                            onClick={() => {
+                              set("date", d.v);
+                              set("time", "");
+                            }}
+                          >
+                            <div style={{ fontSize: 10, opacity: 0.7 }}>{d.wd}</div>
+                            <div
+                              style={{
+                                fontSize: 16,
+                                fontWeight: 500,
+                                marginTop: 2,
+                              }}
+                            >
+                              {d.d}
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {errors.date && (
+                      <div className="field-error">{errors.date}</div>
+                    )}
+                  </div>
 
-              <div className={"field" + (errors.time ? " error" : "")}>
-                <label>Time</label>
-                <div
-                  className="slot-grid"
-                  style={{ gridTemplateColumns: "repeat(auto-fit, minmax(94px, 1fr))" }}
-                >
-                  {doctorSlots.map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      disabled={!data.doctor || !data.date}
-                      className={
-                        "slot" + (data.time === t ? " selected" : "")
-                      }
-                      onClick={() => set("time", t)}
+                  <div className={"field" + (errors.time ? " error" : "")}>
+                    <label>Time</label>
+                    <div
+                      className="slot-grid"
+                      style={{ gridTemplateColumns: "repeat(auto-fit, minmax(94px, 1fr))" }}
                     >
-                      {t}
-                    </button>
-                  ))}
-                </div>
-                {errors.time && (
-                  <div className="field-error">{errors.time}</div>
-                )}
-              </div>
+                      {doctorSlots.map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          disabled={!data.doctor || !data.date}
+                          className={
+                            "slot" + (data.time === t ? " selected" : "")
+                          }
+                          onClick={() => set("time", t)}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                    {errors.time && (
+                      <div className="field-error">{errors.time}</div>
+                    )}
+                  </div>
+                </>
+              )}
 
               <div className="modal-actions">
                 <button
@@ -410,16 +435,22 @@ export default function BookingModal() {
                 >
                   Back
                 </button>
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={next}
-                >
-                  Continue{" "}
-                  <span className="arrow">
-                    <ArrowRight />
-                  </span>
-                </button>
+                {navjotCallOnly ? (
+                  <a className="btn btn-primary" href={telHref()}>
+                    Call clinic
+                  </a>
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={next}
+                  >
+                    Continue{" "}
+                    <span className="arrow">
+                      <ArrowRight />
+                    </span>
+                  </button>
+                )}
               </div>
             </>
           )}
