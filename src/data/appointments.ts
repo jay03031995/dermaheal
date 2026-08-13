@@ -1,4 +1,4 @@
-export type DoctorId = "navjot-arora" | "jasmine-kohli" | "sonika-soni";
+export type DoctorId = "jasmine-kohli" | "sonika-soni";
 
 export type DoctorOption = {
   id: DoctorId;
@@ -8,12 +8,6 @@ export type DoctorOption = {
 };
 
 export const DOCTOR_OPTIONS: DoctorOption[] = [
-  {
-    id: "navjot-arora",
-    name: "Dr. Navjot Singh Arora",
-    schedule: "Bookings via Healthplix and phone call",
-    note: "Our team will confirm Dr. Navjot Singh Arora appointments through Healthplix or on call.",
-  },
   {
     id: "jasmine-kohli",
     name: "Dr. Jasmine Kohli",
@@ -28,11 +22,11 @@ export const DOCTOR_OPTIONS: DoctorOption[] = [
   },
 ];
 
-const navjotSlots = ["Healthplix / call confirmation"];
 const jasmineSlots = ["9:20 AM", "10:00 AM", "11:00 AM", "12:00 PM", "2:00 PM", "3:00 PM", "4:00 PM"];
 const sonikaSlots = ["2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "5:30 PM"];
 
 export function getDoctorName(id?: string) {
+  if (id === "navjot-arora") return "Dr. Navjot Singh Arora";
   return DOCTOR_OPTIONS.find((doctor) => doctor.id === id)?.name || id || "";
 }
 
@@ -47,5 +41,5 @@ export function isDoctorAvailableOnDate(doctorId: string, date: string) {
 export function getSlotsForDoctor(doctorId: string) {
   if (doctorId === "jasmine-kohli") return jasmineSlots;
   if (doctorId === "sonika-soni") return sonikaSlots;
-  return navjotSlots;
+  return [];
 }

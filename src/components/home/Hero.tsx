@@ -21,8 +21,7 @@ export default async function Hero() {
             <h1 dangerouslySetInnerHTML={{ __html: hero.headline }} />
             <p className="hero-sub">{hero.subhead}</p>
             <p className="hero-doctor-note">
-              Dr. Navjot Singh Arora bookings are taken through Healthplix and
-              on call.
+              Dr. Navjot Singh Arora bookings are taken through call only.
             </p>
             <div className="hero-cta">
               <BookButton>{hero.primaryCta}</BookButton>
