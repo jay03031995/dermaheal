@@ -9,6 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/admin/"],
       },
     ],
-    sitemap: "https://www.dermaheal.co.in/sitemap.xml",
+    sitemap: "https://dermaheal.co.in/sitemap.xml",
+    host: "https://dermaheal.co.in",
   };
 }
