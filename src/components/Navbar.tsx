@@ -22,6 +22,8 @@ const NAV_SOCIALS = [
   { href: CLINIC.social.facebook, label: "Facebook", Icon: FacebookIcon },
 ];
 
+const BLOG_URL = "https://blog.dermaheal.co.in/";
+
 const MOBILE_LINKS = [
   { href: "/treatments", label: "Treatments" },
   { href: "/concerns", label: "Concerns" },
@@ -29,7 +31,7 @@ const MOBILE_LINKS = [
   { href: "/results", label: "Results" },
   { href: "/gallery", label: "Gallery" },
   { href: CLINIC.shopUrl, label: "Shop", external: true, featured: true },
-  { href: "/blog", label: "Blog", external: true },
+  { href: BLOG_URL, label: "Blog", external: true },
   { href: "/#contact", label: "Contact" },
 ];
 
@@ -149,7 +151,12 @@ export default function Navbar() {
             <Bag size={14} />
             Shop
           </a>
-          <a className="nav-link" href="https://www.dermaheal.co.in/blog/">
+          <a
+            className="nav-link"
+            href={BLOG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Blog
           </a>
           <Link className="nav-link" href="/#contact">
