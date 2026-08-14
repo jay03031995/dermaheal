@@ -4,9 +4,9 @@ import {
   getDoctorSlugs,
   getTreatmentSlugs,
 } from "@/sanity/lib/fetchers";
+import { SITE_URL } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://www.dermaheal.co.in";
   const lastModified = new Date();
 
   const [treatmentSlugs, concernSlugs, doctorSlugs] = await Promise.all([
@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...top, ...treatments, ...concerns, ...doctors].map(
     ({ path, priority }) => ({
-      url: `${baseUrl}${path}`,
+      url: `${SITE_URL}${path}`,
       lastModified,
       changeFrequency: path === "" ? "weekly" : "monthly",
       priority,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CLINIC } from "@/data/clinic";
 
-export const SITE_URL = "https://www.dermaheal.co.in";
+export const SITE_URL = "https://dermaheal.co.in";
 
 export const SITE_NAME = CLINIC.name;
 
@@ -9,7 +9,7 @@ export const DEFAULT_TITLE =
   "Dermaheal Skin & Hair Clinic - Top Dermatologist in Dwarka, Delhi";
 
 export const DEFAULT_DESCRIPTION =
-  "Dermaheal is Dwarka's trusted skin and hair clinic. 27+ advanced treatments including hair transplant, Botox, MNRF, Cosmelan and laser hair reduction, calibrated for Indian skin.";
+  "Dermaheal Skin & Hair Clinic is a trusted dermatologist-led clinic in Dwarka, Delhi for skin, hair, laser, acne scar, pigmentation, Botox, MNRF and hair transplant treatments.";
 
 export const OG_IMAGE = {
   url: "/og-image.png",
@@ -27,8 +27,8 @@ export function absoluteUrl(path: string) {
 
 export function normalizeAssetUrl(url?: string) {
   return url?.replace(
-    /^https:\/\/dermaheal\.co\.in(?=\/)/,
-    "https://www.dermaheal.co.in",
+    /^https:\/\/www\.dermaheal\.co\.in(?=\/)/,
+    "https://dermaheal.co.in",
   );
 }
 
