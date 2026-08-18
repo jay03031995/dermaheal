@@ -46,6 +46,13 @@ const EMPTY: FormData = {
   age: "",
 };
 
+function formatLocalDateValue(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export default function BookingModal() {
   const { isOpen, close } = useBooking();
   const [step, setStep] = useState(0);
@@ -92,6 +99,9 @@ export default function BookingModal() {
       if (!data.doctor) e.doctor = "Pick a doctor";
       if (data.doctor !== "navjot-arora") {
         if (!data.date) e.date = "Pick a date";
+        else if (!isDoctorAvailableOnDate(data.doctor, data.date)) {
+          e.date = "Pick an available day for this doctor";
+        }
         if (!data.time) e.time = "Pick a time";
       }
     } else if (step === 2) {
@@ -168,7 +178,7 @@ export default function BookingModal() {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
       arr.push({
-        v: d.toISOString().slice(0, 10),
+        v: formatLocalDateValue(d),
         d: d.getDate(),
         wd: weekdays[d.getDay()],
       });
