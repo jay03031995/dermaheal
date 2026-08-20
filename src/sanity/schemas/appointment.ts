@@ -2,10 +2,10 @@ import { defineType, defineField } from "sanity";
 import AppointmentActionsInput from "../components/AppointmentActionsInput";
 
 /**
- * One appointment request submitted through the website booking modal.
- * Created by the public POST /api/bookings route (server-side, with the
- * editor token). Editable in Studio so clinic staff can update status,
- * add internal notes, etc.
+ * One appointment lead submitted or triggered through the website.
+ * Created by public API routes (server-side, with the editor token).
+ * Editable in Studio so clinic staff can update status, add internal notes,
+ * and follow up on form, call, and WhatsApp leads from one dashboard.
  */
 export const appointmentSchema = defineType({
   name: "appointment",
@@ -40,16 +40,53 @@ export const appointmentSchema = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
+      name: "leadType",
+      title: "Lead type",
+      type: "string",
+      initialValue: "form",
+      options: {
+        list: [
+          { title: "Appointment form", value: "form" },
+          { title: "CTA click", value: "cta" },
+        ],
+        layout: "radio",
+      },
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "leadChannel",
+      title: "Lead channel",
+      type: "string",
+      initialValue: "form",
+      options: {
+        list: [
+          { title: "Form", value: "form" },
+          { title: "Call", value: "call" },
+          { title: "WhatsApp", value: "whatsapp" },
+        ],
+        layout: "radio",
+      },
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: "name",
       title: "Patient name",
       type: "string",
-      validation: (r) => r.required(),
+      validation: (r) =>
+        r.custom((value, context) => {
+          if (context.document?.leadType === "cta") return true;
+          return value ? true : "Patient name is required for form submissions";
+        }),
     }),
     defineField({
       name: "phone",
       title: "Phone",
       type: "string",
-      validation: (r) => r.required(),
+      validation: (r) =>
+        r.custom((value, context) => {
+          if (context.document?.leadType === "cta") return true;
+          return value ? true : "Phone is required for form submissions";
+        }),
     }),
     defineField({
       name: "email",
@@ -105,6 +142,31 @@ export const appointmentSchema = defineType({
       name: "submittedAt",
       title: "Submitted at",
       type: "datetime",
+      readOnly: true,
+    }),
+    defineField({
+      name: "ctaLabel",
+      title: "CTA label",
+      type: "string",
+      readOnly: true,
+    }),
+    defineField({
+      name: "ctaLocation",
+      title: "CTA location",
+      type: "string",
+      readOnly: true,
+    }),
+    defineField({
+      name: "targetPhone",
+      title: "Target phone",
+      type: "string",
+      readOnly: true,
+      description: "Clinic number used by the clicked call or WhatsApp CTA.",
+    }),
+    defineField({
+      name: "pageUrl",
+      title: "Page URL",
+      type: "url",
       readOnly: true,
     }),
     defineField({
@@ -166,12 +228,16 @@ export const appointmentSchema = defineType({
       name: "name",
       concern: "concern",
       status: "status",
+      leadType: "leadType",
+      leadChannel: "leadChannel",
+      ctaLabel: "ctaLabel",
       doctorName: "doctorName",
       date: "preferredDate",
       time: "preferredTime",
       phone: "phone",
+      targetPhone: "targetPhone",
     },
-    prepare({ name, concern, status, doctorName, date, time, phone }) {
+    prepare({ name, concern, status, leadType, leadChannel, ctaLabel, doctorName, date, time, phone, targetPhone }) {
       const statusLabel: Record<string, string> = {
         pending: "🟡 Pending",
         new: "🟠 New",
@@ -182,10 +248,18 @@ export const appointmentSchema = defineType({
         cancelled: "✗ Cancelled",
         noShow: "⚠ No-show",
       };
+      const channelLabel: Record<string, string> = {
+        form: "Form",
+        call: "Call",
+        whatsapp: "WhatsApp",
+      };
       return {
-        title: `${statusLabel[status] ?? status} — ${name ?? "Unnamed"}`,
+        title: `${statusLabel[status] ?? status} — ${
+          name ?? ctaLabel ?? "Website lead"
+        }`,
         subtitle: [
-          phone,
+          channelLabel[leadChannel] ?? leadType,
+          phone ?? targetPhone,
           doctorName,
           concern,
           date && time ? `${date} · ${time}` : date || time,

@@ -7,6 +7,7 @@ import BookingModal from "@/components/BookingModal";
 import RevealInit from "@/components/RevealInit";
 import JsonLd from "@/components/JsonLd";
 import { localBusinessSchema, websiteSchema } from "@/lib/schema";
+import { getClinic } from "@/sanity/lib/fetchers";
 
 /**
  * Safety-net revalidation: every page under (site)/ re-renders at most once
@@ -15,9 +16,11 @@ import { localBusinessSchema, websiteSchema } from "@/lib/schema";
  */
 export const revalidate = 3600;
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const clinic = await getClinic();
+
   return (
     <>
       <JsonLd data={[localBusinessSchema, websiteSchema]} />
@@ -26,8 +29,8 @@ export default function SiteLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <FabStack />
-        <BookingModal />
+        <FabStack clinic={clinic} />
+        <BookingModal clinic={clinic} />
       </BookingProvider>
       <RevealInit />
     </>

@@ -42,22 +42,31 @@ const QUERY = /* groq */ `{
     "cancelled": count(*[_type == "appointment" && status == "cancelled"]),
     "noShow": count(*[_type == "appointment" && status == "noShow"])
   },
+  "leadCounts": {
+    "form": count(*[_type == "appointment" && coalesce(leadType, "form") == "form"]),
+    "call": count(*[_type == "appointment" && leadChannel == "call"]),
+    "whatsapp": count(*[_type == "appointment" && leadChannel == "whatsapp"]),
+    "cta": count(*[_type == "appointment" && leadType == "cta"])
+  },
   "todayAll": count(*[_type == "appointment" && preferredDate == $today]),
   "todayConfirmed": count(*[_type == "appointment" && status == "confirmed" && preferredDate == $today]),
   "thisWeekSubmitted": count(*[_type == "appointment" && submittedAt >= $weekAgo]),
-  "last30dNew": count(*[_type == "appointment" && submittedAt >= $monthAgo]),
+  "last30dNew": count(*[_type == "appointment" && submittedAt >= $monthAgo && coalesce(leadType, "form") == "form"]),
   "last30dConfirmed": count(*[_type == "appointment" && status in ["confirmed","completed"] && submittedAt >= $monthAgo]),
   "recentPending": *[_type == "appointment" && status in ["pending","new"]] | order(submittedAt desc) [0...8] {
-    _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, submittedAt
+    _id, status, leadType, leadChannel, name, phone, concern, doctorName, preferredDate, preferredTime, submittedAt,
+    ctaLabel, ctaLocation, targetPhone, pageUrl
   },
   "upcomingConfirmed": *[_type == "appointment" && status == "confirmed" && preferredDate >= $today] | order(preferredDate asc, preferredTime asc) [0...5] {
-    _id, status, name, phone, concern, doctorName, preferredDate, preferredTime, emailConfirmationSent
+    _id, status, leadType, leadChannel, name, phone, concern, doctorName, preferredDate, preferredTime, emailConfirmationSent
   }
 }`;
 
 type ApptStub = {
   _id: string;
   status?: string;
+  leadType?: string;
+  leadChannel?: string;
   name?: string;
   phone?: string;
   concern?: string;
@@ -66,6 +75,10 @@ type ApptStub = {
   preferredTime?: string;
   submittedAt?: string;
   emailConfirmationSent?: boolean;
+  ctaLabel?: string;
+  ctaLocation?: string;
+  targetPhone?: string;
+  pageUrl?: string;
 };
 
 type DashboardData = {
@@ -78,6 +91,12 @@ type DashboardData = {
     completed: number;
     cancelled: number;
     noShow: number;
+  };
+  leadCounts: {
+    form: number;
+    call: number;
+    whatsapp: number;
+    cta: number;
   };
   todayAll: number;
   todayConfirmed: number;
@@ -160,15 +179,23 @@ function ApptRow({
   onAction?: (id: string, status: "confirmed" | "rejected" | "cancelled") => void;
   actionLoading?: string | null;
 }) {
-  const canApproveReject = a.status === "pending" || a.status === "new";
-  const canCancel = canApproveReject || a.status === "confirmed";
+  const isFormLead = (a.leadType ?? "form") === "form";
+  const canApproveReject =
+    isFormLead && (a.status === "pending" || a.status === "new");
+  const canCancel = isFormLead && (canApproveReject || a.status === "confirmed");
+  const displayName = a.name ?? a.ctaLabel ?? "Website lead";
+  const channelLabel: Record<string, string> = {
+    form: "Form",
+    call: "Call",
+    whatsapp: "WhatsApp",
+  };
   return (
     <Card padding={3} radius={2} shadow={0} tone="transparent">
       <Flex align="center" justify="space-between" gap={3} wrap="wrap">
         <Stack space={2} flex={1}>
           <Flex align="center" gap={2} wrap="wrap">
             <Text weight="semibold" size={2}>
-              {a.name ?? "Unnamed"}
+              {displayName}
             </Text>
             {a.status && (
               <Text size={1} muted>
@@ -177,9 +204,19 @@ function ApptRow({
             )}
           </Flex>
           <Inline space={3}>
+            {a.leadChannel && (
+              <Text size={1} muted>
+                {channelLabel[a.leadChannel] ?? a.leadChannel}
+              </Text>
+            )}
             {a.phone && (
               <Text size={1} muted>
                 📞 {a.phone}
+              </Text>
+            )}
+            {!a.phone && a.targetPhone && (
+              <Text size={1} muted>
+                📞 {a.targetPhone}
               </Text>
             )}
             {a.doctorName && (
@@ -199,6 +236,11 @@ function ApptRow({
               </Text>
             )}
           </Inline>
+          {(a.ctaLocation || a.pageUrl) && (
+            <Text size={1} muted>
+              {[a.ctaLocation, a.pageUrl].filter(Boolean).join(" · ")}
+            </Text>
+          )}
           {a.emailConfirmationSent && (
             <Text size={1} muted>
               Email confirmation sent
@@ -340,7 +382,7 @@ export default function AppointmentsDashboard() {
         {/* Header */}
         <Flex align="center" justify="space-between" wrap="wrap" gap={3}>
           <Stack space={2}>
-            <Heading size={3}>Appointments Dashboard</Heading>
+            <Heading size={3}>Appointment Leads Dashboard</Heading>
             <Text size={1} muted>
               {todayLabel} · auto-refreshes every 30 seconds
             </Text>
@@ -381,22 +423,22 @@ export default function AppointmentsDashboard() {
                   hint="Approve, reject, or cancel from this dashboard"
                 />
                 <StatCard
-                  label="📞 Contacted"
-                  value={data.counts.contacted}
+                  label="Website form leads"
+                  value={data.leadCounts.form}
                   tone="primary"
-                  hint="Awaiting patient response"
+                  hint="Submitted with patient details"
                 />
                 <StatCard
-                  label="✅ Confirmed"
-                  value={data.counts.confirmed}
+                  label="Call clicks"
+                  value={data.leadCounts.call}
+                  tone="primary"
+                  hint="Call CTA intent captured"
+                />
+                <StatCard
+                  label="WhatsApp clicks"
+                  value={data.leadCounts.whatsapp}
                   tone="positive"
-                  hint="Booked & scheduled"
-                />
-                <StatCard
-                  label="Rejected / cancelled"
-                  value={data.counts.rejected + data.counts.cancelled}
-                  tone={data.counts.rejected + data.counts.cancelled > 0 ? "critical" : "default"}
-                  hint={`${data.counts.completed} completed all-time`}
+                  hint="WhatsApp CTA intent captured"
                 />
               </Grid>
             </Stack>
@@ -420,7 +462,7 @@ export default function AppointmentsDashboard() {
                 <StatCard
                   label="Bookings this week (last 7 days)"
                   value={data.thisWeekSubmitted}
-                  hint="Total submissions through the website"
+                  hint="Total appointment leads through the website"
                 />
                 <StatCard
                   label="30-day conversion"
@@ -439,7 +481,7 @@ export default function AppointmentsDashboard() {
                   hint={
                     data.last30dNew === 0
                       ? "No bookings in the last 30 days"
-                      : `${data.last30dConfirmed} of ${data.last30dNew} new bookings reached Confirmed/Completed`
+                    : `${data.last30dConfirmed} of ${data.last30dNew} new bookings reached Confirmed/Completed`
                   }
                 />
               </Grid>
@@ -451,11 +493,11 @@ export default function AppointmentsDashboard() {
                 <Stack space={4}>
                   <Flex align="center" gap={2}>
                     <UsersIcon />
-                    <Heading size={1}>Pending approval</Heading>
+                    <Heading size={1}>New appointment leads</Heading>
                   </Flex>
                   {data.recentPending.length === 0 ? (
                     <Text muted>
-                      Inbox zero — no bookings waiting for approval.
+                      Inbox zero — no appointment leads waiting for follow-up.
                     </Text>
                   ) : (
                     <Stack space={2}>
