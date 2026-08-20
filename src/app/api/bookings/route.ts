@@ -73,6 +73,8 @@ export async function POST(req: NextRequest) {
     const doc = await client.create({
       _type: "appointment",
       status: "pending",
+      leadType: "form",
+      leadChannel: "form",
       name,
       phone,
       email: email || undefined,

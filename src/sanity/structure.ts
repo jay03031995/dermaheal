@@ -16,30 +16,60 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title("Dermaheal Admin")
     .items([
-      // Dashboard — landing view with live counters for clinic staff.
+      // Dashboard — landing view with live lead counters for clinic staff.
       S.listItem()
-        .title("📊 Dashboard")
+        .title("📊 Appointment Leads")
         .id("appointmentsDashboard")
         .icon(() => "📊")
         .child(
           S.component(AppointmentsDashboard)
             .id("appointmentsDashboard")
-            .title("Appointments Dashboard"),
+            .title("Appointment Leads Dashboard"),
         ),
       S.divider(),
-      // Appointments — pinned at top so staff see new bookings first.
+      // Appointment leads — pinned at top so staff see new leads first.
       S.listItem()
-        .title("📅 Appointments")
+        .title("📅 Appointment Leads")
         .child(
           S.list()
-            .title("Appointments")
+            .title("Appointment Leads")
             .items([
               S.listItem()
-                .title("🟡 Pending approval")
+                .title("🟡 New / pending leads")
                 .child(
                   S.documentTypeList("appointment")
-                    .title("Pending approval")
+                    .title("New / pending leads")
                     .filter('_type == "appointment" && status in ["pending","new"]')
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
+                    ]),
+                ),
+              S.listItem()
+                .title("📝 Form submissions")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("Form submissions")
+                    .filter('_type == "appointment" && coalesce(leadType, "form") == "form"')
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
+                    ]),
+                ),
+              S.listItem()
+                .title("📞 Call clicks")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("Call clicks")
+                    .filter('_type == "appointment" && leadChannel == "call"')
+                    .defaultOrdering([
+                      { field: "submittedAt", direction: "desc" },
+                    ]),
+                ),
+              S.listItem()
+                .title("WhatsApp clicks")
+                .child(
+                  S.documentTypeList("appointment")
+                    .title("WhatsApp clicks")
+                    .filter('_type == "appointment" && leadChannel == "whatsapp"')
                     .defaultOrdering([
                       { field: "submittedAt", direction: "desc" },
                     ]),
@@ -66,10 +96,10 @@ export const structure = (S: StructureBuilder) =>
                 ),
               S.divider(),
               S.listItem()
-                .title("All appointments")
+                .title("All appointment leads")
                 .child(
                   S.documentTypeList("appointment")
-                    .title("All appointments")
+                    .title("All appointment leads")
                     .defaultOrdering([
                       { field: "submittedAt", direction: "desc" },
                     ]),

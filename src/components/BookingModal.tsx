@@ -3,7 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useBooking } from "@/components/BookingContext";
 import { ArrowRight, Check } from "@/components/icons";
-import { CLINIC, telHref } from "@/data/clinic";
+import { telHref } from "@/data/clinic";
+import { trackAppointmentLead } from "@/lib/appointmentLeads";
+import type { ClinicData } from "@/sanity/lib/fetchers";
 import {
   DOCTOR_OPTIONS,
   getDoctorName,
@@ -53,7 +55,11 @@ function formatLocalDateValue(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
-export default function BookingModal() {
+type Props = {
+  clinic: Pick<ClinicData, "phone" | "phone2">;
+};
+
+export default function BookingModal({ clinic }: Props) {
   const { isOpen, close } = useBooking();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FormData>(EMPTY);
@@ -189,6 +195,23 @@ export default function BookingModal() {
   const doctorSlots = useMemo(() => getSlotsForDoctor(data.doctor), [data.doctor]);
   const selectedDoctor = DOCTOR_OPTIONS.find((doctor) => doctor.id === data.doctor);
   const navjotCallOnly = data.doctor === "navjot-arora";
+  const trackCallLead = (label: string, targetPhone: string = clinic.phone) => {
+    trackAppointmentLead({
+      channel: "call",
+      label,
+      location: "booking-modal",
+      targetPhone,
+      source: "website-booking-modal-call",
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      age: data.age,
+      concern: data.concern,
+      city: data.city,
+      doctor: data.doctor,
+      doctorName: getDoctorName(data.doctor),
+    });
+  };
 
   return (
     <div
@@ -363,11 +386,19 @@ export default function BookingModal() {
                     available slot.
                   </p>
                   <div className="call-only-actions">
-                    <a className="btn btn-primary" href={telHref()}>
-                      Call {CLINIC.phone}
+                    <a
+                      className="btn btn-primary"
+                      href={telHref(clinic.phone)}
+                      onClick={() => trackCallLead("Call primary number")}
+                    >
+                      Call {clinic.phone}
                     </a>
-                    <a className="btn btn-ghost" href={telHref(CLINIC.phone2)}>
-                      Call {CLINIC.phone2}
+                    <a
+                      className="btn btn-ghost"
+                      href={telHref(clinic.phone2)}
+                      onClick={() => trackCallLead("Call secondary number", clinic.phone2)}
+                    >
+                      Call {clinic.phone2}
                     </a>
                   </div>
                 </div>
@@ -446,7 +477,11 @@ export default function BookingModal() {
                   Back
                 </button>
                 {navjotCallOnly ? (
-                  <a className="btn btn-primary" href={telHref()}>
+                  <a
+                    className="btn btn-primary"
+                    href={telHref(clinic.phone)}
+                    onClick={() => trackCallLead("Call clinic")}
+                  >
                     Call clinic
                   </a>
                 ) : (
