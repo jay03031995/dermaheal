@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
     const client = writeClient(token);
     const doc = await client.create({
       _type: "appointment",
-      status: "new",
+      status: body.channel === "call" ? "counted" : "new",
       leadType: "cta",
       leadChannel: body.channel,
       name: cleanText(body.name, 120),

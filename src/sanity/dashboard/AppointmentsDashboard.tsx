@@ -33,8 +33,8 @@ import { useClient } from "sanity";
 
 const QUERY = /* groq */ `{
   "counts": {
-    "pending": count(*[_type == "appointment" && status == "pending"]),
-    "new": count(*[_type == "appointment" && status == "new"]),
+    "pending": count(*[_type == "appointment" && status == "pending" && coalesce(leadChannel, "form") != "call"]),
+    "new": count(*[_type == "appointment" && status == "new" && coalesce(leadChannel, "form") != "call"]),
     "contacted": count(*[_type == "appointment" && status == "contacted"]),
     "confirmed": count(*[_type == "appointment" && status == "confirmed"]),
     "rejected": count(*[_type == "appointment" && status == "rejected"]),
@@ -45,6 +45,8 @@ const QUERY = /* groq */ `{
   "leadCounts": {
     "form": count(*[_type == "appointment" && coalesce(leadType, "form") == "form"]),
     "call": count(*[_type == "appointment" && leadChannel == "call"]),
+    "callToday": count(*[_type == "appointment" && leadChannel == "call" && submittedAt >= $todayStart]),
+    "callThisWeek": count(*[_type == "appointment" && leadChannel == "call" && submittedAt >= $weekAgo]),
     "whatsapp": count(*[_type == "appointment" && leadChannel == "whatsapp"]),
     "cta": count(*[_type == "appointment" && leadType == "cta"])
   },
@@ -53,7 +55,7 @@ const QUERY = /* groq */ `{
   "thisWeekSubmitted": count(*[_type == "appointment" && submittedAt >= $weekAgo]),
   "last30dNew": count(*[_type == "appointment" && submittedAt >= $monthAgo && coalesce(leadType, "form") == "form"]),
   "last30dConfirmed": count(*[_type == "appointment" && status in ["confirmed","completed"] && submittedAt >= $monthAgo]),
-  "recentPending": *[_type == "appointment" && status in ["pending","new"]] | order(submittedAt desc) [0...8] {
+  "recentPending": *[_type == "appointment" && status in ["pending","new"] && coalesce(leadChannel, "form") != "call"] | order(submittedAt desc) [0...8] {
     _id, status, leadType, leadChannel, name, phone, concern, doctorName, preferredDate, preferredTime, submittedAt,
     ctaLabel, ctaLocation, targetPhone, pageUrl
   },
@@ -95,6 +97,8 @@ type DashboardData = {
   leadCounts: {
     form: number;
     call: number;
+    callToday: number;
+    callThisWeek: number;
     whatsapp: number;
     cta: number;
   };
@@ -112,9 +116,10 @@ const REFRESH_MS = 30_000;
 function makeQueryParams() {
   const now = new Date();
   const today = now.toISOString().slice(0, 10);
+  const todayStart = `${today}T00:00:00.000Z`;
   const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  return { today, weekAgo, monthAgo };
+  return { today, todayStart, weekAgo, monthAgo };
 }
 
 function relativeTime(iso?: string): string {
@@ -165,6 +170,7 @@ const STATUS_LABELS: Record<string, string> = {
   contacted: "Contacted",
   confirmed: "Confirmed",
   rejected: "Rejected",
+  counted: "Counted",
   cancelled: "Cancelled",
   completed: "Completed",
   noShow: "No-show",
@@ -429,10 +435,10 @@ export default function AppointmentsDashboard() {
                   hint="Submitted with patient details"
                 />
                 <StatCard
-                  label="Call clicks"
+                  label="Call lead clicks"
                   value={data.leadCounts.call}
                   tone="primary"
-                  hint="Call CTA intent captured"
+                  hint={`${data.leadCounts.callToday} today · ${data.leadCounts.callThisWeek} last 7 days`}
                 />
                 <StatCard
                   label="WhatsApp clicks"
