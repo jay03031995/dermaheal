@@ -39,7 +39,7 @@ export const structure = (S: StructureBuilder) =>
                 .child(
                   S.documentTypeList("appointment")
                     .title("New / pending leads")
-                    .filter('_type == "appointment" && status in ["pending","new"]')
+                    .filter('_type == "appointment" && status in ["pending","new"] && coalesce(leadChannel, "form") != "call"')
                     .defaultOrdering([
                       { field: "submittedAt", direction: "desc" },
                     ]),
