@@ -523,7 +523,7 @@ export async function getClinic(): Promise<ClinicData> {
     phone: doc.phone ?? LOCAL_CLINIC.phone,
     phone2: doc.phone2 ?? LOCAL_CLINIC.phone2,
     email: doc.email ?? LOCAL_CLINIC.email,
-    shopUrl: doc.shopUrl ?? LOCAL_CLINIC.shopUrl,
+    shopUrl: LOCAL_CLINIC.shopUrl,
     social: {
       instagram: doc.instagramUrl ?? LOCAL_CLINIC.social.instagram,
       youtube: doc.youtubeUrl ?? LOCAL_CLINIC.social.youtube,

@@ -145,8 +145,8 @@ export default function Navbar() {
           <a
             className="nav-link nav-shop-link"
             href={CLINIC.shopUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={CLINIC.shopUrl.startsWith("http") ? "_blank" : undefined}
+            rel={CLINIC.shopUrl.startsWith("http") ? "noopener noreferrer" : undefined}
           >
             <Bag size={14} />
             Shop
