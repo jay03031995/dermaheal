@@ -23,8 +23,8 @@ export default function FabStack({ clinic }: Props) {
       <a
         className="fab-shop fab-pulse"
         href={clinic.shopUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={clinic.shopUrl.startsWith("http") ? "_blank" : undefined}
+        rel={clinic.shopUrl.startsWith("http") ? "noopener noreferrer" : undefined}
         aria-label="Shop Now"
       >
         <span className="fab-shop-text">Shop Now</span>

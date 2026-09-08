@@ -2,7 +2,7 @@ import { CLINIC } from "@/data/clinic";
 import { ArrowRight, Bag } from "@/components/icons";
 
 /**
- * Full-width promotional band that drives traffic to the external shop.
+ * Full-width promotional band for the shop.
  * Placed between content sections on the homepage.
  */
 export default function ShopCta() {
@@ -22,8 +22,8 @@ export default function ShopCta() {
           <a
             className="btn btn-light shop-cta-btn shop-cta-btn-blink"
             href={CLINIC.shopUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={CLINIC.shopUrl.startsWith("http") ? "_blank" : undefined}
+            rel={CLINIC.shopUrl.startsWith("http") ? "noopener noreferrer" : undefined}
           >
             Shop the store
             <span className="arrow">
