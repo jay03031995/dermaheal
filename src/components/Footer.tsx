@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CLINIC, waHref } from "@/data/clinic";
 import { FOOTER_LINKS } from "@/data/site";
+import type { ClinicData } from "@/sanity/lib/fetchers";
 import {
   InstagramIcon,
   YoutubeIcon,
@@ -8,16 +9,20 @@ import {
   WhatsappFilled,
 } from "@/components/icons";
 
-export default function Footer() {
+export default function Footer({
+  clinic,
+}: {
+  clinic: Pick<ClinicData, "name" | "logoUrl">;
+}) {
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer-grid">
           <div>
-            <Link href="/" className="logo" aria-label={CLINIC.name}>
+            <Link href="/" className="logo" aria-label={clinic.name}>
               <img
-                src="/dermaheal-logo.png"
-                alt={CLINIC.name}
+                src={clinic.logoUrl || "/dermaheal-logo.png"}
+                alt={clinic.name}
                 className="logo-img logo-img-light"
               />
             </Link>
@@ -84,7 +89,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 {CLINIC.name} · Dwarka, New Delhi</span>
+          <span>© 2026 {clinic.name} · Dwarka, New Delhi</span>
           <span>
             {CLINIC.phone} · {CLINIC.phone2} · {CLINIC.email}
           </span>

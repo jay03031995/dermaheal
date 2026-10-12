@@ -6,6 +6,7 @@ import { CLINIC, telHref } from "@/data/clinic";
 import { TREATMENTS, TREATMENT_CATS } from "@/data/treatments";
 import { DOCTORS } from "@/data/doctors";
 import { CONCERNS } from "@/data/concerns";
+import type { ClinicData } from "@/sanity/lib/fetchers";
 import {
   ArrowRight,
   Bag,
@@ -35,7 +36,11 @@ const MOBILE_LINKS = [
   { href: "/#contact", label: "Contact" },
 ];
 
-export default function Navbar() {
+export default function Navbar({
+  clinic,
+}: {
+  clinic: Pick<ClinicData, "name" | "logoUrl">;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -56,8 +61,12 @@ export default function Navbar() {
   return (
     <nav className={"nav" + (scrolled ? " scrolled" : "")}>
       <div className="nav-inner">
-        <Link href="/" className="logo" aria-label={CLINIC.name}>
-          <img src="/dermaheal-logo.png" alt={CLINIC.name} className="logo-img" />
+        <Link href="/" className="logo" aria-label={clinic.name}>
+          <img
+            src={clinic.logoUrl || "/dermaheal-logo.png"}
+            alt={clinic.name}
+            className="logo-img"
+          />
         </Link>
 
         <div className="nav-links">

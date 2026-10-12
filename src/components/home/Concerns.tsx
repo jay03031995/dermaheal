@@ -11,7 +11,7 @@ export default async function Concerns() {
         <div className="section-head reveal">
           <div className="section-head-copy">
             <div className="eyebrow">Start with your concern</div>
-            <h2>Twelve concerns, one place to address them.</h2>
+            <h2>Thirteen concerns, one place to address them.</h2>
           </div>
           <p>
             From cystic acne to age-related volume loss, every concern is mapped

@@ -23,12 +23,20 @@ export default async function SiteLayout({
 
   return (
     <>
-      <JsonLd data={[localBusinessSchema, websiteSchema]} />
+      <JsonLd
+        data={[
+          {
+            ...localBusinessSchema,
+            logo: clinic.logoUrl ?? localBusinessSchema.logo,
+          },
+          websiteSchema,
+        ]}
+      />
       <BookingProvider>
         <Announcement />
-        <Navbar />
+        <Navbar clinic={clinic} />
         <main>{children}</main>
-        <Footer />
+        <Footer clinic={clinic} />
         <FabStack clinic={clinic} />
         <BookingModal clinic={clinic} />
       </BookingProvider>
