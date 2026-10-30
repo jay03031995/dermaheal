@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   applicationName: SITE_NAME,
   title: {
     default: DEFAULT_TITLE,
-    template: `%s - ${SITE_NAME}`,
+    template: "%s | Dermaheal",
   },
   description: DEFAULT_DESCRIPTION,
   keywords: [

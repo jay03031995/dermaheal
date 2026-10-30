@@ -18,7 +18,7 @@ import {
   faqSchema,
   medicalProcedureSchema,
 } from "@/lib/schema";
-import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
+import { treatmentHeading, treatmentMetadata } from "@/lib/treatment-seo";
 
 const ROMAN = ["i", "ii", "iii", "iv"];
 
@@ -33,25 +33,7 @@ export async function generateMetadata(props: {
   const { slug } = await props.params;
   const t = await getTreatmentDetailFetched(slug);
   if (!t) return { title: "Treatment Not Found" };
-  return {
-    title: `${t.name} in Dwarka`,
-    description: t.overview,
-    alternates: { canonical: `/treatments/${slug}` },
-    openGraph: {
-      type: "article",
-      locale: "en_IN",
-      url: absoluteUrl(`/treatments/${slug}`),
-      title: `${t.name} - Dermaheal Skin & Hair Clinic`,
-      description: t.overview,
-      images: [OG_IMAGE],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${t.name} in Dwarka`,
-      description: t.overview,
-      images: [OG_IMAGE.secureUrl],
-    },
-  };
+  return treatmentMetadata(t);
 }
 
 export default async function TreatmentDetailPage(props: {
@@ -75,7 +57,8 @@ export default async function TreatmentDetailPage(props: {
 
   const aboutBody =
     t.overviewExtra ||
-    `Every ${t.name.toLowerCase()} session at Dermaheal is performed by a qualified dermatologist, using internationally approved products and protocols calibrated specifically for Indian skin.`;
+    `A consultation is an opportunity to discuss your goals, health history, available options and aftercare with a clinician before deciding on a treatment plan.`;
+  const heading = treatmentHeading(t);
   const aboutCtaLabel = t.aboutCtaLabel || "Speak to a dermatologist";
   const aboutCtaHref = t.aboutCtaHref || "/#book";
 
@@ -113,7 +96,8 @@ export default async function TreatmentDetailPage(props: {
                 <span className="dot" />
                 {t.cat}
               </span>
-              <h1>{t.headline}</h1>
+              <h1>{heading}</h1>
+              <p className="tp-overview">{t.headline}</p>
               <p className="tp-overview">{t.overview}</p>
               <div className="tp-quick">
                 <div className="tp-quick-item">
@@ -140,6 +124,12 @@ export default async function TreatmentDetailPage(props: {
               <div
                 className={"tp-img-main " + t.img}
                 style={bgImage(t.imageUrl)}
+                role={t.imageUrl ? "img" : undefined}
+                aria-label={
+                  t.imageUrl
+                    ? `${heading} at Dermaheal`
+                    : undefined
+                }
               >
                 <div className="tp-img-label">— {t.name.toLowerCase()}</div>
               </div>
@@ -156,7 +146,7 @@ export default async function TreatmentDetailPage(props: {
               <div className="eyebrow" style={{ marginBottom: 16 }}>
                 About the treatment
               </div>
-              <h2>{t.headline}</h2>
+              <h2>About {t.name} at Dermaheal</h2>
               <p>{t.overview}</p>
               <p>{aboutBody}</p>
               <Link className="btn-text" href={aboutCtaHref}>
@@ -180,7 +170,7 @@ export default async function TreatmentDetailPage(props: {
         <div className="container">
           <div className="tp-section-head">
             <div className="eyebrow">How it works</div>
-            <h2>The four-step procedure.</h2>
+            <h2>What to expect during {t.name.toLowerCase()}</h2>
             <p>
               Designed to feel unhurried, explained at every step, and centred
               entirely on your safety and comfort.
@@ -227,11 +217,10 @@ export default async function TreatmentDetailPage(props: {
         <div className="container">
           <div className="tp-section-head">
             <div className="eyebrow">Suitable for</div>
-            <h2>Who this treatment is for.</h2>
+            <h2>Who may be suitable for {t.name}?</h2>
             <p>
-              Best results are achieved when the treatment matches your
-              concern. Here are the concerns where {t.name} typically delivers
-              excellent outcomes.
+              The concerns below are commonly discussed in relation to this
+              treatment. A clinician can assess whether it is suitable for you.
             </p>
           </div>
           <div className="tp-tags">
@@ -249,7 +238,11 @@ export default async function TreatmentDetailPage(props: {
         <div className="container">
           <div className="tp-section-head">
             <div className="eyebrow">Why choose this</div>
-            <h2>Six reasons patients pick this protocol.</h2>
+            <h2>Potential benefits of {t.name}</h2>
+            <p>
+              Benefits and response vary between individuals. Your clinician
+              can discuss potential outcomes and risks for your needs.
+            </p>
           </div>
           <div className="tp-benefits">
             {t.benefits.map((b, i) => (
@@ -268,10 +261,11 @@ export default async function TreatmentDetailPage(props: {
         <div className="container">
           <div className="tp-section-head">
             <div className="eyebrow">Performed by</div>
-            <h2>Treated by dermatologists. Always.</h2>
+            <h2>Meet the Dermaheal clinical team</h2>
             <p>
-              Every procedure at Dermaheal is performed personally by a
-              qualified dermatologist, never delegated to a therapist.
+              Explore our clinicians&apos; profiles for their qualifications,
+              areas of expertise and experience. A clinician can assess your
+              suitability and discuss treatment options at consultation.
             </p>
           </div>
           <div className="tp-doctors">
@@ -358,15 +352,27 @@ export default async function TreatmentDetailPage(props: {
           </p>
           <BookButton>Book a consultation</BookButton>
           <div className="tp-cta-contacts">
-            <span>
+            <a href={telHref()}>
               <Phone /> {CLINIC.phone}
-            </span>
-            <span>
+            </a>
+            <a href={telHref(CLINIC.phone2)}>
               <Phone /> {CLINIC.phone2}
-            </span>
-            <span>
-              <MapPin /> Dwarka, New Delhi
-            </span>
+            </a>
+          </div>
+          <div className="tp-cta-location">
+            <h3>Visit our clinic in Sector 7, Dwarka</h3>
+            <p>
+              Discuss {t.name.toLowerCase()} treatment options at{" "}
+              {CLINIC.address}.
+            </p>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(CLINIC.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MapPin /> Get directions
+            </a>
+            <Link href="/#contact">Contact the clinic</Link>
           </div>
         </div>
       </section>

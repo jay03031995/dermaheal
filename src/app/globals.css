@@ -2551,7 +2551,19 @@ p { margin: 0; color: var(--muted); }
   display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
   font-size: 13px; color: var(--sand);
 }
-.tp-cta-contacts span { display: inline-flex; align-items: center; gap: 8px; }
+.tp-cta-contacts a {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: inherit; text-decoration: none;
+}
+.tp-cta-contacts a:hover { color: var(--cream); }
+.tp-cta-location { margin: 30px auto 0; max-width: 720px; }
+.tp-cta-location h3 { color: var(--sand); font-size: 16px; margin-bottom: 10px; }
+.tp-cta-location p { margin-bottom: 16px; }
+.tp-cta-location a {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: 0 10px; color: var(--sand); font-size: 13px;
+}
+.tp-cta-location a:hover { color: var(--cream); }
 
 /* =========================================================
    Before-and-after gallery (results page / treatment pages)
