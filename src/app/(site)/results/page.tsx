@@ -34,21 +34,17 @@ export default async function ResultsPage() {
           <div className="page-hero-stats">
             <div className="page-hero-stat">
               <div className="page-hero-stat-num">
-                11k<sup>+</sup>
+                Patient
               </div>
-              <div className="page-hero-stat-label">Verified reviews</div>
+              <div className="page-hero-stat-label">Stories</div>
             </div>
             <div className="page-hero-stat">
-              <div className="page-hero-stat-num">
-                4.9<sup>/5</sup>
-              </div>
-              <div className="page-hero-stat-label">Google rating</div>
+              <div className="page-hero-stat-num">Browse</div>
+              <div className="page-hero-stat-label">By concern</div>
             </div>
             <div className="page-hero-stat">
-              <div className="page-hero-stat-num">
-                97<sup>%</sup>
-              </div>
-              <div className="page-hero-stat-label">Would refer a friend</div>
+              <div className="page-hero-stat-num">Clinical</div>
+              <div className="page-hero-stat-label">Context included</div>
             </div>
           </div>
         </div>

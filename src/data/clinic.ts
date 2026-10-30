@@ -5,7 +5,7 @@ export const CLINIC = {
   phone2: "+91 73794 64999",
   email: "info.dermaheal@gmail.com",
   address:
-    "C-712, Ramphal Chowk, Block D, Sector 7 Dwarka, Palam, near Shiksha Bharti School, New Delhi 110075",
+    "C-712, Ramphal Chowk, Sector 7, Dwarka, New Delhi, Delhi 110075",
   hours: "Mon to Sat 10:00 AM to 7:30 PM · Sun 10:00 AM to 7:00 PM",
   cities: ["Dwarka", "New Delhi"],
   shopUrl: "https://www.dermahealshop.link/",

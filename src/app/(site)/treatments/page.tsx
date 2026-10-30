@@ -10,9 +10,9 @@ import { bgImage } from "@/lib/bgImage";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "All Treatments - 27 advanced dermatology procedures",
+  title: "Dermatology Treatments in Dwarka, Delhi | Dermaheal",
   description:
-    "Dermaheal Skin & Hair Clinic, Dwarka offers 27 advanced treatments across hair restoration, injectables, lasers, peels, regenerative medicine and day-care surgery. Calibrated for Indian skin.",
+    "Explore dermatology, hair, laser, aesthetic and day-care treatments at Dermaheal in Sector 7, Dwarka. Review services and book a dermatologist consultation.",
   canonical: "/treatments",
 });
 
@@ -36,7 +36,7 @@ export default async function TreatmentsPage() {
             Our complete service menu
           </div>
           <h1>
-            Twenty-seven treatments,
+            Dermatology treatments,
             <br />
             one <em>standard of care.</em>
           </h1>

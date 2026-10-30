@@ -45,10 +45,10 @@ export default async function DoctorsPage() {
             >
               <div className="doc-photo-wrap">
                 <div className="doc-badge doc-badge-1">
-                  <div className="doc-badge-icon">★</div>
+                  <div className="doc-badge-icon">+</div>
                   <div>
-                    <div className="doc-badge-label">Rating</div>
-                    <div className="doc-badge-val">4.9 / 5</div>
+                    <div className="doc-badge-label">Experience</div>
+                    <div className="doc-badge-val">{d.years}+ years</div>
                   </div>
                 </div>
                 <div className="doc-badge doc-badge-2">

@@ -92,10 +92,10 @@ export default async function DoctorDetailPage(props: {
             <div className="dp-photo-wrap">
               <div className="dp-badge dp-badge-1">
                 <div className="dp-badge-num">
-                  4.9<sup>/5</sup>
+                  {d.years}+
                 </div>
                 <div>
-                  <div className="dp-badge-label">Google Rating</div>
+                  <div className="dp-badge-label">Years of experience</div>
                 </div>
               </div>
               <div className="dp-badge dp-badge-2">

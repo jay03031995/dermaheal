@@ -28,16 +28,22 @@ export const localBusinessSchema = {
   medicalSpecialty: "Dermatology",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "C-712, Ramphal Chowk, Block D, Sector 7 Dwarka, Palam",
-    addressLocality: "Dwarka",
+    streetAddress: "C-712, Ramphal Chowk, Sector 7, Dwarka",
+    addressLocality: "New Delhi",
     addressRegion: "Delhi",
     postalCode: "110075",
     addressCountry: "IN",
   },
   geo: { "@type": "GeoCoordinates", latitude: "28.5866", longitude: "77.0336" },
   hasMap: "https://www.google.com/maps/search/?api=1&query=28.5866,77.0336",
-  areaServed: ["Dwarka", "Palam", "West Delhi", "New Delhi", "Gurgaon"].map(
-    (name) => ({ "@type": "City", name }),
+  areaServed: [
+    "Sector 7, Dwarka",
+    "Ramphal Chowk, Dwarka",
+    "Dwarka, New Delhi",
+    "Palam",
+    "West Delhi",
+  ].map(
+    (name) => ({ "@type": "Place", name }),
   ),
   openingHoursSpecification: [
     {

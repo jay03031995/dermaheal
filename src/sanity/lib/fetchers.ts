@@ -197,9 +197,25 @@ type SanityTreatmentDetail = SanityTreatmentCard & {
   process?: { title: string; description: string }[];
   benefits?: { icon: string; title: string; description: string }[];
   faqs?: { question: string; answer: string }[];
+  seo?: {
+    title?: string;
+    description?: string;
+    canonicalUrl?: string;
+    noIndex?: boolean;
+    ogImage?: { url?: string };
+  };
 };
 
-export type TreatmentDetailFetched = TreatmentDetail & { imageUrl?: string };
+export type TreatmentDetailFetched = TreatmentDetail & {
+  imageUrl?: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    canonicalUrl?: string;
+    noIndex?: boolean;
+    ogImageUrl?: string;
+  };
+};
 
 export async function getTreatmentDetailFetched(
   slug: string,
@@ -230,6 +246,15 @@ export async function getTreatmentDetailFetched(
       faqs: (clean.faqs ?? []).map((f) => ({ q: f.question, a: f.answer })),
       // Detail hero falls back to the card thumbnail so one upload is enough.
       imageUrl: normalizeAssetUrl(clean.heroImage?.url ?? clean.thumbnail?.url),
+      seo: clean.seo
+        ? {
+            title: clean.seo.title,
+            description: clean.seo.description,
+            canonicalUrl: clean.seo.canonicalUrl,
+            noIndex: clean.seo.noIndex,
+            ogImageUrl: normalizeAssetUrl(clean.seo.ogImage?.url),
+          }
+        : undefined,
     };
   }
   const local = LOCAL_TREATMENTS_FULL[slug];
@@ -518,7 +543,7 @@ export async function getClinic(): Promise<ClinicData> {
     ...LOCAL_CLINIC,
     name: doc.name ?? LOCAL_CLINIC.name,
     tagline: doc.tagline ?? LOCAL_CLINIC.tagline,
-    address: doc.address ?? LOCAL_CLINIC.address,
+    address: LOCAL_CLINIC.address,
     hours: doc.hours ?? LOCAL_CLINIC.hours,
     phone: doc.phone ?? LOCAL_CLINIC.phone,
     phone2: doc.phone2 ?? LOCAL_CLINIC.phone2,
@@ -701,7 +726,16 @@ export async function getTestimonials() {
 export async function getHomepageFaqs() {
   const docs = await safeFetch<{ question: string; answer: string }[]>(homepageFaqsQuery);
   if (!isFilled(docs)) return cleanContent(LOCAL_FAQS);
-  return cleanContent(docs).map((d) => ({ q: d.question, a: d.answer }));
+  const locationFaq = LOCAL_FAQS.find(
+    (faq) => faq.q === "Where is Dermaheal located?",
+  );
+  return cleanContent(docs).map((d) => ({
+    q: d.question,
+    a:
+      d.question === locationFaq?.q
+        ? locationFaq.a
+        : d.answer,
+  }));
 }
 
 export async function getEeatPillars() {

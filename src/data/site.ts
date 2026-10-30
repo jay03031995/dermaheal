@@ -1,3 +1,5 @@
+import { CLINIC } from "@/data/clinic";
+
 export type HeroStat = { value: string; superscript?: string; label: string };
 export type HeroBadge = { icon: "dot" | "award"; text: string };
 
@@ -93,7 +95,7 @@ export const FAQS = [
   { q: "Are your treatments safe for Indian skin tones?", a: "Yes. Every laser, peel and injectable we offer is calibrated for higher-melanin skin. Our protocols are developed in-house and our dermatologists are trained specifically on Indian skin types. If a treatment isn't safe for your skin, we'll tell you and recommend a better-suited alternative." },
   { q: "What does a first consultation include?", a: "A one-on-one session with one of our dermatologists. We assess your skin or hair concern, discuss medical history, and share a written treatment plan with realistic timelines. There is no obligation to book any procedure." },
   { q: "How is the cost of a treatment determined?", a: "Your dermatologist shares a complete, itemised plan during your consultation once your skin has been assessed. Plans are shared before any treatment begins, never high-pressure, never surprise-billed. We are happy to share an estimate range on WhatsApp before you book." },
-  { q: "Where is Dermaheal located?", a: "Dermaheal Skin & Hair Clinic is at C-712, Ramphal Chowk, Block D, Sector 7 Dwarka, near Shiksha Bharti School, New Delhi 110075. We are easily reachable from across West Delhi and Gurgaon." },
+  { q: "Where is Dermaheal located?", a: `${CLINIC.name} is at ${CLINIC.address}, and welcomes patients from Dwarka and nearby West Delhi areas.` },
   { q: "What are your clinic hours?", a: "Monday to Saturday, 10:00 AM to 7:30 PM. Sunday, 10:00 AM to 7:00 PM. Same-day slots are usually available, call +91 80809 10191 or WhatsApp us to check availability." },
   { q: "What is the typical downtime after a treatment?", a: "Most of our treatments, medifacials, chemical peels, laser toning, IPL, have zero downtime. MNRF, thread lifts and certain laser procedures have 3 to 7 days of social downtime. We always tell you what to expect and plan the procedure around your schedule." },
 ];
