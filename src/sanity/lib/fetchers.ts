@@ -116,7 +116,7 @@ function cleanContent<T>(value: T): T {
  * `revalidate` is a safety net: the webhook should do immediate updates, while
  * a longer TTL avoids spending Sanity quota on every busy-minute refresh.
  */
-const SANITY_REVALIDATE_SECONDS = 3600;
+const SANITY_REVALIDATE_SECONDS = 86400;
 
 const cachedSanityFetch = cache(
   async <T>(query: string, paramsKey: string): Promise<T | null> => {
