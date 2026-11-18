@@ -9,7 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata: Metadata = pageMetadata({
   title: "Our Doctors - Dermatology Team in Dwarka",
   description:
-    "Meet the dermatology team at Dermaheal Skin & Hair Clinic, Dwarka. Three doctors with subspecialties in cosmetic dermatology, aesthetics and lasers.",
+    "Meet the dermatology team at Dermaheal Skin & Hair Clinic, Dwarka, with subspecialties in cosmetic dermatology, aesthetics and lasers.",
   canonical: "/doctors",
 });
 
@@ -24,7 +24,7 @@ export default async function DoctorsPage() {
             Our dermatology team
           </div>
           <h1>
-            Three doctors. Three subspecialties.
+            Meet our dermatology team.
             <br />
             <em>One philosophy of care.</em>
           </h1>

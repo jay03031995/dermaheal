@@ -13,7 +13,7 @@ export default async function DoctorsSection() {
           <div className="section-head-copy">
             <div className="eyebrow">Meet our dermatologists</div>
             <h2>
-              Three doctors. Three subspecialties.{" "}
+              A team of dermatology specialists.{" "}
               <span className="serif-italic" style={{ color: "var(--sage)" }}>
                 One philosophy.
               </span>

@@ -7,7 +7,7 @@ import BookingModal from "@/components/BookingModal";
 import RevealInit from "@/components/RevealInit";
 import JsonLd from "@/components/JsonLd";
 import { localBusinessSchema, websiteSchema } from "@/lib/schema";
-import { getClinic } from "@/sanity/lib/fetchers";
+import { getClinic, getDoctors } from "@/sanity/lib/fetchers";
 
 /**
  * Safety-net revalidation: every page under (site)/ re-renders at most once
@@ -19,7 +19,12 @@ export const revalidate = 3600;
 export default async function SiteLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const clinic = await getClinic();
+  const [clinic, doctors] = await Promise.all([getClinic(), getDoctors()]);
+  const navDoctors = doctors.map(({ slug, name, title }) => ({
+    slug,
+    name,
+    title,
+  }));
 
   return (
     <>
@@ -34,7 +39,7 @@ export default async function SiteLayout({
       />
       <BookingProvider>
         <Announcement />
-        <Navbar clinic={clinic} />
+        <Navbar clinic={clinic} doctors={navDoctors} />
         <main>{children}</main>
         <Footer clinic={clinic} />
         <FabStack clinic={clinic} />

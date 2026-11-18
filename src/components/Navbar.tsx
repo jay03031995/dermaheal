@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CLINIC, telHref } from "@/data/clinic";
 import { TREATMENTS, TREATMENT_CATS } from "@/data/treatments";
-import { DOCTORS } from "@/data/doctors";
 import { CONCERNS } from "@/data/concerns";
-import type { ClinicData } from "@/sanity/lib/fetchers";
+import type { ClinicData, DoctorFetched } from "@/sanity/lib/fetchers";
 import {
   ArrowRight,
   Bag,
@@ -38,8 +37,10 @@ const MOBILE_LINKS = [
 
 export default function Navbar({
   clinic,
+  doctors,
 }: {
   clinic: Pick<ClinicData, "name" | "logoUrl">;
+  doctors: Pick<DoctorFetched, "slug" | "name" | "title">[];
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -126,7 +127,7 @@ export default function Navbar({
             </Link>
             <div className="nav-dd">
               <div className="nav-dd-hd">Our dermatologists</div>
-              {DOCTORS.map((d) => (
+              {doctors.map((d) => (
                 <Link
                   key={d.slug}
                   className="nav-dd-item"
