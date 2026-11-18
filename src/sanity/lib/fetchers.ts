@@ -54,6 +54,10 @@ import {
   DOCTOR_SLUGS as LOCAL_DOCTOR_SLUGS,
   type Doctor,
 } from "@/data/doctors";
+import type {
+  DoctorBookingMode,
+  DoctorBookingSchedule,
+} from "@/data/appointments";
 import {
   BOOK as LOCAL_BOOK,
   EEAT as LOCAL_EEAT,
@@ -369,6 +373,9 @@ type SanityDoctor = {
   slug: string;
   title: string;
   bookingUrl?: string;
+  bookingMode?: DoctorBookingMode;
+  bookingNote?: string;
+  bookingSchedule?: DoctorBookingSchedule[];
   imageVariant?: string;
   years?: number;
   focusLine?: string;
@@ -387,7 +394,12 @@ type SanityDoctor = {
   quotes?: { quote: string; name: string; detail?: string }[];
 };
 
-export type DoctorFetched = Doctor & { imageUrl?: string };
+export type DoctorFetched = Doctor & {
+  imageUrl?: string;
+  bookingMode?: DoctorBookingMode;
+  bookingNote?: string;
+  bookingSchedule?: DoctorBookingSchedule[];
+};
 
 function mapDoctor(d: SanityDoctor): DoctorFetched {
   const clean = cleanContent(d);
@@ -396,6 +408,9 @@ function mapDoctor(d: SanityDoctor): DoctorFetched {
     name: clean.name,
     title: clean.title,
     bookingUrl: clean.bookingUrl,
+    bookingMode: clean.bookingMode,
+    bookingNote: clean.bookingNote,
+    bookingSchedule: clean.bookingSchedule ?? [],
     img: clean.imageVariant ?? "d1",
     focus: clean.focusLine ?? "",
     years: clean.years ?? 0,

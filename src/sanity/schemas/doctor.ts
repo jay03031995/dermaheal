@@ -8,6 +8,7 @@ export const doctorSchema = defineType({
     { name: "main", title: "Main", default: true },
     { name: "homecard", title: "Home card" },
     { name: "listing", title: "Doctors listing" },
+    { name: "booking", title: "Booking form" },
     { name: "detail", title: "Detail page" },
     { name: "seo", title: "SEO" },
   ],
@@ -55,6 +56,97 @@ export const doctorSchema = defineType({
       group: "main",
       description:
         "Optional external booking link for this doctor. When set, this doctor's 'Book Appointment' buttons link here instead of opening the booking form.",
+    }),
+    defineField({
+      name: "bookingMode",
+      title: "Booking method",
+      type: "string",
+      group: "booking",
+      options: {
+        list: [
+          { title: "Online time slots", value: "online" },
+          { title: "Call only", value: "call-only" },
+        ],
+      },
+      initialValue: "online",
+    }),
+    defineField({
+      name: "bookingSchedule",
+      title: "Weekly availability",
+      type: "array",
+      group: "booking",
+      description:
+        "Each entry applies the same hours to its selected days. The end time is exclusive; for example, 3:30 PM–7:30 PM with 30-minute slots offers starts through 7:00 PM.",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "days",
+              title: "Days",
+              type: "array",
+              of: [
+                {
+                  type: "string",
+                  options: {
+                    list: [
+                      { title: "Sunday", value: "sunday" },
+                      { title: "Monday", value: "monday" },
+                      { title: "Tuesday", value: "tuesday" },
+                      { title: "Wednesday", value: "wednesday" },
+                      { title: "Thursday", value: "thursday" },
+                      { title: "Friday", value: "friday" },
+                      { title: "Saturday", value: "saturday" },
+                    ],
+                  },
+                },
+              ],
+              validation: (rule) => rule.required().min(1),
+            }),
+            defineField({
+              name: "startTime",
+              title: "Start time (24-hour HH:mm)",
+              type: "string",
+              validation: (rule) =>
+                rule.required().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
+            }),
+            defineField({
+              name: "endTime",
+              title: "End time (24-hour HH:mm)",
+              type: "string",
+              validation: (rule) =>
+                rule.required().regex(/^([01]\d|2[0-3]):[0-5]\d$/),
+            }),
+            defineField({
+              name: "slotIntervalMinutes",
+              title: "Appointment start interval",
+              type: "number",
+              options: {
+                list: [
+                  { title: "Every 30 minutes", value: 30 },
+                  { title: "Every 60 minutes", value: 60 },
+                ],
+              },
+              initialValue: 30,
+              validation: (rule) => rule.required(),
+            }),
+          ],
+          preview: {
+            select: { days: "days", start: "startTime", end: "endTime" },
+            prepare: ({ days, start, end }) => ({
+              title: (days ?? []).join(", ") || "Availability",
+              subtitle: start && end ? `${start}–${end}` : undefined,
+            }),
+          },
+        },
+      ],
+    }),
+    defineField({
+      name: "bookingNote",
+      title: "Booking note",
+      type: "string",
+      group: "booking",
+      description: "Optional note shown beneath this doctor's booking schedule.",
     }),
     // Home card
     defineField({

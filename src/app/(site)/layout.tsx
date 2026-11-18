@@ -8,6 +8,7 @@ import RevealInit from "@/components/RevealInit";
 import JsonLd from "@/components/JsonLd";
 import { localBusinessSchema, websiteSchema } from "@/lib/schema";
 import { getClinic, getDoctors } from "@/sanity/lib/fetchers";
+import { createDoctorOptions } from "@/data/appointments";
 
 /**
  * Safety-net revalidation: every page under (site)/ re-renders at most once
@@ -25,6 +26,7 @@ export default async function SiteLayout({
     name,
     title,
   }));
+  const bookingDoctors = createDoctorOptions(doctors);
 
   return (
     <>
@@ -43,7 +45,7 @@ export default async function SiteLayout({
         <main>{children}</main>
         <Footer clinic={clinic} />
         <FabStack clinic={clinic} />
-        <BookingModal clinic={clinic} />
+        <BookingModal clinic={clinic} doctors={bookingDoctors} />
       </BookingProvider>
       <RevealInit />
     </>

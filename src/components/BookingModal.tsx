@@ -7,7 +7,7 @@ import { telHref } from "@/data/clinic";
 import { trackAppointmentLead } from "@/lib/appointmentLeads";
 import type { ClinicData } from "@/sanity/lib/fetchers";
 import {
-  DOCTOR_OPTIONS,
+  type DoctorOption,
   getDoctorName,
   getSlotsForDoctor,
   isDoctorAvailableOnDate,
@@ -57,9 +57,10 @@ function formatLocalDateValue(date: Date) {
 
 type Props = {
   clinic: Pick<ClinicData, "phone" | "phone2">;
+  doctors: DoctorOption[];
 };
 
-export default function BookingModal({ clinic }: Props) {
+export default function BookingModal({ clinic, doctors }: Props) {
   const { isOpen, close } = useBooking();
   const [step, setStep] = useState(0);
   const [data, setData] = useState<FormData>(EMPTY);
@@ -103,9 +104,10 @@ export default function BookingModal({ clinic }: Props) {
     } else if (step === 1) {
       if (!data.city) e.city = "Pick a city";
       if (!data.doctor) e.doctor = "Pick a doctor";
-      if (data.doctor !== "navjot-arora") {
+      const selectedDoctor = doctors.find((doctor) => doctor.id === data.doctor);
+      if (selectedDoctor?.bookingMode !== "call-only") {
         if (!data.date) e.date = "Pick a date";
-        else if (!isDoctorAvailableOnDate(data.doctor, data.date)) {
+        else if (!isDoctorAvailableOnDate(data.doctor, data.date, doctors)) {
           e.date = "Pick an available day for this doctor";
         }
         if (!data.time) e.time = "Pick a time";
@@ -135,7 +137,7 @@ export default function BookingModal({ clinic }: Props) {
           concern: data.concern,
           city: data.city,
           doctor: data.doctor,
-          doctorName: getDoctorName(data.doctor),
+          doctorName: getDoctorName(data.doctor, doctors),
           date: data.date,
           time: data.time,
           source: "website-booking-modal",
@@ -192,9 +194,12 @@ export default function BookingModal({ clinic }: Props) {
     return arr;
   }, []);
 
-  const doctorSlots = useMemo(() => getSlotsForDoctor(data.doctor), [data.doctor]);
-  const selectedDoctor = DOCTOR_OPTIONS.find((doctor) => doctor.id === data.doctor);
-  const navjotCallOnly = data.doctor === "navjot-arora";
+  const doctorSlots = useMemo(
+    () => getSlotsForDoctor(data.doctor, data.date, doctors),
+    [data.doctor, data.date, doctors],
+  );
+  const selectedDoctor = doctors.find((doctor) => doctor.id === data.doctor);
+  const callOnly = selectedDoctor?.bookingMode === "call-only";
   const trackCallLead = (label: string, targetPhone: string = clinic.phone) => {
     trackAppointmentLead({
       channel: "call",
@@ -209,7 +214,7 @@ export default function BookingModal({ clinic }: Props) {
       concern: data.concern,
       city: data.city,
       doctor: data.doctor,
-      doctorName: getDoctorName(data.doctor),
+      doctorName: getDoctorName(data.doctor, doctors),
     });
   };
 
@@ -360,7 +365,7 @@ export default function BookingModal({ clinic }: Props) {
                   }
                 >
                   <option value="">Select a doctor…</option>
-                  {DOCTOR_OPTIONS.map((doctor) => (
+                  {doctors.map((doctor) => (
                     <option
                       key={doctor.id}
                       value={doctor.id}
@@ -377,13 +382,15 @@ export default function BookingModal({ clinic }: Props) {
                 )}
               </div>
 
-              {navjotCallOnly ? (
+              {callOnly ? (
                 <div className="call-only-box">
-                  <div className="call-only-title">Call to book Dr. Navjot</div>
+                  <div className="call-only-title">
+                    Call to book {selectedDoctor?.name}
+                  </div>
                   <p>
-                    Dr. Navjot Singh Arora appointments are handled by phone.
+                    {selectedDoctor?.name} appointments are handled by phone.
                     Please call the clinic and our team will confirm the best
-                    available slot.
+                    available time.
                   </p>
                   <div className="call-only-actions">
                     <a
@@ -408,7 +415,9 @@ export default function BookingModal({ clinic }: Props) {
                     <label>Date</label>
                     <div className="slot-grid">
                       {dates.map((d) => {
-                        const disabled = Boolean(data.doctor) && !isDoctorAvailableOnDate(data.doctor, d.v);
+                        const disabled =
+                          Boolean(data.doctor) &&
+                          !isDoctorAvailableOnDate(data.doctor, d.v, doctors);
                         return (
                           <button
                             key={d.v}
@@ -476,7 +485,7 @@ export default function BookingModal({ clinic }: Props) {
                 >
                   Back
                 </button>
-                {navjotCallOnly ? (
+                {callOnly ? (
                   <a
                     className="btn btn-primary"
                     href={telHref(clinic.phone)}
@@ -641,7 +650,7 @@ export default function BookingModal({ clinic }: Props) {
                 </div>
                 <div className="summary-row">
                   <span>Doctor</span>
-                  <span>{getDoctorName(data.doctor)}</span>
+                  <span>{getDoctorName(data.doctor, doctors)}</span>
                 </div>
                 <div className="summary-row">
                   <span>Clinic</span>
