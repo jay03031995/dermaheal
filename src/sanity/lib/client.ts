@@ -5,10 +5,9 @@ const baseConfig: ClientConfig = {
   projectId: projectId || "missing",
   dataset,
   apiVersion,
-  // Public reads should go through Sanity's CDN. Next.js still controls page
-  // freshness via revalidate tags, while the CDN prevents normal website
-  // traffic from hammering the live Content Lake API.
-  useCdn: true,
+  // Next.js caches tagged fetches and handles revalidation. Bypass Sanity's
+  // CDN so a revalidated fetch cannot keep returning stale published content.
+  useCdn: false,
   perspective: "published",
   stega: false,
 };

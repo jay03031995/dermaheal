@@ -220,24 +220,26 @@ export default async function DoctorDetailPage(props: {
       </section>
 
       {/* Patient quotes */}
-      <section className="dp-section">
-        <div className="container">
-          <div className="dp-head">
-            <div className="eyebrow">Patient stories</div>
-            <h2>In their words.</h2>
+      {d.quotes.length > 0 && (
+        <section className="dp-section">
+          <div className="container">
+            <div className="dp-head">
+              <div className="eyebrow">Patient stories</div>
+              <h2>In their words.</h2>
+            </div>
+            <div className="dp-quotes">
+              {d.quotes.map((q, i) => (
+                <div className="dp-quote" key={i}>
+                  <div className="dp-quote-stars">★ ★ ★ ★ ★</div>
+                  <div className="dp-quote-text">&ldquo;{q.q}&rdquo;</div>
+                  <div className="dp-quote-name">{q.n}</div>
+                  <div className="dp-quote-detail">{q.d}</div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="dp-quotes">
-            {d.quotes.map((q, i) => (
-              <div className="dp-quote" key={i}>
-                <div className="dp-quote-stars">★ ★ ★ ★ ★</div>
-                <div className="dp-quote-text">&ldquo;{q.q}&rdquo;</div>
-                <div className="dp-quote-name">{q.n}</div>
-                <div className="dp-quote-detail">{q.d}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Other doctors */}
       <section className="dp-section alt">

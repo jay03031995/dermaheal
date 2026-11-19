@@ -10,6 +10,7 @@ const LEGACY_REDIRECTS = [
   { source: "/Dr.Navjot-Singh-Arora.html", destination: "/doctors/navjot-arora" },
   { source: "/Dr.Jasmine-Kohli.html", destination: "/doctors/jasmine-kohli" },
   { source: "/Dr.Sonika-Soni.html", destination: "/doctors/sonika-soni" },
+  { source: "/doctors/shrishti-jain", destination: "/doctors/srishti-jain" },
 
   // --- Treatments (exact equivalent still exists) ---
   { source: "/hair-transplant.html", destination: "/treatments/hair-transplant" },
