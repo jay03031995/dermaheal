@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Poppins, Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { CLINIC } from "@/data/clinic";
@@ -98,7 +99,29 @@ export default function RootLayout({
       lang="en"
       className={`${poppins.variable} ${cormorant.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src="https://www.facebook.com/tr?id=1079287744869579&ev=PageView&noscript=1"
+            alt=""
+          />
+        </noscript>
+      </body>
+      <Script id="meta-pixel" strategy="beforeInteractive">
+        {`!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1079287744869579');
+fbq('track','PageView');`}
+      </Script>
     </html>
   );
 }
