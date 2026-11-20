@@ -12,10 +12,10 @@ import { createDoctorOptions } from "@/data/appointments";
 
 /**
  * Safety-net revalidation: every page under (site)/ re-renders at most once
- * per hour. For instant updates, Sanity's webhook hits /api/revalidate which
+ * per day. For instant updates, Sanity's webhook hits /api/revalidate which
  * calls revalidateTag("sanity").
  */
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export default async function SiteLayout({
   children,
